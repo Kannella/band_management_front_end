@@ -1,0 +1,33 @@
+:root {
+  --cor-principal: #730742;
+  --cor-icones: #ffffff;
+  --font-Heading: 1.75rem; 
+}
+
+.TitlePage {
+  font-size: var(--font-Heading);
+  font-weight: bold;
+  color: #101828;
+}
+
+/* Estilizando a barra de navegação */
+.nav-container {
+  background-color: var(--cor-principal);
+
+}
+
+.icon-button{
+  color: var(--cor-icones);
+}
+
+.icon-button:hover{
+  color:#cecdcd;
+}
+.icon-img {
+  filter: grayscale(100%) brightness(100%) contrast(100%);
+  transition: filter 0.3s ease;
+}
+
+.icon-img:hover {
+  filter: grayscale(0%) brightness(0.8) contrast(1.2)
+}
