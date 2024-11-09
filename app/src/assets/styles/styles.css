@@ -2,15 +2,28 @@
   --cor-principal: #730742;
   --cor-icones: #ffffff;
   --font-Heading: 1.75rem; 
+  --font: "Nunito", sans-serif;
 }
 
-.TitlePage {
-  font-size: var(--font-Heading);
-  font-weight: bold;
+.logo-text{
+  font-size: 1.2rem;
+  color:#ffffff;
+
+
+}
+
+
+.title-page {
+  font-size: 2rem;
+  font-weight: 700;
   color: #101828;
+  font-family: var(--font);
+}
+.sub-text{
+  font-size: 1rem;
+  color: #667085;
 }
 
-/* Estilizando a barra de navegação */
 .nav-container {
   background-color: var(--cor-principal);
 
