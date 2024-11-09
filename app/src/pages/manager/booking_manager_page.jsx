@@ -1,7 +1,5 @@
 import React  from "react";
 
-
-
 function BookingPage(){
     return (
 <div className="d-flex pt-3">
