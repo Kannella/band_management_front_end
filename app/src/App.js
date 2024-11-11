@@ -10,6 +10,7 @@ import HomeManagerPage from './pages/manager/home_manager_page';
 import BandManagerPage from './pages/manager/band_manager_page';
 import BookingManagerPage from './pages/manager/booking_manager_page';
 import CalendarManagerPage from './pages/manager/calendar_manager_page';
+import BandDetailPage from "./components/Band/band_components";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/bands" element={<BandManagerPage />} />
           <Route path="/bookings" element={<BookingManagerPage />} />
           <Route path="/calendar" element={<CalendarManagerPage />} />
+          <Route path="/bands/:id" element={<BandDetailPage />} />
         </Routes>
       </div>
     </Router>

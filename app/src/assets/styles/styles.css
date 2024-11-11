@@ -1,39 +1,83 @@
 /* importing Nunito */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
-@media (max-width: 576px) {
-    h1 {
-        color: black;
-        font-size: 1.5rem;
-        font-family: 'Nunito';
-        border-bottom: 2px solid rgb(100, 116, 139);
-        padding-bottom: 10px;
-    }
-    
-    .content h2 {
-        color:black;
-        font-size:medium;
-        font-family: 'Nunito';
-        margin-bottom: 5px;
-    }
-    
-    .content p {
-        margin-top: 0px;
-        color: rgba(100, 116, 139, 1);
-        font-size:small;
-        font-family: 'Nunito';
-    }
-    
-    .createButton{
-      background-color: rgba(136, 19, 55, 1);
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      font-family: 'Nunito';
-      cursor: pointer; 
-      margin-bottom: 30px;
-      width: 100%;
-    } 
+h1 {
+    color: black;
+    font-size: 1.5rem;
+    font-family: 'Nunito';
+    font-weight: bold;
+    border-bottom: 2px solid rgb(100, 116, 139);
+    padding-bottom: 10px;
+}
+
+.content h2 {
+    color:black;
+    font-size:medium;
+    font-family: 'Nunito';
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.content p {
+    margin-top: 0px;
+    color: rgba(100, 116, 139, 1);
+    font-size:small;
+    font-family: 'Nunito';
+}
+
+.createButton{
+    background-color: rgba(136, 19, 55, 1);
+    color: white;
+    padding: 10px 16px;
+    border:0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: 'Nunito';
+    /* font-weight: bold; */
+    cursor: pointer; 
+    margin-bottom: 30px;
+} 
+
+.custom-card {
+    width: 240px; /* Fixed width */
+    height: 240px; /* Fixed height */
+    background-color: rgba(159, 18, 57, 1); /* Background color */
+    color: white; /* Text color */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img {
+    width: 100%;
+    height: 100px; 
+    object-fit: cover; 
+}
+
+.card-body {
+    padding: 10px;
+    position: absolute;
+    flex-grow: 1;
+    font-family: 'Nunito';
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.card-title {
+    text-align: center;
+    font-size: 1.4rem;  
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+}
+
+.card-text {
+    font-size: 0.8rem; 
+    margin-top:8px;
+    margin-bottom: 2px;
+    line-height: 1;
 }
