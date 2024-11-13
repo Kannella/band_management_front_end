@@ -1,75 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Navbar from './components/nav_bar';        
+//hooks screen size
+import useScreenSizeController from './hooks/useScreenSizeController';
+
+import Navbar from './components/nav_bar';
 import NavBarMobile from './components/nav_bar_mobile';
+import ContainerWrapper from './components/container-wrapper';
 
 // Manager's Pages
 import HomeManagerPage from './pages/manager/home_manager_page';
 import BandManagerPage from './pages/manager/band_manager_page';
+import BookingTableManagerPage from './pages/manager/booking_table_manager_page';
 import BookingManagerPage from './pages/manager/booking_manager_page';
 import CalendarManagerPage from './pages/manager/calendar_manager_page';
 
 function App() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-
-  useEffect(() => {
-    const updateSize = () => {
-      setIsMobile(window.innerWidth < 600);
-      setIsTablet(window.innerWidth >= 600 && window.innerWidth < 920);
-    };
-
-    window.addEventListener('resize', updateSize);
-    updateSize(); 
-
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-
-  const logoSize = isTablet ? "30px" : "60px";
-  const iconSize = isTablet ? "28px" : "36px";
-  const iconSizeHome = isTablet ? "24px" : "36px";
+  const { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginTop } = useScreenSizeController();
 
   return (
-    <Router>
-      <div 
-        style={{
-          display: 'flex', 
-          flexDirection: isMobile ? 'column' : 'row', 
-          height: '100vh',
-        }}
-      >
-
-        {isMobile ? (
-          <NavBarMobile 
-            style={{
-              width: '100%', 
-              height: '10vw', 
-              position: 'sticky', 
-              top: 0
-            }}
-          />
-        ) : (
-          <Navbar logoSize={logoSize} iconSize={iconSize} iconSizeHome={iconSizeHome} />
-        )}
-
+    <ContainerWrapper>
+      <Router>
         <div
           style={{
-            marginLeft: '3vw',
-            marginTop: '2vw',
-            width: '100%'  
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            height: '100vh',
+            width: '100%',
+            overflow: 'hidden',
           }}
         >
-          <Routes>
-            <Route path="/" element={<HomeManagerPage />} />
-            <Route path="/bands" element={<BandManagerPage />} />
-            <Route path="/bookings" element={<BookingManagerPage />} />
-            <Route path="/calendar" element={<CalendarManagerPage />} />
-          </Routes>
+          {isMobile ? (
+            <NavBarMobile />
+          ) : (
+            <Navbar logoSize={logoSize} iconSize={iconSize} iconSizeHome={iconSizeHome} navbarSize={navbarSize} />
+          )}
+
+          <div
+            style={{
+              marginLeft: marginLeft,
+              marginTop: marginTop,
+              width: '100%',
+              overflowY: 'auto',
+            }}
+          >
+            <Routes>
+              <Route path="/" element={<HomeManagerPage />} />
+              <Route path="/bands" element={<BandManagerPage />} />
+              <Route path="/bookings" element={<BookingManagerPage />} />
+              <Route path="/bookings-table" element={<BookingTableManagerPage />} />
+              <Route path="/calendar" element={<CalendarManagerPage />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </ContainerWrapper>
   );
 }
 
