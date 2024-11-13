@@ -39,8 +39,8 @@ h1 {
 } 
 
 .custom-card {
-    width: 240px; /* Fixed width */
-    height: 240px; /* Fixed height */
+    width: 230px; /* Fixed width */
+    height: 250px; /* Fixed height */
     background-color: rgba(159, 18, 57, 1); /* Background color */
     color: white; /* Text color */
     border: none;
@@ -59,7 +59,7 @@ h1 {
 
 .card-body {
     padding: 10px;
-    position: absolute;
+    position: relative;
     flex-grow: 1;
     font-family: 'Nunito';
     display: flex;
@@ -80,4 +80,27 @@ h1 {
     margin-top:8px;
     margin-bottom: 2px;
     line-height: 1;
+}
+
+.arrow-button {
+    color: #696969;
+    padding: 0;
+    border: none;
+    background: none;
+    margin-left: auto;
+}
+
+.user-icon {
+    color: white;
+    padding: 0;
+    border: none;
+    background: none;
+    margin-right: auto;
+}
+
+.manager-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
 }
