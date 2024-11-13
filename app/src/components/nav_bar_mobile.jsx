@@ -9,12 +9,12 @@ import { ReactComponent as HomeIcon } from '../assets/images/icon_home.svg';
 function NavBarMobile() {
   return (
     <div 
-      className="nav-container d-flex align-items-center justify-content-around"
+      className="nav-container d-flex align-items-center justify-content-around flex-wrap"
       style={{
-        width: '100%', 
-        height: '10vw', 
-        position: 'sticky', 
-        top: 0, 
+        position: 'sticky',
+        top: 0,
+        width: '100%',
+        height: '12vh',
       }}
     >
       <div className="d-flex align-items-center" style={{ gap: '1vw' }}>
