@@ -1,0 +1,142 @@
+/* Mais específico */
+
+.table-container { 
+    max-width: 80%; 
+  }
+.table-cell-header {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.table-cell {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+}
+
+.trash-icon {
+    transition: color 0.3s;
+}
+
+.trash-icon.visible {
+    color: red;
+}
+
+.table-row-small .table-cell {
+    font-size: 0.75rem;
+    padding: 0.25rem;
+}
+
+.accordion-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.icon-spacing {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem; 
+    margin-top: 0.5rem;
+    width: 100%;
+}
+/*accordion mobile*/
+
+.accordion-content {
+    font-size: 0.75rem;
+    margin: 0.25rem 0;
+    font-weight: 700;
+}
+
+.icon-box-accordion{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+  
+/* Card */
+.text-data {
+    color: #881337;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.subtext-data {
+    font-size: 40px;
+    color: #881337;
+    font-weight: bold;
+}
+
+.card-booking-text {
+    color: #64748B;
+    font-size: 16px;
+}
+
+.card-name-booking-text {
+    color: #0F172A;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.booking-card-container {
+    border: 3px solid #881337;
+    border-radius: 20px;
+    padding: 8px ;
+    max-width: 95%;
+}
+
+.info-stack > .card-booking-text {
+    margin-bottom: 4px; 
+}
+@media (max-width: 576px) {
+
+    /* media query for card bookings*/
+    .booking-card-container {
+        max-width: 95%; 
+        padding: 8px;
+        
+    }
+
+    .text-data {
+        font-size: 20px;
+    }
+
+    .subtext-data {
+        font-size: 30px; 
+    }
+
+    .card-booking-text,
+    .card-name-booking-text {
+        font-size: 14px;
+    }
+
+    .date-stack,
+    .info-stack,
+    .name-band-stack {
+        align-items: center;
+    }
+
+    .info-stack,
+    .name-band-stack {
+        gap: 4px; 
+    }
+    .details-popup{
+        gap: 0;
+        padding: 0;
+    }
+
+
+    /*media query table booking*/
+        .table-cell-header {
+            font-size: 0.875rem;
+        }
+    
+        .table-cell {
+            font-size: 0.75rem;
+        }
+    
+        .icon-spacing {
+            gap: 1.25rem; /* Maior espaçamento entre ícones */
+        }
+
+
+    /*media query booking page*/
+}
