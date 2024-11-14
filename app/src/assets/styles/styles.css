@@ -104,3 +104,90 @@ h1 {
     justify-content: center;
     gap: 8px; 
 }
+
+.members-table {
+    max-width: 50%;
+    min-width: 300px; 
+    margin-left: 0; 
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.members-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 0.5fr;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-weight: bold;
+    color: rgba(100, 116, 139, 1);
+    font-size: small;
+    font-family: 'Nunito';
+}
+
+.member-card {
+    display: grid;
+    grid-template-columns: 2fr 2fr 0.5fr;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-family: 'Nunito';
+    gap: 10px;
+}
+
+.member-info {
+    display: flex;
+    align-items: center;
+}
+
+.member-icon {
+    color: rgba(115, 7, 66, 1);
+    margin-right: 10px;
+}
+
+.member-name {
+    font-weight: bold;
+    font-size:medium;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.member-email {
+    text-align: left;
+    color: rgba(100, 116, 139, 1);
+    font-size: small;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.remove-button {
+    color: rgba(52, 64, 84, 1);
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    color: rgba(52, 64, 84, 1);
+}
+
+@media (max-width: 600px) {
+    .members-header,
+    .member-card {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .remove-button {
+        display: none;
+    }
+
+    .member-email {
+        text-align: center;
+    }
+}
