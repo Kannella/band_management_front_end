@@ -1,3 +1,4 @@
+// band_manager_page.jsx
 import React, {useState} from "react";
 import BandPopup from "../../components/Band/popup_band_create";
 import CardWidget from "../../components/Band/cards_widget";

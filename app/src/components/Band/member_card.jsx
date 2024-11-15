@@ -1,3 +1,4 @@
+// member_card.jsx
 import React from "react";
 import { FaUserCircle, FaTrash } from "react-icons/fa";
 import '../../assets/styles/styles.css';

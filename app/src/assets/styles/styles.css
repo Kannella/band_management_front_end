@@ -1,4 +1,4 @@
-/* importing Nunito */
+/* styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
 h1 {
@@ -152,6 +152,7 @@ h1 {
 .member-name {
     font-weight: bold;
     font-size:medium;
+    font-family: Nunito;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -166,6 +167,17 @@ h1 {
     overflow: hidden;
 }
 
+.edit-button {
+    background-color:rgba(100, 116, 139, 1);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Nunito';
+    color: white;
+    cursor: pointer;
+    
+}
+
 .remove-button {
     color: rgba(52, 64, 84, 1);
     border: none;
@@ -175,6 +187,89 @@ h1 {
 
 .remove-button:hover {
     color: rgba(52, 64, 84, 1);
+}
+
+.custom-header {
+    display: flex;
+    align-items: center;
+    gap: 21rem; 
+}
+
+.readd-members-card {
+    max-width: 50%;
+    min-width: 300px; 
+    margin-left: 0; 
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(240, 240, 240);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.readd-card-header {
+    font-size: medium;
+    font-weight: bold;
+    font-family: Nunito;
+    color: rgba(52, 64, 84, 1);
+    margin-bottom: 10px;
+}
+
+.readd-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.readd-member-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.readd-member-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.readd-member-icon {
+    color: rgba(159, 18, 57, 1);
+}
+
+.readd-member-name {
+    font-weight: bold;
+    font-size:medium;
+    font-family: Nunito;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.readd-member-email {
+    text-align: left;
+    color: rgba(100, 116, 139, 1);
+    font-size: small;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.readd-button {
+    color:rgba(54, 66, 84, 1);
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    text-decoration: none;
+}
+
+.readd-button:hover {
+    opacity: 0.8;
 }
 
 @media (max-width: 600px) {
