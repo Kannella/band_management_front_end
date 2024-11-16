@@ -272,6 +272,84 @@ h1 {
     opacity: 0.8;
 }
 
+
+.upcoming-events {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-card {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    border-color: rgba(136, 19, 55, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.event-date {
+    text-align: center;
+    color: rgba(159, 18, 57, 1);
+    padding: 10px;
+    border-radius: 8px;
+    width: 60px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.event-divider {
+    width: 2px;
+    height: 60px;
+    background-color: #ccc;
+    margin: 0 15px;
+  }
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 1.2rem;
+    font-weight: normal;
+    margin-left: 25px;
+    color: rgba(100, 116, 139, 1);
+}
+
+.event-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(100, 116, 139, 1);
+}
+
+.event-details-left, 
+.event-details-right {
+    display: flex;
+    flex-direction: column; 
+    gap: 7px;
+    width: 150%; 
+}
+
+.event-bandName, 
+.event-location, 
+.event-time {
+    color: rgba(100, 116, 139, 1) !important; /* Force gray color */
+    font-size: medium;
+}
+
+.event-location {
+    font-size: 1.2rem;
+    color: rgba(100, 116, 139, 1) !important; /* Ensure event-location is gray */
+}
+
+.event-time {
+    color: rgba(100, 116, 139, 1) !important; /* Ensure event-time is gray */
+}
+
+
 @media (max-width: 600px) {
     .members-header,
     .member-card {

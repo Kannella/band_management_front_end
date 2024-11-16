@@ -1,7 +1,7 @@
 // band_details_page.jsx
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { FaTrashAlt, FaUserCircle, FaEdit, FaPlusCircle } from "react-icons/fa";
+import { FaTrashAlt, FaUserCircle, FaEdit, FaPlusCircle, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { bands } from "../../pages/data/bands";
 import '../../assets/styles/styles.css';
 
@@ -105,10 +105,49 @@ function BandDetailsPage() {
 
             <div className="content mb-4 mt-5">
                 <h2>Band Upcoming Events</h2>
-            </div>
+                <p>Next bookings </p>
+
+                <div className="upcoming-events">
+                {band.events.length > 0 ? (
+                    band.events.map((event, index) => (
+                        <div key={index} className="event-card">
+                            <div className="event-date">
+                                <h3>{event.month}</h3>
+                                <h3>{event.day}</h3>
+                            </div>
+
+                            <div className="event-divider"></div>
+
+                            <div className="event-details">
+                                <div className="event-info">
+                                    <div className="event-details-left">
+                                        <h2 className="event-time">
+                                            <FaClock size={18} style={{ marginRight: '10px' }} />
+                                            Show starts at {event.time}</h2>
+                                        <h2 className="event-location">
+                                            <FaMapMarkerAlt size={18} style={{ marginRight: '10px' }} />
+                                            Location: {event.location}</h2>
+                                    </div>
+
+                                    <div className="event-details-right ">
+                                        <h2 className="event-name">{event.eventName}</h2> 
+                                        <h2 className="event-bandName">Band: {event.bandName}</h2>  
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                    </div>
+                ))
+            ) : (
+                <p>No upcoming events</p>
+            )}
+        </div>
 
             </div>
-                
+
+    </div>        
     );
 }
 
