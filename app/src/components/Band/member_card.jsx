@@ -1,7 +1,7 @@
 // member_card.jsx
 import React from "react";
 import { FaUserCircle, FaTrash } from "react-icons/fa";
-import '../../assets/styles/styles.css';
+import '../../assets/styles/band_styles.css';
 
 function MemberCard({ member, email, onRemove }) {
     return (

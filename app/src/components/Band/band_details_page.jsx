@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import {FaEdit, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { bands } from "../../pages/data/bands";
 import BandMembersTable from "./band_member_table";
-import '../../assets/styles/styles.css';
+import '../../assets/styles/band_styles.css';
 
 
 function BandDetailsPage() {

@@ -4,7 +4,7 @@ import BandPopup from "../../components/Band/popup_band_create";
 import CardWidget from "../../components/Band/cards_widget";
 import {bands} from '../data/bands';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../assets/styles/styles.css';
+import '../../assets/styles/band_styles.css';
 
 
 function BandManagerPage(){
