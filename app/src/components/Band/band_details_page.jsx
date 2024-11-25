@@ -1,8 +1,9 @@
 // band_details_page.jsx
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { FaTrashAlt, FaUserCircle, FaEdit, FaPlusCircle, FaClock, FaMapMarkerAlt } from "react-icons/fa";
+import {FaEdit, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { bands } from "../../pages/data/bands";
+import BandMembersTable from "./band_member_table";
 import '../../assets/styles/styles.css';
 
 
@@ -49,59 +50,13 @@ function BandDetailsPage() {
                 </button>
             </div>
 
-            {isEditing && removedMembers.length > 0 && (
-                <div className="readd-members-card mb-4">
-                    <div className="readd-card-header">
-                        <p>Re-add Removed Members</p>
-                    </div>
-                    <div className="readd-card-body">
-                        {removedMembers.map((member, index) => (
-                            <div key={index} className="readd-member-card">
-                                <div className="readd-member-info">
-                                    <FaUserCircle className="readd-member-icon" size={35} />
-                                    <span className="readd-member-name">{member.name}</span>
-                                </div>
-                                <span className="readd-member-email">{member.email}</span>
-                                <button
-                                    className="btn btn-link readd-button"
-                                    onClick={() => handleAddMember(member.name)}
-                                >
-                                    <FaPlusCircle size={17} /> Add
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            <div className="members-table">
-                <div className="members-header">
-                    <span className="header-name">Members</span>
-                    <span className="header-email">E-mail</span>
-                    <span className="header-action"></span>
-                </div>
-
-                <div className="members-list">
-                    {members.map((member, index) => (
-                        <div key={index} className="member-card">
-                            <div className="member-info">
-                                <FaUserCircle className="member-icon" size={35} />
-                                <span className="member-name">{member.name}</span>
-                            </div>
-                            <span className="member-email">{member.email}</span>
-
-                            {isEditing && (
-                            <button
-                                className="btn btn-link remove-button"
-                                onClick={() => handleRemoveMember(member.name)}
-                            >
-                                <FaTrashAlt size={15} />
-                            </button>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <BandMembersTable
+                members={members}
+                removedMembers={removedMembers}
+                isEditing={isEditing}
+                onRemoveMember={handleRemoveMember}
+                onAddMember={handleAddMember}
+            />
 
             <div className="content mb-4 mt-5">
                 <h2>Band Upcoming Events</h2>

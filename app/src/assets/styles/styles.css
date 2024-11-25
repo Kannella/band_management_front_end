@@ -364,3 +364,12 @@ h1 {
         text-align: center;
     }
 }
+
+.band-popup-modal .modal-dialog {
+    max-width: 50%; /* Adjust the width as needed */
+}
+
+.band-popup-modal .modal-body {
+    max-height: 100vh; /* Ensure the modal body is scrollable if content overflows */
+    overflow-y: auto;
+}
