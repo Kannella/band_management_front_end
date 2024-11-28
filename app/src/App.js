@@ -11,6 +11,9 @@ import BandManagerPage from './pages/manager/band_manager_page';
 import BookingManagerPage from './pages/manager/booking_manager_page';
 import CalendarManagerPage from './pages/manager/calendar_manager_page';
 
+import SignInPage from  './pages/sign_in_page';
+import SignUpPage from  './pages/sign_up_page';
+
 function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
@@ -62,10 +65,12 @@ function App() {
           }}
         >
           <Routes>
+            <Route path="/registration" element={<SignUpPage />} />
+            <Route path="/login" element={<SignInPage />} />
             <Route path="/" element={<HomeManagerPage />} />
             <Route path="/bands" element={<BandManagerPage />} />
             <Route path="/bookings" element={<BookingManagerPage />} />
-            <Route path="/calendar" element={<CalendarManagerPage />} />
+            <Route path="/calendar" element={<CalendarManagerPage />} /
           </Routes>
         </div>
       </div>
