@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Navbar from './components/nav_bar';        
+    import Navbar from './components/nav_bar';        
 import NavBarMobile from './components/nav_bar_mobile';
 
-// Manager's Pages
-import HomeManagerPage from './pages/manager/home_manager_page';
-import BandManagerPage from './pages/manager/band_manager_page';
-import BookingManagerPage from './pages/manager/booking_manager_page';
-import CalendarManagerPage from './pages/manager/calendar_manager_page';
+  // Manager's Pages
+  import HomeManagerPage from './pages/manager/home_manager_page';
+  import BandManagerPage from './pages/manager/band_manager_page';
+  import BookingManagerPage from './pages/manager/booking_manager_page';
+  import CalendarManagerPage from './pages/manager/calendar_manager_page';
+  import BandDetailsPage from "./components/Band/band_details_page";
 
 function App() {
   const [isMobile, setIsMobile] = useState(false);
@@ -66,6 +67,8 @@ function App() {
             <Route path="/bands" element={<BandManagerPage />} />
             <Route path="/bookings" element={<BookingManagerPage />} />
             <Route path="/calendar" element={<CalendarManagerPage />} />
+            <Route path="/band/:id" element={<BandDetailsPage />} />
+
           </Routes>
         </div>
       </div>
@@ -73,4 +76,4 @@ function App() {
   );
 }
 
-export default App;
+  export default App;
