@@ -1,15 +1,22 @@
-import React from "react"; 
+import React, { useState } from "react";
 import '../assets/styles/styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.css';
-import { faCalendarDays, faTicket, faSquarePlus, faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { ReactComponent as Logo } from '../assets/images/logo_vector.svg';
-import { ReactComponent as HomeIcon } from '../assets/images/icon_home.svg';
 
 function NavBarMobile() {
+  // Estado para controlar o dropdown
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Função para alternar o estado do dropdown
+  const toggleDropdown = () => {setIsOpen(!isOpen)
+    console.log('abrindo')
+  };
+
   return (
     <div 
-      className="nav-container d-flex align-items-center justify-content-around flex-wrap"
+      className="nav-container d-flex align-items-center justify-content-between flex-wrap"
       style={{
         position: 'sticky',
         top: 0,
@@ -18,36 +25,25 @@ function NavBarMobile() {
       }}
     >
       <div className="d-flex align-items-center" style={{ gap: '1vw' }}>
-        <Logo width="36" height="36"/>
+        <Logo width="36" height="36" />
         <div className="logo-text">Band Manager</div>
       </div>
-      <div className="d-flex align-items-center justify-content-center "style={{ gap: '4vw' }} >
-      <div className="icon-row mb-1">
-        <a href="#" className="icon-button icon-img">
-          <HomeIcon width="22" height="22" />
-        </a>
+
+      {/* Ícone de menu (Hambúrguer) */}
+      <div className="d-flex align-items-center" onClick={toggleDropdown} style={{ cursor: 'pointer' }}>
+        <FontAwesomeIcon icon={faBars} style={{ fontSize: '28px' }} />
       </div>
-      <div className="icon-row">
-        <a href="#" className="icon-button">
-          <FontAwesomeIcon icon={faSquarePlus} style={{ fontSize: '24px' }} />
-        </a>
-      </div>
-      <div className="icon-row">
-        <a href="#" className="icon-button">
-          <FontAwesomeIcon icon={faTicket} style={{ fontSize: '24px' }} />
-        </a>
-      </div>
-      <div className="icon-row">
-        <a href="#" className="icon-button">
-          <FontAwesomeIcon icon={faCalendarDays} style={{ fontSize: '24px' }} />
-        </a>
-      </div>
-      </div>
-      <div className="icon-row">
-        <a href="#" className="icon-button">
-          <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: '28px' }} />
-        </a>
-      </div>
+
+      {/* Menu Dropdown */}
+      {isOpen && (
+        <div className="dropdown-menu" style={{top: '12vh', right: 0, backgroundColor: 'white', borderRadius: '8px', padding: '10px' }}>
+          <a href="#home" className="dropdown-item">Home</a>
+          <a href="#create" className="dropdown-item">Create</a>
+          <a href="#bookings" className="dropdown-item">Bookings</a>
+          <a href="#calendar" className="dropdown-item">Calendar</a>
+          <a href="#profile" className="dropdown-item">Profile</a>
+        </div>
+      )}
     </div>
   );
 }

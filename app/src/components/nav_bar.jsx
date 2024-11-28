@@ -22,7 +22,7 @@ function NavBar({ logoSize, iconSize, iconSizeHome, navbarSize }) {
           </Col>
         </Row>
 
-        <Row className="d-flex flex-column justify-content-center align-items-center flex-grow-1 py-5 mb-5 mt-2">
+        <Row className="-flex flex-column justify-content-center align-items-center flex-grow-1 py-3">
           <Col className="d-flex justify-content-center mb-3">
             <a href="#" className="icon-button icon-img">
               <HomeIcon width={iconSizeHome} height={iconSizeHome} />
