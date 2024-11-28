@@ -1,8 +1,18 @@
-import React  from "react";
+import React from 'react';
+import Calendar from '../../pages/manager/calendar';
+import './calendar.css';
 
 
-function CalendaManagerPage(){
-    return <h1>CalendaManager</h1>
-}
+const CalendarManagerPage = () => {
+  return (
+    <div className='screen container-fluid'>
+      <div className='col-11'>
+        <h1 className='calendarTitle'>My Calendar</h1>
+        <div class="divider"></div>
+        <Calendar/> 
+      </div>
+    </div>    
+  );
+};
 
-export  default CalendaManagerPage;
+export default CalendarManagerPage;
