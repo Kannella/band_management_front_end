@@ -9,6 +9,8 @@ import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Table from 'react-bootstrap/Table';
 import  useScreenSizeController from '../../hooks/useScreenSizeController';
 
+import './booking_components.css';
+
 function PopUpCreateBooking() {
   const [show, setShow] = useState(false);
   const [songs, setSongs] = useState([]);
@@ -37,19 +39,11 @@ function PopUpCreateBooking() {
       <Button
         variant="secondary"
         size="sm"
-        className="d-flex align-items-center mx-auto"
-        style={{
-          backgroundColor: '#64748B',
-          borderRadius: '12px',
-          padding: '6px 12px',
-          fontSize: '12px',
-          marginLeft: '36%',
-        }}
+        className="d-flex align-items-center btn-add-booking"
         onClick={handleShow}
       >
         <FontAwesomeIcon icon={faPlus} style={{ 
-          marginRight: isMobile ? 0 : 10,
-          fontSize: isMobile ? 20 : 0 }} />
+          marginRight: isMobile ? 0 : 10, }} />
         {!isMobile && 'Add New Booking'}
       </Button>
 
@@ -70,6 +64,16 @@ function PopUpCreateBooking() {
               Find all booking details below. Click on the tabs to view specific information about the booking, venue, schedule, set, and logistics.
             </Form.Text>
 
+            <Form.Text className='mb-4'>Select Band</Form.Text>
+            <Row>
+            <Form.Group controlId="bookingBand">
+                  <Form.Label>Band</Form.Label>
+                  <Form.Select>
+                    <option>Band one</option>
+                    <option>Band two</option>
+                  </Form.Select>
+                </Form.Group>
+            </Row>
             {/* Booking Information */}
             <Form.Text as="h1" className="mb-3">
               Booking Information

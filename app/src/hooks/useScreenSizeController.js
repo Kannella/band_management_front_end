@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 
 function useScreenSizeController() {
   const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
     const updateSize = () => {
-      setIsMobile(window.innerWidth < 600);
-      setIsTablet(window.innerWidth >= 600 && window.innerWidth < 920);
+      setIsMobile(window.innerWidth < 700);
     };
 
     window.addEventListener('resize', updateSize); updateSize(); 
@@ -15,16 +13,16 @@ function useScreenSizeController() {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  const logoSize = isTablet ? "30px" : "60px";
-  const iconSize = isTablet ? "28px" : "36px";
-  const iconSizeHome = isTablet ? "24px" : "36px";
-  const navbarSize = isTablet ? "8vh": "10vh"
+  const logoSize =  isMobile ? "5vw" : "4vw"; 
+  const iconSize =  isMobile ? "3vw" : "2vw"; 
+  const iconSizeHome = isMobile ? "3vw" : "2vw"; 
+  const navbarSize = isMobile ? "8vw" : "4vw"; 
 
-  // global
-  const marginLeft = isMobile ? '0' : isTablet ? '4%' : '4%';
-  const marginTop = '2vw';
+  // Margens e espaçamentos ajustados
+  const marginLeft = isMobile ? '0' : '2%'; 
+  const marginTop = isMobile ? '1%' : '2%';
 
-  return { isMobile, isTablet, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginTop };
+  return { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginTop };
 }
 
 export default useScreenSizeController;

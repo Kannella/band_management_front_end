@@ -3,8 +3,10 @@ import { useState } from 'react';
 function useBookingTable(initialRows) {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectedColumn, setSelectedColumn] = useState('');
-  const [filter, setFilter] = useState('');
   const [rows, setRows] = useState(initialRows);
+  const [textFilter, setTextFilter] = useState(''); // Valor do input
+  const [activeFilter, setActiveFilter] = useState(''); // Filtro aplicado ao apertar o botão
+
 
   const handleSelect = (id) => {
     setSelectedRows((prevSelected) => {
@@ -20,13 +22,10 @@ function useBookingTable(initialRows) {
 
   const isSelected = (id) => selectedRows.has(id);
 
-  const filteredRows = rows.filter((row) => {
-    if (selectedColumn) {
-      return row[selectedColumn]?.toString().toLowerCase().includes(filter.toLowerCase());
-    }
-    return Object.values(row).some((value) =>
-      value?.toString().toLowerCase().includes(filter.toLowerCase())
-    );
+  const filteredRows = initialRows.filter((row) => {
+    if (!activeFilter || !selectedColumn) return true; 
+    const columnValue = row[selectedColumn]?.toString().toLowerCase();
+    return columnValue?.includes(activeFilter.toLowerCase());
   });
 
   const handleDelete = (id) => {
@@ -49,20 +48,22 @@ function useBookingTable(initialRows) {
         return 'black';
     }
   };
-
+  
   return {
     selectedRows,
     selectedColumn,
-    filter,
     rows,
     setSelectedRows,
     setSelectedColumn,
-    setFilter,
     handleSelect,
     isSelected,
     filteredRows,
     handleDelete,
     getStageColor,
+    textFilter,
+    setTextFilter,
+    activeFilter,
+    setActiveFilter,
   };
 }
 

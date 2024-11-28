@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Box, Accordion, AccordionSummary, AccordionDetails, Typography, MenuItem, Menu, FormControl, InputLabel, Select, TextField} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Box, Accordion, AccordionSummary, AccordionDetails, Typography, MenuItem, Menu, FormControl, InputLabel, Select, TextField, Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCircle, faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faCircle, faEllipsis, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
+import { ReactComponent as FilterIcon } from '../../assets/images/icon-filter.svg';
 
-import './booking_components.css';
+import './booking_components.css';  // Importando o arquivo CSS
 import useBookingTable from '../../hooks/useBookingTable';
-
 import PopUpCreateBooking from './popup_create_bookings';
 
 const TableComponent = () => {
@@ -17,20 +17,27 @@ const TableComponent = () => {
   ];
 
   const {
+    rows,
     selectedColumn,
-    filter,
     setSelectedColumn,
-    setFilter,
+    handleDelete,
     handleSelect,
     isSelected,
     filteredRows,
-    handleDelete,
-    getStageColor
+    getStageColor,
+    textFilter,
+    setTextFilter,
+    setActiveFilter,
   } = useBookingTable(initialRows);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const toggleFilter = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
 
   const handleMenuClick = (event, booking) => {
     setAnchorEl(event.currentTarget);
@@ -54,36 +61,48 @@ const TableComponent = () => {
   const handleClose = () => setIsPopupOpen(false);
 
   return (
-
     <TableContainer component={Paper} className="table-container">
-      <Box sx={{ overflowX: 'auto', marginBottom: '20px', display: 'flex', justifyContent: 'start'}}>
-        <FormControl sx={{ display: 'flex', width: '20%', marginRight: 2 }}>
-          <InputLabel id="column-select-label">Select Column</InputLabel>
-          <Select
-            labelId="column-select-label"
-            value={selectedColumn}
-            onChange={(e) => setSelectedColumn(e.target.value)}
-          >
-            <MenuItem value="">Select Column</MenuItem>
-            <MenuItem value="title">Title</MenuItem>
-            <MenuItem value="band">Band</MenuItem>
-            <MenuItem value="venue">Venue</MenuItem>
-            <MenuItem value="agent">Agent</MenuItem>
-            <MenuItem value="stages">Stages</MenuItem>
-          </Select>
-        </FormControl>
-
-        <TextField
-          label="Filter by Title"
-          variant="outlined"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          style={{ 
-            width: '20vw' }}
+      <Box className='box-actions' sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+        <Button  onClick={toggleFilter}>
+          <FilterIcon className="icon-filter" />
+        </Button>
+        <PopUpCreateBooking isOpen={isPopupOpen} onClose={handleClose} />
+        <Button >
+        <FontAwesomeIcon
+          className="icon-trash"
+          icon={faTrash}
+          
         />
-
-        <PopUpCreateBooking  isOpen={isPopupOpen} onClose={handleClose}/>
+        </Button>
       </Box>
+
+      {isFilterOpen && (
+        <Box className="filter-section">
+          <FormControl >
+            <Select
+              value={selectedColumn}
+              onChange={(e) => setSelectedColumn(e.target.value)}
+            >
+              <MenuItem value="">Select Column</MenuItem>
+              <MenuItem value="title">Title</MenuItem>
+              <MenuItem value="band">Band</MenuItem>
+              <MenuItem value="venue">Venue</MenuItem>
+              <MenuItem value="agent">Agent</MenuItem>
+              <MenuItem value="stages">Stages</MenuItem>
+            </Select>
+          </FormControl>
+
+          <TextField
+            label={selectedColumn}
+            variant="outlined"
+            value={textFilter}
+            onChange={(e) => setTextFilter(e.target.value)}
+          />
+          <Button onClick={() => setActiveFilter(textFilter)}>
+            <FontAwesomeIcon className='icon-search' icon={faSearch}  />
+          </Button>
+        </Box>
+      )}
 
       <Table className="table" sx={{ display: { xs: 'none', sm: 'table' } }}>
         <TableHead>
@@ -95,7 +114,6 @@ const TableComponent = () => {
             <TableCell className="table-cell-header">Stages</TableCell>
             <TableCell className="table-cell-header">Venue</TableCell>
             <TableCell className="table-cell-header">Agent</TableCell>
-            <TableCell className="table-cell-header">Actions</TableCell>
             <TableCell padding="elipsis"></TableCell>
           </TableRow>
         </TableHead>
@@ -103,11 +121,7 @@ const TableComponent = () => {
           {filteredRows.map((row) => (
             <TableRow key={row.id} selected={isSelected(row.id)}>
               <TableCell padding="checkbox">
-                <Checkbox
-                  checked={isSelected(row.id)}
-                  onChange={() => handleSelect(row.id)}
-                  inputProps={{ 'aria-labelledby': `checkbox-${row.id}` }}
-                />
+                <Checkbox checked={isSelected(row.id)} onChange={() => handleSelect(row.id)} />
               </TableCell>
               <TableCell>{row.title}</TableCell>
               <TableCell>{row.band}</TableCell>
@@ -117,30 +131,12 @@ const TableComponent = () => {
               </TableCell>
               <TableCell>{row.venue}</TableCell>
               <TableCell>{row.agent}</TableCell>
-              <TableCell>
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  className={`trash-icon ${isSelected(row.id) ? 'visible' : ''}`}
-                  onClick={() => isSelected(row.id) && handleDelete(row.id)}
-                  style={{
-                    fontSize: 20,
-                    cursor: isSelected(row.id) ? 'pointer' : 'not-allowed',
-                    color: isSelected(row.id) ? 'red' : 'gray',
-                    transition: 'color 0.3s'
-                  }}
-                />
-              </TableCell>
 
               <TableCell>
                 <FontAwesomeIcon
+                  className="ellipsis-icon"
                   icon={faEllipsis}
                   onClick={(e) => handleMenuClick(e, row)}
-                  style={{
-                    fontSize: 20,
-                    cursor: 'pointer',
-                    color: 'gray',
-                    transition: 'color 0.3s',
-                  }}
                 />
                 <Menu
                   anchorEl={anchorEl}
@@ -164,57 +160,29 @@ const TableComponent = () => {
         </TableBody>
       </Table>
 
-      <Box sx={{ display: { xs: 'block', sm: 'none'} }}>
+      <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
         {filteredRows.map((row) => (
           <Accordion key={row.id}>
             <AccordionSummary>
-              <Typography className='accordion-text' style={{marginRight:'20px' }}>{row.title}</Typography>
-              <Typography className='accordion-text' ><FontAwesomeIcon icon={faCircle} style={{ color: getStageColor(row.stages), marginLeft:'20px' }} /> {row.stages}</Typography>
+              <Typography className="accordion-text" style={{ marginRight: '20px' }}>
+                {row.title}
+              </Typography>
+              <Typography className="accordion-text">
+                <FontAwesomeIcon icon={faCircle} style={{ color: getStageColor(row.stages), marginLeft: '20px' }} /> {row.stages}
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography><span style={{fontWeight:700}}>Band: </span>{row.band}</Typography>
-                <Typography><span style={{fontWeight:700}}>Date:</span> {format(row.date, 'dd/MM/yyyy')}</Typography>
-
-                <Typography >Venue: {row.venue}</Typography>
-                <Typography >Agent: {row.agent}</Typography>
-                
-                <Box className= 'icon-box-accordion' sx={{ display: 'flex', gap: 5 }}>
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    onClick={() => handleDelete(row.id)}
-                    style={{
-                      fontSize: 20,
-                      cursor: 'pointer',
-                      color: 'red',
-                    }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEllipsis}
-                    onClick={(e) => handleMenuClick(e, row)}
-                    style={{
-                      fontSize: 20,
-                      cursor: 'pointer',
-                      color: 'gray',
-                    }}
-                  />
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleCloseMenu}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  >
-                    <MenuItem onClick={handleNavigateToBookingPage}>Go to Booking</MenuItem>
-                    <MenuItem onClick={handleEditBooking}>Edit Booking</MenuItem>
-                  </Menu>
-                </Box>
-              </Box>
+              <Typography>
+                Band: {row.band}
+                <br />
+                Venue: {row.venue}
+                <br />
+                Date: {format(row.date, 'dd/MM/yyyy')}
+              </Typography>
             </AccordionDetails>
           </Accordion>
         ))}
       </Box>
-
     </TableContainer>
   );
 };
