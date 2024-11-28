@@ -1,9 +1,25 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
+import axios from "axios";
 import { Container, Row, Col} from "react-bootstrap";
-import StackedCards from "../../components/Booking/vertical_stack_cards";
 import BookingCard from "../../components/Booking/card_booking";
 
 function HomeManagerPage() {
+    const [nameUser, setNameUser] = useState("");
+
+    // get storage userId
+    const userId = 1
+
+    useEffect(() => {
+        axios
+            .get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User/${userId}`)
+            .then(res => {
+                setNameUser(res.data.name); 
+            })
+            .catch(error => {
+                console.error("No user found", error);
+            });
+    }, []);
+
     return (
         <Container fluid className="">
             <Row className="justify-content-start align-items-start ms-3 mb-3" >
@@ -13,7 +29,7 @@ function HomeManagerPage() {
                 </Row>
                 <Row>
                     <div className="user-name-text">
-                        Jane Doe
+                        {nameUser || "Loading..."}
                     </div>
                 </Row>
                 </Col>
