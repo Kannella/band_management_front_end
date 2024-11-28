@@ -1,0 +1,276 @@
+/* Table Styles */
+.icon-search{
+    color: #64748B;
+    font-size: 16px;
+}
+
+.box-actions{
+    margin-bottom: 10px;
+}
+
+.table-container { 
+    max-width: 94%; /* Limits the width of the table container to 94% */
+}
+
+.table-cell-header {
+    font-size: 1rem; /* Font size for table headers */
+    font-weight: bold; /* Makes the header text bold */
+}
+
+.table-cell {
+    font-size: 0.85rem; /* Font size for regular table cells */
+    padding: 0.5rem; /* Adds padding inside each table cell */
+}
+
+.ellipsis-icon{
+    font-size: 20px;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.3s;
+}
+
+.trash-icon {
+    transition: color 0.3s; /* Smooth transition for color change */
+}
+
+.trash-icon.visible {
+    color: red; /* Changes trash icon color to red when it's visible */
+}
+
+/* Smaller Table Row Styles */
+.table-row-small .table-cell {
+    font-size: 0.75rem; /* Smaller font size for specific table rows */
+    padding: 0.25rem; /* Smaller padding for specific table rows */
+}
+
+/* Accordion Content Styles */
+.accordion-content {
+    display: flex;
+    flex-direction: column; /* Makes the accordion content stack vertically */
+}
+
+.icon-spacing {
+    display: flex;
+    justify-content: flex-end; /* Aligns icons to the right */
+    gap: 1rem; /* Adds spacing between icons */
+    margin-top: 0.5rem; /* Adds top margin */
+    width: 100%; /* Ensures the icon container takes full width */
+}
+
+/* Accordion Styles for Mobile */
+.accordion-content {
+    font-size: 0.75rem; /* Smaller font size for mobile view */
+    margin: 0.25rem 0; /* Adds margin between accordion items */
+    font-weight: 700; /* Bold font for accordion content */
+}
+
+.icon-box-accordion {
+    display: flex;
+    flex-direction: row; /* Aligns icons in a horizontal row */
+    justify-content: end; /* Aligns icons to the right */
+}
+
+.icon-filter, .icon-trash{
+    filter: grayscale(80%) brightness(50%) contrast(20%);
+    transition: filter 0.3s ease;
+    height: 30px;
+    max-width: 30px;
+}
+.icon-trash{
+    margin-left: 20px;
+    margin-right: 16px;
+}
+
+.btn-add-booking {
+    background-color:#64748B ;
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.table-container { 
+    max-width: 94%; /* Limits the width of the table container to 94% */
+}
+
+.table-cell-header {
+    font-size: 1rem; /* Font size for table headers */
+    font-weight: bold; /* Makes the header text bold */
+}
+
+.table-cell {
+    font-size: 0.85rem; /* Font size for regular table cells */
+    padding: 0.5rem; /* Adds padding inside each table cell */
+}
+
+.ellipsis-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.3s;
+}
+
+.trash-icon {
+    transition: color 0.3s; /* Smooth transition for color change */
+}
+
+.trash-icon.visible {
+    color: red; /* Changes trash icon color to red when it's visible */
+}
+
+/* Smaller Table Row Styles */
+.table-row-small .table-cell {
+    font-size: 0.75rem; /* Smaller font size for specific table rows */
+    padding: 0.25rem; /* Smaller padding for specific table rows */
+}
+
+/* Accordion Content Styles */
+.accordion-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Filter Styles  */
+
+.filter-section {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; /* Adiciona um espaço entre os elementos da seção */
+  }
+
+  .filter-section > * {
+    margin-bottom: 10px; /* Adiciona espaço entre o Select e o TextField */
+  }
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-form {
+    display: flex;
+    width: 20%;
+    margin-right: 4px;
+}
+
+.filter-text-field {
+    margin-right: 4px;
+}
+
+.filter-button {
+    margin-right: 50px;
+}
+
+
+
+
+
+/* Card Styles */
+.text-data {
+    color: #881337; /* Text color for the main data */
+    font-size: 1.5rem; /* Font size for the main data */
+    font-weight: bold; /* Bold font for the main data */
+}
+
+.date-stack {
+    padding-left: 4%; /* Adds padding to the left side of the date stack */
+}
+
+.subtext-data {
+    font-size: 2rem; /* Font size for the subtext data */
+    color: #881337; /* Color for the subtext data */
+    font-weight: bold; /* Bold font for subtext data */
+}
+
+.card-booking-text {
+    color: #64748B; /* Color for general booking text */
+    font-size: 1rem; /* Font size for general booking text */
+}
+
+.card-name-booking-text {
+    color: #0F172A; /* Dark color for the card name text */
+    font-size: 1rem; /* Font size for the card name */
+    font-weight: bold; /* Bold font for the card name */
+}
+
+.booking-card-container {
+    border: 3px solid #881337; /* Adds a red border to the card container */
+    border-radius: 20px; /* Rounds the corners of the card */
+    padding: 8px; /* Adds padding inside the card */
+    max-width: 95%; /* Limits the card width to 95% */
+}
+
+.info-stack > .card-booking-text {
+    margin-bottom: 6px; /* Adds bottom margin to booking text */
+}
+
+/* Media Query for Small Screens (Mobile) */
+@media (max-width: 576px) {
+
+    .box-actions{
+        margin-bottom: 20px;
+    }
+
+    .btn-add-booking {
+        border-radius: 5px;
+    }
+    
+
+    .icon-filter, .icon-trash{
+        height: 24px;
+        max-width: 24px;
+    }
+
+    .table-container{
+        max-width: 80%;
+    }
+
+    .table-row-small .table-cell {
+        font-size: 0.75rem; /* Smaller font size for mobile view */
+        padding: 0.25rem; /* Smaller padding for mobile view */
+    }
+    
+    /* Responsive styles for the booking card */
+    .booking-card-container {
+        max-width: 80%; /* Limits the card width to 80% on small screens */
+    }
+
+    .card-booking-text,
+    .card-name-booking-text {
+        font-size: 14px; /* Smaller font size for card texts */
+    }
+
+    .date-stack,
+    .info-stack,
+    .name-band-stack {
+        align-items: center; /* Centers the content of these stacks */
+    }
+
+    .info-stack {
+        padding-top: 10px; /* Adds top padding to the info stack */
+        gap: 0px; /* Removes gap between items in the info stack */
+    }
+
+    .card-booking-text {
+        padding-bottom: 0px; /* Removes bottom padding from booking text */
+        gap: none; /* Removes gap between elements in the text */
+    }
+
+    .details-popup {
+        gap: 0; /* Removes gap in the popup */
+        padding: 0; /* Removes padding in the popup */
+    }
+
+    /* Media query for table booking on small screens */
+    .table-cell-header {
+        font-size: 0.85rem; /* Smaller font size for table headers */
+    }
+
+    .table-cell {
+        font-size: 0.75rem; /* Smaller font size for table cells */
+    }
+
+    .icon-spacing {
+        gap: 1.25rem; /* Increases gap between icons for mobile */
+    }
+}
