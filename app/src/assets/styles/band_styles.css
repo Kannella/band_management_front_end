@@ -1,0 +1,375 @@
+/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+h1 {
+    color: black;
+    font-size: 1.5rem;
+    font-family: 'Nunito';
+    font-weight: bold;
+    border-bottom: 2px solid rgb(100, 116, 139);
+    padding-bottom: 10px;
+}
+
+.content h2 {
+    color:black;
+    font-size:medium;
+    font-family: 'Nunito';
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.content p {
+    margin-top: 0px;
+    color: rgba(100, 116, 139, 1);
+    font-size:small;
+    font-family: 'Nunito';
+}
+
+.createButton{
+    background-color: rgba(136, 19, 55, 1);
+    color: white;
+    padding: 10px 16px;
+    border:0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: 'Nunito';
+    /* font-weight: bold; */
+    cursor: pointer; 
+    margin-bottom: 30px;
+} 
+
+.custom-card {
+    width: 230px; /* Fixed width */
+    height: 250px; /* Fixed height */
+    background-color: rgba(159, 18, 57, 1); /* Background color */
+    color: white; /* Text color */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img {
+    width: 100%;
+    height: 100px; 
+    object-fit: cover; 
+}
+
+.card-body {
+    padding: 10px;
+    position: relative;
+    flex-grow: 1;
+    font-family: 'Nunito';
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.card-title {
+    text-align: center;
+    font-size: 1.4rem;  
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+}
+
+.card-text {
+    font-size: 0.8rem; 
+    margin-top:8px;
+    margin-bottom: 2px;
+    line-height: 1;
+}
+
+.arrow-button {
+    color: #696969;
+    padding: 0;
+    border: none;
+    background: none;
+    margin-left: auto;
+}
+
+.user-icon {
+    color: white;
+    padding: 0;
+    border: none;
+    background: none;
+    margin-right: auto;
+}
+
+.manager-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+}
+
+.members-table {
+    max-width: 50%;
+    min-width: 300px; 
+    margin-left: 0; 
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.members-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 0.5fr;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-weight: bold;
+    color: rgba(100, 116, 139, 1);
+    font-size: small;
+    font-family: 'Nunito';
+}
+
+.member-card {
+    display: grid;
+    grid-template-columns: 2fr 2fr 0.5fr;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-family: 'Nunito';
+    gap: 10px;
+}
+
+.member-info {
+    display: flex;
+    align-items: center;
+}
+
+.member-icon {
+    color: rgba(115, 7, 66, 1);
+    margin-right: 10px;
+}
+
+.member-name {
+    font-weight: bold;
+    font-size:medium;
+    font-family: Nunito;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.member-email {
+    text-align: left;
+    color: rgba(100, 116, 139, 1);
+    font-size: small;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.edit-button {
+    background-color:rgba(100, 116, 139, 1);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Nunito';
+    color: white;
+    cursor: pointer;
+    
+}
+
+.remove-button {
+    color: rgba(52, 64, 84, 1);
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    color: rgba(52, 64, 84, 1);
+}
+
+.custom-header {
+    display: flex;
+    align-items: center;
+    gap: 21rem; 
+}
+
+.readd-members-card {
+    max-width: 50%;
+    min-width: 300px; 
+    margin-left: 0; 
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(240, 240, 240);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.readd-card-header {
+    font-size: medium;
+    font-weight: bold;
+    font-family: Nunito;
+    color: rgba(52, 64, 84, 1);
+    margin-bottom: 10px;
+}
+
+.readd-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.readd-member-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.readd-member-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.readd-member-icon {
+    color: rgba(159, 18, 57, 1);
+}
+
+.readd-member-name {
+    font-weight: bold;
+    font-size:medium;
+    font-family: Nunito;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.readd-member-email {
+    text-align: left;
+    color: rgba(100, 116, 139, 1);
+    font-size: small;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.readd-button {
+    color:rgba(54, 66, 84, 1);
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    text-decoration: none;
+}
+
+.readd-button:hover {
+    opacity: 0.8;
+}
+
+
+.upcoming-events {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-card {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    border-color: rgba(136, 19, 55, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.event-date {
+    text-align: center;
+    color: rgba(159, 18, 57, 1);
+    padding: 10px;
+    border-radius: 8px;
+    width: 60px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.event-divider {
+    width: 2px;
+    height: 60px;
+    background-color: #ccc;
+    margin: 0 15px;
+  }
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 1.2rem;
+    font-weight: normal;
+    margin-left: 25px;
+    color: rgba(100, 116, 139, 1);
+}
+
+.event-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(100, 116, 139, 1);
+}
+
+.event-details-left, 
+.event-details-right {
+    display: flex;
+    flex-direction: column; 
+    gap: 7px;
+    width: 150%; 
+}
+
+.event-bandName, 
+.event-location, 
+.event-time {
+    color: rgba(100, 116, 139, 1) !important; /* Force gray color */
+    font-size: medium;
+}
+
+.event-location {
+    font-size: 1.2rem;
+    color: rgba(100, 116, 139, 1) !important; /* Ensure event-location is gray */
+}
+
+.event-time {
+    color: rgba(100, 116, 139, 1) !important; /* Ensure event-time is gray */
+}
+
+
+@media (max-width: 600px) {
+    .members-header,
+    .member-card {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .remove-button {
+        display: none;
+    }
+
+    .member-email {
+        text-align: center;
+    }
+}
+
+.band-popup-modal .modal-dialog {
+    max-width: 50%; /* Adjust the width as needed */
+}
+
+.band-popup-modal .modal-body {
+    max-height: 100vh; /* Ensure the modal body is scrollable if content overflows */
+    overflow-y: auto;
+}

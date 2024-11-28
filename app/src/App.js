@@ -15,6 +15,8 @@ import BandManagerPage from './pages/manager/band_manager_page';
 import BookingTableManagerPage from './pages/manager/booking_table_manager_page';
 import BookingManagerPage from './pages/manager/booking_manager_page';
 import CalendarManagerPage from './pages/manager/calendar_manager_page';
+import BandDetailsPage from "./components/Band/band_details_page";
+
 
 function App() {
   const { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginTop } = useScreenSizeController();
@@ -31,6 +33,7 @@ function App() {
             overflow: 'hidden',
           }}
         >
+
           {isMobile ? (
             <NavBarMobile />
           ) : (
@@ -51,6 +54,7 @@ function App() {
               <Route path="/bookings" element={<BookingManagerPage />} />
               <Route path="/bookings-table" element={<BookingTableManagerPage />} />
               <Route path="/calendar" element={<CalendarManagerPage />} />
+                <Route path="/band/:id" element={<BandDetailsPage />} />
             </Routes>
           </div>
         </div>
@@ -59,4 +63,4 @@ function App() {
   );
 }
 
-export default App;
+  export default App;
