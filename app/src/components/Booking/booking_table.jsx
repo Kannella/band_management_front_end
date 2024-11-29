@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Box, Accordion, AccordionSummary, AccordionDetails, Typography, MenuItem, Menu, FormControl, InputLabel, Select, TextField, Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCircle, faEllipsis, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {faCircle,faEllipsisVertical, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import { ReactComponent as FilterIcon } from '../../assets/images/icon-filter.svg';
+import { ReactComponent as TrashIcon } from '../../assets/images/icon_trash.svg';
 
 import './booking_components.css';  // Importando o arquivo CSS
 import useBookingTable from '../../hooks/useBookingTable';
@@ -63,17 +64,14 @@ const TableComponent = () => {
   return (
     <TableContainer component={Paper} className="table-container">
       <Box className='box-actions' sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+      <Button >
+        <TrashIcon className="icon-trash"></TrashIcon>
+        </Button>
         <Button  onClick={toggleFilter}>
-          <FilterIcon className="icon-filter" />
+          <FilterIcon className="icon-filter" />Filters
         </Button>
         <PopUpCreateBooking isOpen={isPopupOpen} onClose={handleClose} />
-        <Button >
-        <FontAwesomeIcon
-          className="icon-trash"
-          icon={faTrash}
-          
-        />
-        </Button>
+
       </Box>
 
       {isFilterOpen && (
@@ -135,7 +133,7 @@ const TableComponent = () => {
               <TableCell>
                 <FontAwesomeIcon
                   className="ellipsis-icon"
-                  icon={faEllipsis}
+                  icon={faEllipsisVertical}
                   onClick={(e) => handleMenuClick(e, row)}
                 />
                 <Menu

@@ -4,15 +4,8 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function BookingTableManagerPage() {
     return (
-        <Container fluid className="pt-3 ms-3"
-        style={{
-            overflowX:"hidden",
-            paddingLeft:0,
-            paddingRight:0,
-            marginRight:0,
-        }}
-        >
-            <Row className="mb-3">
+        <Container fluid className="pt-3 ms-3" style={{ overflowX: "hidden", paddingLeft: 0, paddingRight: 0, marginRight: 0 }}>
+            <Row className="mb-2">
                 <Col xs={12} md={10}>
                     <div className="title-page">Booking</div>
                 </Col>
