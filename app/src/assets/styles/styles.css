@@ -41,8 +41,23 @@ html, body {
 
 .nav-container {
   background-color: var(--cor-principal);
+}
 
+.nav-container-mobile{
+  position:sticky;
+  background-color: var(--cor-principal);
+  padding-right: 20px;
+  padding-left: 20px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
+}
+
+.icon-hamburguer{
+  color: var(--cor-icones);
+  font-size: 28px;
+  cursor:pointer
 }
 
 .icon-button{
@@ -81,6 +96,27 @@ html, body {
   
 }
 
+.dropdown-menu{
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  z-index: 1000;
+}
+
+.dropdown-item{
+  color: #101828;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.dropdown-item:active,
+.dropdown-item:focus {
+  background-color: transparent;
+  outline: none;
+}
 @media (max-width: 576px) {
   .title-page{
     font-size: 1.2rem;

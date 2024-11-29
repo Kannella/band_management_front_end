@@ -1,48 +1,48 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import '../assets/styles/styles.css';
-import 'bootstrap/dist/css/bootstrap.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { ReactComponent as Logo } from '../assets/images/logo_vector.svg';
 
-function NavBarMobile() {
-  // Estado para controlar o dropdown
+function NavBarMobile({navbarSize, logoSize} ) {
+
   const [isOpen, setIsOpen] = useState(false);
 
-  // Função para alternar o estado do dropdown
-  const toggleDropdown = () => {setIsOpen(!isOpen)
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen)
     console.log('abrindo')
   };
 
+  const handleItemClick = (event) => {
+    event.preventDefault();
+    setIsOpen(false)
+  }
+
   return (
     <div 
-      className="nav-container d-flex align-items-center justify-content-between flex-wrap"
+      className="nav-container-mobile d-flex"
       style={{
-        position: 'sticky',
-        top: 0,
-        width: '100%',
-        height: '12vh',
+        height: navbarSize,
       }}
     >
-      <div className="d-flex align-items-center" style={{ gap: '1vw' }}>
-        <Logo width="36" height="36" />
+      <div className="d-flex align-items-center " style={{ gap: '1vw' }}>
+        <Logo Logo width={logoSize} height={logoSize}/>
         <div className="logo-text">Band Manager</div>
       </div>
 
       {/* Ícone de menu (Hambúrguer) */}
-      <div className="d-flex align-items-center" onClick={toggleDropdown} style={{ cursor: 'pointer' }}>
-        <FontAwesomeIcon icon={faBars} style={{ fontSize: '28px' }} />
-      </div>
+        <FontAwesomeIcon className="icon-hamburguer" icon={faBars}  onClick={toggleDropdown}/>
 
       {/* Menu Dropdown */}
       {isOpen && (
-        <div className="dropdown-menu" style={{top: '12vh', right: 0, backgroundColor: 'white', borderRadius: '8px', padding: '10px' }}>
-          <a href="#home" className="dropdown-item">Home</a>
-          <a href="#create" className="dropdown-item">Create</a>
-          <a href="#bookings" className="dropdown-item">Bookings</a>
-          <a href="#calendar" className="dropdown-item">Calendar</a>
-          <a href="#profile" className="dropdown-item">Profile</a>
-        </div>
+        <div className="dropdown-menu d-flex">
+        <Link to="/" className="dropdown-item" onClick={() => setIsOpen(false)}>Home</Link>
+        <Link to="/bands" className="dropdown-item" onClick={() => setIsOpen(false)}>Bands</Link>
+        <Link to="/bookings-table" className="dropdown-item" onClick={() => setIsOpen(false)}>Bookings</Link>
+        <Link to="/calendar" className="dropdown-item" onClick={() => setIsOpen(false)}>Calendar</Link>
+        <Link to="/profile" className="dropdown-item" onClick={() => setIsOpen(false)}>Profile</Link>
+      </div>
       )}
     </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import '../assets/styles/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faTicket, faSquarePlus, faCircleUser } from '@fortawesome/free-solid-svg-icons';
@@ -24,32 +25,32 @@ function NavBar({ logoSize, iconSize, iconSizeHome, navbarSize }) {
 
         <Row className="-flex flex-column justify-content-center align-items-center flex-grow-1 py-3">
           <Col className="d-flex justify-content-center mb-3">
-            <a href="#" className="icon-button icon-img">
+            <Link to="/" className="icon-button icon-img">
               <HomeIcon width={iconSizeHome} height={iconSizeHome} />
-            </a>
+            </Link>
           </Col>
           <Col className="d-flex justify-content-center mb-3">
-            <a href="#" className="icon-button">
+            <Link to="/bands" className="icon-button">
               <FontAwesomeIcon icon={faSquarePlus} style={{fontSize: iconSize}} />
-            </a>
+            </Link>
           </Col>
           <Col className="d-flex justify-content-center mb-3">
-            <a href="#" className="icon-button">
+            <Link to="/bookings-table" className="icon-button">
               <FontAwesomeIcon icon={faTicket} style={{fontSize: iconSize}} />
-            </a>
+            </Link>
           </Col>
           <Col className="d-flex justify-content-center mb-3">
-            <a href="#" className="icon-button">
+            <Link to="/calendar" className="icon-button">
               <FontAwesomeIcon icon={faCalendarDays} style={{fontSize: iconSize}} />
-            </a>
+            </Link>
           </Col>
         </Row>
 
         <Row className="d-flex justify-content-center mt-5">
           <Col className="d-flex justify-content-center">
-            <a href="#" className="icon-button">
+            <Link to="/profile" className="icon-button">
               <FontAwesomeIcon icon={faCircleUser} style={{fontSize: iconSize}} />
-            </a>
+            </Link>
           </Col>
         </Row>
       </Container>
