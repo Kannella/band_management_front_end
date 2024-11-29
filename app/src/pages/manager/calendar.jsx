@@ -82,7 +82,7 @@ const Calendar = () => {
 
 
   return (
-     <div className=' row col'>
+     <div className='row col'>
         <div className='col-3 text-center'>
           <button className="addAvailabilityButton" onClick={togglePopup}>
             Add your Availability

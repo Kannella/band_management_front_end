@@ -16,14 +16,14 @@
   padding: 20px;
   border-radius: 10px;
   width: 600px;
-  height: 550px;
+  height: 480px;
   max-width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
 .mini-calendar{
-  max-width: 60%;
+  max-width: 40%;
   font-family: "Nunito", sans-serif;
   align-items: center;
   justify-content: center;
@@ -60,7 +60,7 @@
   text-align: center;
   display: grid;
   width: 100%;
-  height: 100px;
+  height: 270px;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
   margin-top: 10px;
@@ -72,12 +72,10 @@
 
 .mini-calendar-buttons button{
   width: 90px;
-  height: 30px;
   background-color: rgba(115, 9, 78, 1); 
   color: white;
   border: none;
   border-radius: 20px;
-
 }
 
 .calendar {
@@ -91,6 +89,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+  width: 100%;
+  height: 100px;
+  width: 100%;
 }
 
 .calendar-header button{
@@ -182,15 +183,16 @@
     background-color: #9F1239;
     color: white;
     width: 75%;
-    height: 40px;
+    height: 50px;
     font-family: "Nunito", sans-serif;
     border: none;
     border-radius: 15px;
+    margin-top: 20px;
 }
 
 .square-box {
   width: 100%;
-  height: 434px;
+  height: 380px;
   border: 2px solid #333;
   border-radius: 8px;
   padding: 10px;
@@ -209,4 +211,44 @@
   margin: 5px 0;
   background-color: #f0f0f0;
   border-radius: 4px;
+}
+
+@media (max-width: 700px) {
+  .row:nth-of-type(1) {
+    flex-direction: column;
+    text-align: center; /* Empilha os elementos */
+  }
+
+  .col-3,
+  .calendar-container {
+     max-width: 100%;
+     width: 100%; /* Largura total */
+  }
+  .calendar-container {
+    margin-top: 20px; 
+    /* Espaçamento extra entre os elementos */
+  }
+  .square-box{
+    height: 230px;
+    text-align: center;
+  }
+
+  .calendar-header,
+  .calendar-grid{
+    max-width: 160%;
+    width: 160%;
+  }
+
+  .popup-content{
+    width: 400px;
+    height: 460px;
+
+  }
+
+  .mini-calendar-header,
+  .mini-calendar-grid{
+    width: 300px;
+    margin-left: 25px;
+  }
+
 }
