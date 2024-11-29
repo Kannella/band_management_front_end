@@ -2,6 +2,7 @@
 import React from "react";
 import { FaUserCircle, FaTrash } from "react-icons/fa";
 import '../../assets/styles/band_styles.css';
+import './band_components.css'; 
 
 function MemberCard({ member, email, onRemove }) {
     return (

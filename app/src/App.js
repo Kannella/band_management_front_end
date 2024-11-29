@@ -21,7 +21,7 @@ import SignUpPage from  './pages/sign_up_page';
 
 
 function App() {
-  const { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginTop } = useScreenSizeController();
+  const { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginRight, marginTop } = useScreenSizeController();
 
   return (
     <ContainerWrapper>
@@ -37,7 +37,7 @@ function App() {
         >
 
           {isMobile ? (
-            <NavBarMobile />
+            <NavBarMobile logoSize={logoSize} navbarSize={navbarSize} />
           ) : (
             <Navbar logoSize={logoSize} iconSize={iconSize} iconSizeHome={iconSizeHome} navbarSize={navbarSize} />
           )}
@@ -45,6 +45,7 @@ function App() {
           <div
             style={{
               marginLeft: marginLeft,
+              marginRight: marginRight,
               marginTop: marginTop,
               width: '100%',
               overflowY: 'auto',

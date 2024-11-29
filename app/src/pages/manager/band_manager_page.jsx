@@ -1,46 +1,61 @@
-// band_manager_page.jsx
-import React, {useState} from "react";
+import React, { useState } from "react";
 import BandPopup from "../../components/Band/popup_band_create";
 import CardWidget from "../../components/Band/cards_widget";
-import {bands} from '../data/bands';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../assets/styles/band_styles.css';
+import { bands } from '../data/bands';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus} from '@fortawesome/free-solid-svg-icons';
 
-
-function BandManagerPage(){
+function BandManagerPage() {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleShowPopup = () => setShowPopup(true);
     const handleClosePopup = () => setShowPopup(false);
 
     return (
-        <div className="container mt-4">
-            <h1>My bands</h1>
+        <div className="container-fluid pt-3 ms-3">
+            <div className="row mb-2">
+                <div className="col-12 col-md-10">
+                    <h1 className="title-page">My Bands</h1>
+                </div>
+            </div>
 
-            <div className="content mt-4 mb-4">
-                <p> Ready, to create a band, click on the button bellow to start </p>
+            <div className="row mb-3">
+                <div className="col-12 col-md-auto">
+                    <div className="sub-text mt-1 mb-1 text-wrap">
+                        <p>Ready to create a band? Click on the button below to start</p>
+                    </div>
+                </div>
+            </div>
 
+            <div className="col-12 col-md-auto ms-3">
                 <button className="createButton" onClick={handleShowPopup}>
-                    + Create new band
+                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: 10 }} />
+                    {'Create new band'}
                 </button>
             </div>
+
             <BandPopup show={showPopup} handleClose={handleClosePopup} />
 
-            <div className="content mb-4">
-                <h2>Bands</h2>
-                <p>Manage all your bands, to chose onde click on the arrow inside the card</p>
-            </div>
+            <hr />
 
             <div className="row">
-                    {bands.map((band) => (
-                        <div key={band.id} className="col-md-3 mb-4">
-                            <CardWidget band={band} />
-                        </div>
-                    ))}
+                <div className="col-12 col-md-10">
+                    <div className="content mb-4">
+                        <h2 className="title2-page">Bands</h2>
+                        <div className="sub-text2 me-3">Manage all your bands, to choose one click on the arrow inside the card</div>
+                    </div>
+                </div>
             </div>
-        
+
+            <div className="row justify-content-center ">
+                {bands.map((band) => (
+                    <div key={band.id} className="col-12 col-md-3 col-sm-12 mb-4">
+                        <CardWidget band={band} />
+                    </div>
+                ))}
+            </div>
         </div>
-    ) 
+    );
 }
 
-export  default BandManagerPage;
+export default BandManagerPage;

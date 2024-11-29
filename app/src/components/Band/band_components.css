@@ -1,29 +1,4 @@
 /* styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
-
-h1 {
-    color: black;
-    font-size: 1.5rem;
-    font-family: 'Nunito';
-    font-weight: bold;
-    border-bottom: 2px solid rgb(100, 116, 139);
-    padding-bottom: 10px;
-}
-
-.content h2 {
-    color:black;
-    font-size:medium;
-    font-family: 'Nunito';
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.content p {
-    margin-top: 0px;
-    color: rgba(100, 116, 139, 1);
-    font-size:small;
-    font-family: 'Nunito';
-}
 
 .createButton{
     background-color: rgba(136, 19, 55, 1);
@@ -32,8 +7,7 @@ h1 {
     border:0;
     border-radius: 4px;
     font-size: 0.9rem;
-    font-family: 'Nunito';
-    /* font-weight: bold; */
+    font-weight: 800;
     cursor: pointer; 
     margin-bottom: 30px;
 } 
@@ -83,11 +57,20 @@ h1 {
 }
 
 .arrow-button {
-    color: #696969;
+    color: #FFF;
     padding: 0;
     border: none;
     background: none;
     margin-left: auto;
+}
+
+.arrow-button:hover {
+    color: #6c757d; 
+}
+
+/* Estilo do ícone quando o botão é clicado */
+.arrow-button:active {
+    color: #495057; 
 }
 
 .user-icon {
@@ -363,13 +346,91 @@ h1 {
     .member-email {
         text-align: center;
     }
+    .band-popup-modal .modal-dialog {
+        max-width: 90%;
+    }
+
+
 }
 
-.band-popup-modal .modal-dialog {
-    max-width: 50%; /* Adjust the width as needed */
+/* Botões de Adicionar e Salvar */
+.add-member-btn {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding:px 20px;
+    font-weight: bold;
+
 }
 
-.band-popup-modal .modal-body {
-    max-height: 100vh; /* Ensure the modal body is scrollable if content overflows */
-    overflow-y: auto;
+/* Efeito de hover para os botões */
+.add-member-btn:hover {
+    background-color: #555; /* Cor de fundo grey */
+    border-color: #555;
+}
+
+.btn-cancel-band {
+    background-color: #831843;
+    color: white; 
+    border: none;
+}
+
+.btn-cancel-band:hover {
+    background-color: #a61b4d; 
+}
+
+.btn-save-band {
+    background-color: #101828;
+    color: white;
+    border: none;
+}
+
+.btn-save-band:hover {
+    background-color: #333; 
+}
+
+.btn-save-band:active {
+    background-color: #555; 
+}
+.modal-responsive {
+    width: 100%;
+    max-width: 500px;
+}
+
+.title-responsive {
+    font-size: 1.5rem;
+}
+
+.instructions-responsive {
+    font-size: 1rem;
+}
+
+.label-responsive {
+    font-size: 1rem;
+}
+
+.input-responsive {
+    font-size: 0.85rem;
+    padding: 5px;
+}
+
+.btn-responsive {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+}
+
+@media (min-width: 768px) {
+    .modal-responsive {
+        max-width: 700px;
+    }
+    .title-responsive {
+        font-size: 2rem;
+    }
+    .instructions-responsive {
+        font-size: 1rem;
+    }
+    .btn-responsive {
+        font-size: 1rem;
+    }
 }

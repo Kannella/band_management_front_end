@@ -13,16 +13,17 @@ function useScreenSizeController() {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  const logoSize =  isMobile ? "5vw" : "4vw"; 
-  const iconSize =  isMobile ? "3vw" : "2vw"; 
-  const iconSizeHome = isMobile ? "3vw" : "2vw"; 
-  const navbarSize = isMobile ? "8vw" : "4vw"; 
+  const logoSize =  isMobile ? "32px" : "40px"; 
+  const iconSize =  isMobile ? "12px" : "28px"; 
+  const iconSizeHome = isMobile ? "12px" : "28px"; 
+  const navbarSize = isMobile ? "64px" : "56px"; 
 
   // Margens e espaçamentos ajustados
-  const marginLeft = isMobile ? '0' : '2%'; 
-  const marginTop = isMobile ? '1%' : '2%';
+  const marginLeft = '4%';
+  const marginRight = '2%';
+  const marginTop = '1%';
 
-  return { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginTop };
+  return { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginRight,marginTop };
 }
 
 export default useScreenSizeController;

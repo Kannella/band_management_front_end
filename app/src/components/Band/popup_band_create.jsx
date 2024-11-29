@@ -1,85 +1,102 @@
-// popup_band_create
 import React, { useState } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import BandMembersTable from "./band_member_table";
 
 function BandPopup({ show, handleClose }) {
-    // Example state for members (you can replace this with actual logic or props)
     const [members, setMembers] = useState([]);
-    const [removedMembers, setRemovedMembers] = useState([]);
-    const [isEditing] = useState(true);
+    const [newMember, setNewMember] = useState({ name: "", email: "" });
 
-    const handleRemoveMember = (memberName) => {
-        const memberToRemove = members.find(member => member.name === memberName);
-        setMembers(members.filter(member => member.name !== memberName));
-        setRemovedMembers([...removedMembers, memberToRemove]);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewMember({ ...newMember, [name]: value });
     };
 
-    const handleAddMember = (memberName) => {
-        const memberToAdd = removedMembers.find(member => member.name === memberName);
-        setRemovedMembers(removedMembers.filter(member => member.name !== memberName));
-        setMembers([...members, memberToAdd]);
-    };    
+    const handleSaveNewMember = () => {
+        if (newMember.name && newMember.email) {
+            setMembers([...members, newMember]);
+            setNewMember({ name: "", email: "" }); 
+        }
+    };
 
     return (
-        <Modal 
+        <Modal
             show={show}
             onHide={handleClose}
             centered
-            size="lg"
-            className="band-popup-modal" 
-            >
+            dialogClassName="modal-responsive"
+            className="band-popup-modal"
+        >
             <Modal.Header closeButton>
-                <Modal.Title>Create Band</Modal.Title>
+                <Modal.Title className="title-responsive">Create Band</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                    <Form>
+                <Form>
                     <Row className="mb-3">
-                        <p>Find all booking details below. Click on the tabs to view specific information about the booking, venue, schedule, set, and logistics.</p>
+                        <p className="instructions-responsive">
+                            Enter the band name, add members, and click "Save" to create the band.
+                        </p>
                     </Row>
 
                     <Row className="mb-3">
-                        <Col md={6}>
+                        <Col xs={12} md={6}>
                             <Form.Group controlId="formBandName">
-                                <Form.Label><strong>Band Name</strong></Form.Label>
+                                <Form.Label className="label-responsive"><strong>Band Name</strong></Form.Label>
                                 <Form.Control
                                     type="text"
                                     placeholder="Band name"
-                                    className="form-control"
-                                />
-                            </Form.Group>
-                        </Col>
-
-                        <Col md={6}>
-                            <Form.Group controlId="formGenre">
-                                <Form.Label><strong>Genre</strong></Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Genre"
-                                    className="form-control"
+                                    className="input-responsive"
                                 />
                             </Form.Group>
                         </Col>
                     </Row>
-                    
-                    <Form.Label>
-                        <strong>Band Members</strong>
-                    </Form.Label>
 
-                    <BandMembersTable
-                        members={members}
-                        removedMembers={removedMembers}
-                        isEditing={isEditing}
-                        onRemoveMember={handleRemoveMember}
-                        onAddMember={handleAddMember}
-                    />
+                    <Form.Label className="label-responsive"><strong>Band Members</strong></Form.Label>
+
+                    <Row className="mb-3">
+                        <Col xs={12} md={6}>
+                            <Form.Group controlId="formMemberName">
+                                <Form.Label className="label-responsive">Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="name"
+                                    value={newMember.name}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter name"
+                                    className="input-responsive"
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} md={6}>
+                            <Form.Group controlId="formMemberEmail">
+                                <Form.Label className="label-responsive">Email</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    value={newMember.email}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter email"
+                                    className="input-responsive"
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <Button className="btn-responsive btn-dark" onClick={handleSaveNewMember}>
+                                Add Member
+                            </Button>
+                        </Col>
+                    </Row>
+
+                    <BandMembersTable members={members} />
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button className="btn-responsive btn-cancel-band" variant="secondary" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button className="btn-responsive btn-save-band" onClick={handleClose}>
                     Save
                 </Button>
             </Modal.Footer>

@@ -34,15 +34,48 @@ html, body {
   font-weight: 700;
   color: #101828;
 }
+
+.title2-page {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #101828;
+}
+.title3-page{
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #101828;
+}
 .sub-text{
   font-size: 1rem;
   color: #667085;
 }
+.sub-text2{
+  font-size: 1rem;
+  color:var(--cor-page-text);
+  font-weight: 600;
+  word-wrap: break-word;
+
+}
 
 .nav-container {
   background-color: var(--cor-principal);
+}
 
+.nav-container-mobile{
+  position:sticky;
+  background-color: var(--cor-principal);
+  padding-right: 20px;
+  padding-left: 20px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
+}
+
+.icon-hamburguer{
+  color: var(--cor-icones);
+  font-size: 28px;
+  cursor:pointer
 }
 
 .icon-button{
@@ -81,11 +114,36 @@ html, body {
   
 }
 
+.dropdown-menu{
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  z-index: 1000;
+}
+
+.dropdown-item{
+  color: #101828;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.dropdown-item:active,
+.dropdown-item:focus {
+  background-color: transparent;
+  outline: none;
+}
 @media (max-width: 576px) {
   .title-page{
     font-size: 1.2rem;
   }
+  .title-page2{
+    font-size: 1rem;
+  }
   .sub-text{
     font-size: 0.9rem;
   }
+
 }
