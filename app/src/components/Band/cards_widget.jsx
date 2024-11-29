@@ -1,9 +1,8 @@
 // cards_widget.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../assets/styles/band_styles.css';
 import {FaArrowCircleRight, FaUserCircle} from 'react-icons/fa';
+import './band_components.css'; 
 
 
 function CardWidget({ band }) {

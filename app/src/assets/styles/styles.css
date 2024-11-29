@@ -34,9 +34,21 @@ html, body {
   font-weight: 700;
   color: #101828;
 }
+.title2-page {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #101828;
+}
 .sub-text{
   font-size: 1rem;
   color: #667085;
+}
+.sub-text2{
+  font-size: 1rem;
+  color:var(--cor-page-text);
+  font-weight: 600;
+  word-wrap: break-word;
+
 }
 
 .nav-container {
@@ -121,7 +133,11 @@ html, body {
   .title-page{
     font-size: 1.2rem;
   }
+  .title-page2{
+    font-size: 1rem;
+  }
   .sub-text{
     font-size: 0.9rem;
   }
+
 }

@@ -1,29 +1,4 @@
 /* styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
-
-h1 {
-    color: black;
-    font-size: 1.5rem;
-    font-family: 'Nunito';
-    font-weight: bold;
-    border-bottom: 2px solid rgb(100, 116, 139);
-    padding-bottom: 10px;
-}
-
-.content h2 {
-    color:black;
-    font-size:medium;
-    font-family: 'Nunito';
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.content p {
-    margin-top: 0px;
-    color: rgba(100, 116, 139, 1);
-    font-size:small;
-    font-family: 'Nunito';
-}
 
 .createButton{
     background-color: rgba(136, 19, 55, 1);
@@ -32,8 +7,7 @@ h1 {
     border:0;
     border-radius: 4px;
     font-size: 0.9rem;
-    font-family: 'Nunito';
-    /* font-weight: bold; */
+    font-weight: 800;
     cursor: pointer; 
     margin-bottom: 30px;
 } 
@@ -83,11 +57,20 @@ h1 {
 }
 
 .arrow-button {
-    color: #696969;
+    color: #FFF;
     padding: 0;
     border: none;
     background: none;
     margin-left: auto;
+}
+
+.arrow-button:hover {
+    color: #6c757d; 
+}
+
+/* Estilo do ícone quando o botão é clicado */
+.arrow-button:active {
+    color: #495057; 
 }
 
 .user-icon {

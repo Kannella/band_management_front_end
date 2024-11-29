@@ -1,6 +1,7 @@
 // BandMembersTable.jsx
 import React from "react";
 import { FaUserCircle, FaTrashAlt, FaPlusCircle } from "react-icons/fa";
+import './band_components.css'; 
 
 function BandMembersTable({ members, removedMembers, isEditing, onRemoveMember, onAddMember }) {
     return (

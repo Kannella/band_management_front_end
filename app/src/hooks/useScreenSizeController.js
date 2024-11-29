@@ -19,9 +19,9 @@ function useScreenSizeController() {
   const navbarSize = isMobile ? "64px" : "56px"; 
 
   // Margens e espaçamentos ajustados
-  const marginLeft = '2%';
+  const marginLeft = '4%';
   const marginRight = '2%';
-  const marginTop = '2%';
+  const marginTop = '1%';
 
   return { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginRight,marginTop };
 }

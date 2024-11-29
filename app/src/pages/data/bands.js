@@ -51,5 +51,15 @@ export const bands = [
       image: require("../../assets/images/bands/radiohead.jpg"),
       members: ["Thom Yorke", "Jonny Greenwood", "Colin Greenwood"],
       events: []
-  }
+  },
+    {
+      id: 3,
+      name: "Radiohead",
+      genre: "Alternative Rock",
+      manager: "Jane Doe",
+      image: require("../../assets/images/bands/radiohead.jpg"),
+      members: ["Thom Yorke", "Jonny Greenwood", "Colin Greenwood"],
+      events: []
+  },
+
 ];
