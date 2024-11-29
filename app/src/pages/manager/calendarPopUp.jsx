@@ -79,7 +79,7 @@ const CalendarPopup = () => {
                     <span>{currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}</span>
                     <button onClick={() => changeMonth(1)}>&gt;</button>
                 </div>
-                <div className="calendar-grid">
+                <div className="mini-calendar-grid">
                     {generateCalendarDays().map((day, index) => (
                         <button
                         key={index}
@@ -92,8 +92,8 @@ const CalendarPopup = () => {
                 </div>
                 <br />
                 <div className='mini-calendar-buttons row'>
-                    <button onClick={handleSubmit}>Submit</button>
-                    <button onClick={handleRefresh}>Close</button>
+                    <button  onClick={handleSubmit}>Submit</button>
+                    <button  onClick={handleRefresh}>Close</button>
                 </div>
             </div>
         </div>

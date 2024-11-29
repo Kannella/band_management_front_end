@@ -8,7 +8,6 @@ const CalendarManagerPage = () => {
     <div className='screen container-fluid'>
       <div className='col-11'>
         <h1 className='calendarTitle'>My Calendar</h1>
-        <div class="divider"></div>
         <Calendar/> 
       </div>
     </div>    
