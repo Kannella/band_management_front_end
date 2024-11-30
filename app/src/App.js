@@ -2,12 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//hooks screen size
-import useScreenSizeController from './hooks/useScreenSizeController';
-
-import Navbar from './components/nav_bar';
-import NavBarMobile from './components/nav_bar_mobile';
 import ContainerWrapper from './components/container-wrapper';
+import Layout from './components/Layout';
 
 // Manager's Pages
 import HomeManagerPage from './pages/manager/home_manager_page';
@@ -21,52 +17,24 @@ import SignUpPage from  './pages/sign_up_page';
 
 
 function App() {
-  const { isMobile, logoSize, iconSize, iconSizeHome, navbarSize, marginLeft, marginRight, marginTop } = useScreenSizeController();
 
   return (
     <ContainerWrapper>
-      <Router>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
-            height: '100vh',
-            width: '100%',
-            overflow: 'hidden',
-          }}
-        >
-
-          {isMobile ? (
-            <NavBarMobile logoSize={logoSize} navbarSize={navbarSize} />
-          ) : (
-            <Navbar logoSize={logoSize} iconSize={iconSize} iconSizeHome={iconSizeHome} navbarSize={navbarSize} />
-          )}
-
-          <div
-            style={{
-              marginLeft: marginLeft,
-              marginRight: marginRight,
-              marginTop: marginTop,
-              width: '100%',
-              overflowY: 'auto',
-              paddingTop: isMobile? "64px":"0px",
-
-            }}
-          >
-            <Routes>
-              <Route path="/" element={<HomeManagerPage />} />
-              <Route path="/registration" element={<SignUpPage />} />
-              <Route path="/login" element={<SignInPage />} />  
-              <Route path="/bands" element={<BandManagerPage />} />
-              <Route path="/bookings" element={<BookingManagerPage />} />
-              <Route path="/bookings-table" element={<BookingTableManagerPage />} />
-              <Route path="/calendar" element={<CalendarManagerPage />} />
-                <Route path="/band/:id" element={<BandDetailsPage />} />
-            </Routes>
-          </div>
-        </div>
-      </Router>
-    </ContainerWrapper>
+    <Router>
+      <Routes>
+        <Route path="/registration" element={<SignUpPage />} />
+        <Route path="/login" element={<SignInPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomeManagerPage />} />
+          <Route path="/bands" element={<BandManagerPage />} />
+          <Route path="/bookings" element={<BookingManagerPage />} />
+          <Route path="/bookings-table" element={<BookingTableManagerPage />} />
+          <Route path="/calendar" element={<CalendarManagerPage />} />
+          <Route path="/band/:id" element={<BandDetailsPage />} />
+        </Route>
+      </Routes>
+    </Router>
+  </ContainerWrapper>
   );
 }
 
