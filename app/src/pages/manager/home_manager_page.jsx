@@ -25,10 +25,10 @@ function HomeManagerPage() {
             <Row className="justify-content-start align-items-start ms-3 mb-3" >
                 <Col>
                 <Row>
-                    <div className="sub-text welcome-text">Hello, </div>
+                    <div className="sub-text welcome-text text-start">Hello, </div>
                 </Row>
                 <Row>
-                    <div className="user-name-text">
+                    <div className="user-name-text text-start">
                         {nameUser || "Loading..."}
                     </div>
                 </Row>
@@ -37,7 +37,7 @@ function HomeManagerPage() {
             <Row className="justify-content-start align-items-start ms-3 mb-3">
                 <Col>
                     <Row>
-                        <div className="home-headding-text" >Upcoming events</div>
+                        <div className="home-headding-text text-start" >Upcoming events</div>
                     </Row>
                     <Row>
                         <div className="sub-text">Next bookings</div>

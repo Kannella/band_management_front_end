@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 function BookingManagerPage() {
     return (
-        <Container fluid className="pt-3 ms-3"
+        <Container fluid className="pt-3 ms-3 mb-3 "
 
         >
             <Row className="mb-2">
