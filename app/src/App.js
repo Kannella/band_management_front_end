@@ -49,6 +49,8 @@ function App() {
               marginTop: marginTop,
               width: '100%',
               overflowY: 'auto',
+              paddingTop: isMobile? "64px":"0px",
+
             }}
           >
             <Routes>

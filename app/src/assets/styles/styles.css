@@ -7,13 +7,20 @@
 
 }
 
-html, body {
-  height: 100%;
+body, html, #root {
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
   font-family: var(--font) !important;
   scroll-behavior: smooth;
   cursor: default;
+}
+
+h1{
+  margin: 0;
+  padding: 0;
 }
 
 .container-wrapper{
@@ -21,8 +28,10 @@ html, body {
   max-height: 100vh;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: row;
+  height: 100vh;
+  }
+
 
 .logo-text{
   font-size: 1.2rem;
@@ -33,12 +42,19 @@ html, body {
   font-size: 2rem;
   font-weight: 700;
   color: #101828;
+  text-align: start;
 }
 
 .title2-page {
   font-size: 1.85rem;
   font-weight: 700;
   color: #101828;
+}
+.bold-sub-text{
+  font-size: 1rem;
+  font-weight: 800;
+  color: #101828
+
 }
 .title3-page{
   font-size: 1.5rem;
@@ -57,20 +73,57 @@ html, body {
 
 }
 
+.icon-button {
+  position: relative; /* Necessário para o posicionamento do label */
+}
+
+.label {
+  display: none; /* Esconde o label inicialmente */
+  position: absolute;
+  top: -30px; /* Ajuste a posição do label conforme necessário */
+  left: 50%;
+  transform: translateX(60%);
+  background-color: #73074264;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.icon-button:hover .label {
+  display: block; 
+  opacity: 1;
+}
+
 .nav-container {
   background-color: var(--cor-principal);
+  overflow: hidden;
 }
 
 .nav-container-mobile{
-  position:sticky;
+  /* position:absolute;
   background-color: var(--cor-principal);
   padding-right: 20px;
   padding-left: 20px;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
+  position: fixed; /* Fixa a navbar no topo */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda a largura da tela */
+  height: var(--navbar-size); /* Altura dinâmica baseada na propriedade passada */
+  background-color: var(--cor-principal);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000; /* Garante que fique sobre outros elementos */
+  padding: 0 20px; 
 
-}
+} 
+
 
 .icon-hamburguer{
   color: var(--cor-icones);
@@ -139,8 +192,11 @@ html, body {
   .title-page{
     font-size: 1.2rem;
   }
-  .title-page2{
+  .title2-page{
     font-size: 1rem;
+  }
+  .title3-page{
+    font-size: 1.2rem;
   }
   .sub-text{
     font-size: 0.9rem;

@@ -24,6 +24,7 @@ function NavBarMobile({navbarSize, logoSize} ) {
       className="nav-container-mobile d-flex"
       style={{
         height: navbarSize,
+        width:'100%'
       }}
     >
       <div className="d-flex align-items-center " style={{ gap: '1vw' }}>
