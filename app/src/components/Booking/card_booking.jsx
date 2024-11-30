@@ -28,7 +28,7 @@ function BookingCard() {
           </Stack>
         </Stack>
 
-        <Stack gap={4} className="name-band-stack ">
+        <Stack gap={2} className="info-stack ">
           <div className="card-name-booking-text">Name Title of Booking</div>
           <div className="card-booking-text">Band: Band One</div>
         </Stack>

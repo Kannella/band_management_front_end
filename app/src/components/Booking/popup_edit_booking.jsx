@@ -1,32 +1,37 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { useState, useEffect } from 'react';
+import { Button, Modal, Form, Col, Row } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import useScreenSizeController from '../../hooks/useScreenSizeController';
+import './booking_components.css';
 
-function PopUpEditBooking() {
+function PopUpCreateBooking({ detailsBooking }) {
   const [show, setShow] = useState(false);
+
+  const { isMobile } = useScreenSizeController();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    // Reset any state if needed when detailsBooking changes
+    // This can be used to populate initial state if required
+  }, [detailsBooking]);
+
+;
+
 
   return (
     <>
       <Button
         variant="secondary"
         size="sm"
-        className="d-flex align-items-center mx-auto"
-        style={{
-            backgroundColor: '#64748B',
-            borderRadius: '12px',
-            padding: '6px 12px',
-            fontSize: '12px',
-            marginLeft: '36%'
-        }}
+        className="d-flex align-items-center btn-add-booking"
         onClick={handleShow}
-        > Edit Booking
-    </Button>
+      >
+        <FontAwesomeIcon icon={faPlus} style={{ marginRight: isMobile ? 0 : 10 }} />
+        {!isMobile && 'Edit Booking'}
+      </Button>
 
       <Modal
         show={show}
@@ -41,29 +46,49 @@ function PopUpEditBooking() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Text className="mb-4">
-              Find all booking details below. Click on the tabs to view specific information about the booking, venue, schedule, set, and logistics.
-            </Form.Text>
+            {/* Band Selection */}
+            <Form.Text className="mb-4">Select Band</Form.Text>
+            <Row>
+              <Col lg={6}>
+                <Form.Group controlId="bookingBand">
+                  <Form.Label>Band</Form.Label>
+                  <Form.Select defaultValue={"example band"}>
+                    <option>Band one</option>
+                    <option>Band two</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
             {/* Booking Information */}
-            <Form.Text  as="h1" className="mb-3">Booking Information</Form.Text>
+            <Form.Text as="h1" className="mb-3">Booking Information</Form.Text>
             <Row className="mb-3">
               <Col md={4}>
                 <Form.Group controlId="bookingName">
                   <Form.Label>Booking Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter name" />
+                  <Form.Control
+                    type="text"
+                    value={"example name"}
+                    placeholder="Enter name"
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={4}>
                 <Form.Group controlId="bookingNumber">
                   <Form.Label>Booking Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter number" />
+                  <Form.Control
+                    type="text"
+                    value={"example number"}
+                    placeholder="Enter number"
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={4}>
                 <Form.Group controlId="bookingStage">
                   <Form.Label>Stage of Booking</Form.Label>
-                  <Form.Select>
+                  <Form.Select defaultValue={"example"} >
                     <option>Select</option>
                     <option>Optional</option>
                     <option>Final Booking</option>
@@ -72,26 +97,16 @@ function PopUpEditBooking() {
                 </Form.Group>
               </Col>
             </Row>
-
-            {/* Agent Information */}
-            <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
-            <Row className="mb-3">
+            <Row>
               <Col md={4}>
-                <Form.Group controlId="agentName">
-                  <Form.Label>Agent Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter name" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="agentPhone">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter phone" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="agentEmail">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                <Form.Group className="mb-3" controlId="paymentDetails">
+                  <Form.Label>Payment Details</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.paymentDetails"}
+                    placeholder="Enter payment details"
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -101,54 +116,40 @@ function PopUpEditBooking() {
             <Row className="mb-3">
               <Col md={4}>
                 <Form.Group controlId="venueName">
-                  <Form.Label>Venue Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter name" />
+                  <Form.Label>Venue</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.venueNam"}
+                    placeholder="Enter venue name"
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={4}>
-                <Form.Group controlId="venuePhone">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter phone" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="venueEmail">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row className="mb-3">
-              <Col md={6}>
                 <Form.Group controlId="venueAddress">
                   <Form.Label>Address</Form.Label>
-                  <Form.Control type="text" placeholder="Enter address" />
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Form.Group controlId="venueNumber">
-                  <Form.Label>Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter number" />
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Form.Group controlId="venuePostalCode">
-                  <Form.Label>Postal Code</Form.Label>
-                  <Form.Control type="text" placeholder="Enter code" />
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.venueAddress"}
+                    placeholder="Enter address"
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
+
+            {/* Agent Information */}
+            <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
             <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="venueCity">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control type="text" placeholder="Enter city" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="venueCountry">
-                  <Form.Label>Country</Form.Label>
-                  <Form.Control type="text" placeholder="Enter country" />
+                <Form.Group controlId="agentName">
+                  <Form.Label>Agent</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.agentName"}
+                    placeholder="Enter agent name"
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -159,19 +160,31 @@ function PopUpEditBooking() {
               <Col md={3}>
                 <Form.Group controlId="soundcheckTime">
                   <Form.Label>Soundcheck Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.soundcheckTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="bandArrivalTime">
                   <Form.Label>Band Arrival Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.bandArrivalTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="busDepartureTime">
                   <Form.Label>Tour Bus Leaves Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.busDepartureTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -179,71 +192,91 @@ function PopUpEditBooking() {
               <Col md={3}>
                 <Form.Group controlId="mealTime">
                   <Form.Label>Lunch/Dinner Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.mealTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="changeoverTime">
                   <Form.Label>Changeover Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.changeoverTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="showStartTime">
                   <Form.Label>Show Start Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.showStartTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="showEndTime">
                   <Form.Label>Show End Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="time"
+                    value={"detailsBooking.showEndTime"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
 
-            {/* Set Details */}
-            <Form.Text className="mb-3"><strong>Set Details</strong></Form.Text>
-            <Row className="mb-3">
-              <Col md={6}>
-                <Form.Group controlId="musicGenre">
-                  <Form.Label>Music Genre</Form.Label>
-                  <Form.Control type="text" placeholder="Enter genre" />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="setSong">
-                  <Form.Label>Set Song</Form.Label>
-                  <Form.Control type="text" placeholder="Enter song" />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            {/* Logistics */}
-            <Form.Text className="mb-3"><strong>Logistics</strong></Form.Text>
+            {/* Booking Logistics */}
+            <Form.Text className="mb-3"><strong>Booking Logistics</strong></Form.Text>
             <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="parkingAvailability">
-                  <Form.Label>Parking Availability</Form.Label>
-                  <Form.Select>
+                <Form.Group controlId="parkingDetails">
+                  <Form.Label>Parking Details</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.parkingDetail"}
+                    readOnly
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group controlId="foodDetails">
+                  <Form.Label>Food Details</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.foodDetails"}
+                    readOnly
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            {/* Additional Information */}
+            <Row className="mb-3">
+              <Col md={6}>
+                <Form.Group controlId="isPublicEvent">
+                  <Form.Label>Is Public Event</Form.Label>
+                  <Form.Select defaultValue={"detailsBooking.isPublicEvent"} >
                     <option>Yes</option>
                     <option>No</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col md={4}>
-                <Form.Group controlId="foodDrinkAvailability">
-                  <Form.Label>Food and Drink Availability</Form.Label>
-                  <Form.Select>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="dressCode">
-                  <Form.Label>Dress Code</Form.Label>
-                  <Form.Control type="text" placeholder="Enter dress code" />
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="eventDescription">
+                  <Form.Label>More Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={"detailsBooking.eventDescription"}
+                    readOnly
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -251,10 +284,10 @@ function PopUpEditBooking() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className='btn-cancel' variant="danger" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button className='btn-save' variant="dark" onClick={handleClose}>
             Save
           </Button>
         </Modal.Footer>
@@ -263,4 +296,4 @@ function PopUpEditBooking() {
   );
 }
 
-export default PopUpEditBooking;
+export default PopUpCreateBooking;

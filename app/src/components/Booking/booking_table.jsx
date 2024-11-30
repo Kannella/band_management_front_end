@@ -63,13 +63,14 @@ const TableComponent = () => {
 
   return (
     <TableContainer component={Paper} className="table-container">
-      <Box className='box-actions' sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+      <Box className='box-actions' sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', gap:'20px' }}>
+      <Button  onClick={toggleFilter}>
+          <FilterIcon className="icon-filter" /><span className="filters-text">Filters</span>
+        </Button>
       <Button >
         <TrashIcon className="icon-trash"></TrashIcon>
         </Button>
-        <Button  onClick={toggleFilter}>
-          <FilterIcon className="icon-filter" />Filters
-        </Button>
+
         <PopUpCreateBooking isOpen={isPopupOpen} onClose={handleClose} />
 
       </Box>
@@ -97,7 +98,7 @@ const TableComponent = () => {
             onChange={(e) => setTextFilter(e.target.value)}
           />
           <Button onClick={() => setActiveFilter(textFilter)}>
-            <FontAwesomeIcon className='icon-search' icon={faSearch}  />
+            <FontAwesomeIcon className='icon-search' icon={faSearch} onClick={() => setActiveFilter(textFilter)}  />
           </Button>
         </Box>
       )}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
+import { Row, Col, Button, Container, Dropdown, DropdownButton } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,19 +10,49 @@ function BookingDetails() {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const songs = [
-        { id: 1, name: 'Song One' },
-        { id: 2, name: 'Song Two' },
-        { id: 3, name: 'Song Three' },
-        { id: 4, name: 'Song Four' },
-        { id: 5, name: 'Song Five' },
-        { id: 6, name: 'Song Six' },
-        { id: 7, name: 'Song Seven' },
+    // Mock Data
+    const bookingInfo = {
+        number: '2001',
+        stage: 'Final Booking',
+    };
 
-    ];
+    const agentInfo = {
+        name: 'James Doe',
+        email: 'exemplo.usuario@exemplo.com',
+        phone: '+31612345678',
+    };
+
+    const venueInfo = {
+        name: 'Arena Example',
+        email: 'exemplo.venue@exemplo.com',
+        phone: '+31698765432',
+    };
+
+    const scheduleInfo = {
+        soundcheck: '7:30 AM',
+        arrival: '7:00 AM',
+        busLeaves: '8:00 AM',
+        dinner: '7:30 AM',
+        changeOver: '7:00 AM',
+        showStart: '09:00 AM',
+        showEnd: '11:00 AM',
+    };
+
+    const paymentInfo = {
+        amount: '$5000',
+        method: 'Bank Transfer',
+        status: 'Paid',
+    };
+
+    const logisticsInfo = {
+        parking: 'Yes we have',
+        food: 'Yes',
+        dressCode: 'Black Attire',
+    };
 
     return (
         <Container fluid className="p-4">
+            {/* Navegação */}
             <Row className="mb-3 d-none d-md-flex" style={{ justifyContent: 'flex-start' }}>
                 <Col xs="auto" className="mb-2">
                     <a href="#booking-info" className="btn btn-link text-dark px-2">
@@ -45,8 +75,8 @@ function BookingDetails() {
                     </a>
                 </Col>
                 <Col xs="auto" className="mb-2">
-                    <a href="#set-info" className="btn btn-link text-dark px-2">
-                        Set Details
+                    <a href="#payment-info" className="btn btn-link text-dark px-2">
+                        Payment
                     </a>
                 </Col>
                 <Col xs="auto" className="mb-2">
@@ -67,130 +97,125 @@ function BookingDetails() {
                 <Dropdown.Item href="#agent-info">Agent Information</Dropdown.Item>
                 <Dropdown.Item href="#venue-info">Venue Information</Dropdown.Item>
                 <Dropdown.Item href="#schedule-info">Event Schedule</Dropdown.Item>
-                <Dropdown.Item href="#set-info">Set Details</Dropdown.Item>
+                <Dropdown.Item href="#payment-info">Payment</Dropdown.Item>
                 <Dropdown.Item href="#logistics-info">Logistics</Dropdown.Item>
             </DropdownButton>
 
-            {/* Conteúdo dos Links */}
+            {/* Informações Mockadas */}
             <Row>
                 <Col id="booking-info" className="mb-4">
-                    <h4 className="mb-3">Booking Information</h4>
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>Booking Number: 2001</Col>
-                        <Col xs={12} md={6}>Stage of Booking: Final Booking</Col>
+                    <h4 className="mb-3 text-start">Booking Information</h4>
+                    <Row>
+                        <Col xs={12} md={4} className="text-start">
+                            <h6 className='bold-sub-text'>Booking Number: <span className='sub-text'>{bookingInfo.number}</span></h6>
+                        </Col>
+                        <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Stage of Booking: <span className='sub-text'>{bookingInfo.stage}</span></h6>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Booking Planning: <span className='sub-text'>{bookingInfo.number}</span></h6>
+                        </Col>  
+                    </Row>
+                    <Row>
+                    <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Event is: <span className='sub-text'>{bookingInfo.number}</span></h6>
+                        </Col>
                     </Row>
                 </Col>
-            <hr />
             </Row>
+            <hr />
 
             <Row>
                 <Col id="agent-info" className="mb-4">
-                    <h5 className="mb-3">Agent Information</h5>
-                    <Row className="mb-3">
-                        <Col xs={12} md={4}>Name: James Doe</Col>
-                        <Col xs={12} md={8}>Email Address: exemplo.usuario@exemplo.com</Col>
-                        <Col xs={12} md={6}>Phone Number: +31612345678</Col>
+                    <h5 className="mb-3 text-start">Agent Information</h5>
+                    <Row>
+                        <Col xs={12} md={4} className="text-start">
+                            <h6 className='bold-sub-text'>Name: <span className='sub-text'>{agentInfo.name}</span></h6>
+                        </Col>
+                        <Col xs={12} md={8} className="text-start">
+                            <h6 className='bold-sub-text'>Email: <span className='sub-text'>{agentInfo.email}</span></h6>
+                        </Col>
+                        <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Phone: <span className='sub-text'>{agentInfo.phone}</span></h6>
+                        </Col>
                     </Row>
                 </Col>
             </Row>
 
             <Row>
                 <Col id="venue-info" className="mb-4">
-                    <h5 className="mb-3">Venue</h5>
-                    <Row className="mb-3">
-                    <Col xs={12} md={8}>
-                            <Button variant="primary" style={{ borderRadius: '20px', padding: '0.5rem 1rem', width: 'auto' }}>
+                    <h5 className="mb-3 text-start">Venue</h5>
+                    <Row className='mb-4'>
+                        <Col xs={12} md={8} className="text-start">
+                            <Button variant="primary" style={{ borderRadius: '20px', padding: '0.5rem 1rem' }}>
                                 <FontAwesomeIcon icon={faLocationDot} size="lg" style={{ marginRight: '8px' }} />
                                 Open Route
                             </Button>
                         </Col>
                     </Row>
-                    <Row className="mb-3">
-                        <Col xs={12} md={4}>Name: Arena Example</Col>
+                    <Row>
+                        <Col xs={12} md={4} className="text-start">
+                            <h6 className='bold-sub-text'>Name: <span className='sub-text'>{venueInfo.name}</span></h6>
+                        </Col>
+                        <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Email: <span className='sub-text'>{venueInfo.email}</span></h6>
+                        </Col>
                     </Row>
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>Email Address: exemplo.usuario@exemplo.com</Col>
-                        <Col xs={12} md={6}>Phone Number: +31612345678</Col>
+                    <Row>
+                        <Col xs={12} md={4} className="text-start">
+                            <h6 className='bold-sub-text'>Phone: <span className='sub-text'>{venueInfo.phone}</span></h6>
+                        </Col>
+                        <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Adress: <span className='sub-text'>{venueInfo.phone}</span></h6>
+                        </Col>
                     </Row>
                 </Col>
             </Row>
 
             <Row>
                 <Col id="schedule-info" className="mb-4">
-                    <h5 className="mb-3">Event Schedule</h5>
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>Soundcheck Time: 7:30 AM</Col>
-                        <Col xs={12} md={6}>Band Arrival Time: 7:00 AM</Col>
-                    </Row>
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>Tour Bus Leaves Time: 8:00 AM</Col>
-                        <Col xs={12} md={6}>Lunch/Dinner Time: 7:30 AM</Col>
-                    </Row>
-                    <Row className="mb-3">
-                        <Col xs={12}>Change Over Time: 7:00 AM</Col>
-                    </Row>
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>Show Start Time: 09:00 AM</Col>
-                        <Col xs={12} md={6}>Show End Time: 11:00 AM</Col>
+                    <h5 className="mb-3 text-start">Event Schedule</h5>
+                    {Object.entries(scheduleInfo).map(([key, value]) => (
+                        <Row className="mb-2" key={key}>
+                            <Col className="text-start">
+                                <h6 className='bold-sub-text'>{key.replace(/([A-Z])/g, ' $1')}: <span className='sub-text'>{value}</span></h6>
+                            </Col>
+                        </Row>
+                    ))}
+                </Col>
+            </Row>
+
+            <Row>
+                <Col id="payment-info" className="mb-4">
+                    <h5 className="mb-3 text-start">Payment</h5>
+                    <Row>
+                        <Col xs={12} md={6} className="text-start">
+                            <h6 className='bold-sub-text'>Amount: <span className='sub-text'>{paymentInfo.amount}</span></h6>
+                        </Col>
                     </Row>
                 </Col>
             </Row>
 
             <Row>
-                <Col id="set-info" className="mb-4">
-                    <h5 className="mb-3">Set Songs</h5>
-                    <div style={{ maxHeight: '200px', maxWidth:'48vw',overflowY: 'auto' }}>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Song Order</th>
-                                    <th>Song Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {songs.map(song => (
-                                    <tr key={song.id}>
-                                        <td
-                                        sx={{
-                                            maxWidth: '50px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' 
-                                        }}
-                                        >{song.id}</td>
-                                        <td>{song.name}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </div>
-                </Col>
-            </Row>
-
-            <Row >
-                
                 <Col id="logistics-info" className="mb-4">
-                    <h5>Logistics</h5>
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>Parking Availability: Yes</Col>
-                        <Col xs={12} md={6}>Food And Drink Availability: Yes</Col>
+                    <h5 className="mb-3 text-start">Logistics</h5>
+                    <Row>
+                        <Col className="text-start">
+                            <h6 className='bold-sub-text'>Parking Availability: <span className='sub-text'>{logisticsInfo.parking}</span></h6>
+                        </Col>
                     </Row>
-                    <Row className="mb-3">
-                        <Col>Dress Code Requirements: Black Attire</Col>
+                    <Row>
+                        <Col className="text-start">
+                            <h6 className='bold-sub-text'>Food Details: <span className='sub-text'>{logisticsInfo.food}</span></h6>
+                        </Col>
                     </Row>
-                    <Row className="mb-3">
-                        <Col>Sound System:</Col>
+                    <Row>
+                        <Col className="text-start">
+                            <h6 className='bold-sub-text'>More Descriptions: <span className='sub-text'>{logisticsInfo.dressCode}</span></h6>
+                        </Col>
                     </Row>
-                    
-                    <Container
-                        style={{
-                            background: '#881337E0',
-                            color: '#0F172A',
-                            padding: '8px 12px',
-                            display: 'inline-block',
-                            width: 'auto',
-                            borderRadius: '8px'
-                        }}
-                    >
-                        <span>Provided By the Band</span>
-                    </Container>
                 </Col>
             </Row>
         </Container>

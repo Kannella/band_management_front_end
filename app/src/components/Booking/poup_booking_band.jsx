@@ -3,29 +3,26 @@ import { Modal, Button } from "react-bootstrap";  // Corrected import
 import BookingDetails from "./details_booking";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import './booking_components.css'; 
+import useScreenSizeController from "../../hooks/useScreenSizeController";
+
 
 function PopupBookingBand() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+   const {isMobile} = useScreenSizeController();
+
   return (
     <div>
       <Button
         variant="secondary"
         size="sm"
-        className="d-flex align-items-center mx-auto"
-        style={{
-          backgroundColor: '#64748B',
-          borderRadius: '20px',
-          padding: '6px 12px',
-          fontSize: '14px',
-          marginLeft: '36%',
-          fontWeight:'bold'
-        }}
+        className="d-flex align-items-center mx-auto btn-details"
         onClick={handleShow}
       >
-        details
+        {!isMobile && 'details'}
         <FontAwesomeIcon icon={faChevronDown} size="lg" style={{ marginLeft: 10}} />
       </Button>
 

@@ -8,10 +8,6 @@
     margin-bottom: 10px;
 }
 
-.table-container { 
-    max-width: 94%; /* Limits the width of the table container to 94% */
-}
-
 .table-cell-header {
     font-size: 1rem; /* Font size for table headers */
     font-weight: bold; /* Makes the header text bold */
@@ -57,6 +53,14 @@
     width: 100%; /* Ensures the icon container takes full width */
 }
 
+.filters-text {
+    font-size: 14px; /* Ajuste o tamanho da fonte conforme necessário */
+    font-weight: normal; /* Defina o peso da fonte, se necessário */
+    color: #808080; /* Cor cinza */
+    margin-left: 8px;
+    text-transform:capitalize;
+  }
+
 /* Accordion Styles for Mobile */
 .accordion-content {
     font-size: 0.75rem; /* Smaller font size for mobile view */
@@ -86,10 +90,15 @@
     border-radius: 5px;
     padding: 6px 12px;
     font-size: 0.85rem;
+    margin-right: 16px;
+}
+hr{
+    width: 94%;
 }
 
 .table-container { 
-    max-width: 94%; /* Limits the width of the table container to 94% */
+    max-width: 94%;
+    overflow-x: auto;
 }
 
 .table-cell-header {
@@ -123,10 +132,36 @@
     padding: 0.25rem; /* Smaller padding for specific table rows */
 }
 
+/*buttons style*/
+.btn-cancel {
+    background-color: #831843;
+    color: white; 
+    border: none;
+}
+
+.btn-cancel:hover {
+    background-color: #a61b4d; 
+}
+
+.btn-save {
+    background-color: #101828;
+    color: white;
+    border: none;
+}
+
+.btn-save:hover {
+    background-color: #333; 
+}
+
+.btn-save-band:active {
+    background-color: #555; 
+}
+
 /* Accordion Content Styles */
 .accordion-content {
     display: flex;
     flex-direction: column;
+    overflow-x: auto;
 }
 
 /* Filter Styles  */
@@ -166,6 +201,15 @@
 
 
 /* Card Styles */
+
+.btn-details{
+    background-Color: #64748B;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-left: 36%;
+    font-weight:bold;
+}
 .text-data {
     color: #881337; /* Text color for the main data */
     font-size: 1.5rem; /* Font size for the main data */
@@ -232,12 +276,19 @@
     
     /* Responsive styles for the booking card */
     .booking-card-container {
-        max-width: 80%; /* Limits the card width to 80% on small screens */
+        max-width: 90%; /* Limits the card width to 80% on small screens */
+    }
+
+    .text-data {
+        font-size: 16px;
+    }
+    .subtext-data{
+        font-size: 20px;
     }
 
     .card-booking-text,
     .card-name-booking-text {
-        font-size: 14px; /* Smaller font size for card texts */
+        font-size: 12px; /* Smaller font size for card texts */
     }
 
     .date-stack,
@@ -254,6 +305,12 @@
     .card-booking-text {
         padding-bottom: 0px; /* Removes bottom padding from booking text */
         gap: none; /* Removes gap between elements in the text */
+    }
+    
+    .btn-details{
+        font-size: 10px;
+        width: 40px;
+        padding-left:  3px;
     }
 
     .details-popup {

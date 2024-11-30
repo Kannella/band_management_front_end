@@ -1,38 +1,51 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import {Button, Modal, Form, Col,Row} from 'react-bootstrap';
+import './booking_components.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Table from 'react-bootstrap/Table';
-import  useScreenSizeController from '../../hooks/useScreenSizeController';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import useScreenSizeController from '../../hooks/useScreenSizeController';
 
 import './booking_components.css';
 
 function PopUpCreateBooking() {
   const [show, setShow] = useState(false);
-  const [songs, setSongs] = useState([]);
-  const [newSong, setNewSong] = useState(""); 
+  const [newVenue, setNewVenue] = useState(false);
+  const [venueName, setVenueName] = useState("");
+  const [venueContactName, setVenueContactName] = useState("");
+  const [venuePhone, setVenuePhone] = useState("");
+  const [venueEmail, setVenueEmail] = useState("");
+  const [venueAddress, setVenueAddress] = useState("");
+  const [newAgent, setNewAgent] = useState(false);
+  const [AgentName, setAgentName] = useState("");
+  const [AgentContactName, setAgentContactName] = useState("");
+  const [AgentPhone, setAgentPhone] = useState("");
+  const [AgentEmail, setAgentEmail] = useState("");
 
-  const { isMobile, isTablet} = useScreenSizeController();
-
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleAddSong = () => {
-    if (newSong) {
-      setSongs([...songs, newSong]);
-      setNewSong(""); 
+  const handleVenueChange = (e) => {
+    const value = e.target.value;
+    if (value === "new") {
+      setNewVenue(true);
+    } else {
+      setNewVenue(false);
+      setVenueName(value);
     }
   };
 
-  const handleRemoveSong = (index) => {
-    const updatedSongs = songs.filter((song, i) => i !== index);
-    setSongs(updatedSongs);
+  const handleAgentChange = (e) => {
+    const value = e.target.value;
+    if (value === "new") {
+      setNewAgent(true);
+    } else {
+      setNewAgent(false);
+      setAgentName(value);
+    }
   };
+
+
+  const { isMobile } = useScreenSizeController();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -42,8 +55,7 @@ function PopUpCreateBooking() {
         className="d-flex align-items-center btn-add-booking"
         onClick={handleShow}
       >
-        <FontAwesomeIcon icon={faPlus} style={{ 
-          marginRight: isMobile ? 0 : 10, }} />
+        <FontAwesomeIcon icon={faPlus} style={{ marginRight: isMobile ? 0 : 10 }} />
         {!isMobile && 'Add New Booking'}
       </Button>
 
@@ -60,24 +72,23 @@ function PopUpCreateBooking() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Text className="mb-4">
-              Find all booking details below. Click on the tabs to view specific information about the booking, venue, schedule, set, and logistics.
-            </Form.Text>
-
-            <Form.Text className='mb-4'>Select Band</Form.Text>
+            {/* Band Selection */}
+            <Form.Text className="mb-4">Select Band</Form.Text>
             <Row>
-            <Form.Group controlId="bookingBand">
-                  <Form.Label>Band</Form.Label>
-                  <Form.Select>
-                    <option>Band one</option>
-                    <option>Band two</option>
-                  </Form.Select>
-                </Form.Group>
+              <Col lg={6}>
+              <Form.Group controlId="bookingBand">
+                <Form.Label>Band</Form.Label>
+                <Form.Select>
+                  <option>Band one</option>
+                  <option>Band two</option>
+                </Form.Select>
+              </Form.Group>
+              </Col>
+
             </Row>
+
             {/* Booking Information */}
-            <Form.Text as="h1" className="mb-3">
-              Booking Information
-            </Form.Text>
+            <Form.Text as="h1" className="mb-3">Booking Information</Form.Text>
             <Row className="mb-3">
               <Col md={4}>
                 <Form.Group controlId="bookingName">
@@ -103,85 +114,193 @@ function PopUpCreateBooking() {
                 </Form.Group>
               </Col>
             </Row>
-            {/* Agent Information */}
+            <Row>
+            <Col md={4}>
+                <Form.Group  className="mb-3" controlId="paymentDetails">
+                  <Form.Label>Payment Details</Form.Label>
+                  <Form.Control type="text" placeholder="Enter payment details" />
+                </Form.Group>
+              </Col>
+            </Row>
+            {/* Venue Information */}
             <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
             <Row className="mb-3">
               <Col md={4}>
                 <Form.Group controlId="agentName">
-                  <Form.Label>Agent Name</Form.Label>
+                  <Form.Label>Agent</Form.Label>
                   <Form.Control type="text" placeholder="Enter name" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="agentPhone">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter phone" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="agentEmail">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
                 </Form.Group>
               </Col>
             </Row>
 
-            {/* Venue Information */}
-            <Form.Text className="mb-3"><strong>Venue Information</strong></Form.Text>
+           {/* Venue Information */}
+           <Form.Text className="mb-3"><strong>Venue Information</strong></Form.Text>
             <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="venueName">
-                  <Form.Label>Venue Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter name" />
+                <Form.Group controlId="venueSelection">
+                  <Form.Label>Venue</Form.Label>
+                  <Form.Select onChange={handleVenueChange}>
+                    <option value="">Select an existing venue</option>
+                    <option value="venue1">Venue 1</option>
+                    <option value="venue2">Venue 2</option>
+                  </Form.Select>
                 </Form.Group>
               </Col>
               <Col md={4}>
-                <Form.Group controlId="venuePhone">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter phone" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="venueEmail">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                </Form.Group>
+                {/* Add New Venue Button */}
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  onClick={() => setNewVenue(true)}
+                >
+                  Add New Venue
+                </Button>
               </Col>
             </Row>
+
+            {/* If adding a new venue, display these fields */}
+            {newVenue && (
+              <>
+                <Row className="mb-3">
+                  <Col md={4}>
+                    <Form.Group controlId="venueName">
+                      <Form.Label>Venue Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter venue name"
+                        value={venueName}
+                        onChange={(e) => setVenueName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group controlId="venueContactName">
+                      <Form.Label>Contact Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter contact name"
+                        value={venueContactName}
+                        onChange={(e) => setVenueContactName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group controlId="venuePhone">
+                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter phone number"
+                        value={venuePhone}
+                        onChange={(e) => setVenuePhone(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col md={4}>
+                    <Form.Group controlId="venueEmail">
+                      <Form.Label>Email Address</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email address"
+                        value={venueEmail}
+                        onChange={(e) => setVenueEmail(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group controlId="venueAddress">
+                      <Form.Label>Address</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter address"
+                        value={venueAddress}
+                        onChange={(e) => setVenueAddress(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </>
+            )}
+
+            {/* Agent Information */}
+           <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
             <Row className="mb-3">
-              <Col md={6}>
-                <Form.Group controlId="venueAddress">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control type="text" placeholder="Enter address" />
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Form.Group controlId="venueNumber">
-                  <Form.Label>Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter number" />
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Form.Group controlId="venuePostalCode">
-                  <Form.Label>Postal Code</Form.Label>
-                  <Form.Control type="text" placeholder="Enter code" />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="venueCity">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control type="text" placeholder="Enter city" />
+                <Form.Group controlId="AgentSelection">
+                  <Form.Label>Agent</Form.Label>
+                  <Form.Select onChange={handleAgentChange}>
+                    <option value="">Select an existing Agent</option>
+                    <option value="Agent1">Agent 1</option>
+                    <option value="Agent2">Agent 2</option>
+                  </Form.Select>
                 </Form.Group>
               </Col>
               <Col md={4}>
-                <Form.Group controlId="venueCountry">
-                  <Form.Label>Country</Form.Label>
-                  <Form.Control type="text" placeholder="Enter country" />
-                </Form.Group>
+                {/* Add New Agent Button */}
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  onClick={() => setNewAgent(true)}
+                >
+                  Add New Agent
+                </Button>
               </Col>
             </Row>
+
+            {/* If adding a new Agent, display these fields */}
+            {newAgent && (
+              <>
+                <Row className="mb-3">
+                  <Col md={4}>
+                    <Form.Group controlId="AgentName">
+                      <Form.Label>Agent Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter Agent name"
+                        value={AgentName}
+                        onChange={(e) => setAgentName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group controlId="AgentContactName">
+                      <Form.Label>Contact Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter contact name"
+                        value={AgentContactName}
+                        onChange={(e) => setAgentContactName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group controlId="AgentPhone">
+                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter phone number"
+                        value={AgentPhone}
+                        onChange={(e) => setAgentPhone(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col md={4}>
+                    <Form.Group controlId="venueEmail">
+                      <Form.Label>Email Address</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email address"
+                        value={venueEmail}
+                        onChange={(e) => setVenueEmail(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </>
+            )}
 
             {/* Event Schedule */}
             <Form.Text className="mb-3"><strong>Event Schedule</strong></Form.Text>
@@ -232,112 +351,52 @@ function PopUpCreateBooking() {
               </Col>
             </Row>
 
-            {/* Set Details */}
-            <Form.Text className="mb-3"><strong>Set Details</strong></Form.Text>
+            {/* Booking Logistics */}
+            <Form.Text className="mb-3"><strong>Booking Logistics</strong></Form.Text>
             <Row className="mb-3">
-              <Col md={6}>
-                <Form.Group controlId="musicGenre">
-                  <Form.Label>Music Genre</Form.Label>
-                  <Form.Control type="text" placeholder="Enter genre" />
+              <Col md={4}>
+                <Form.Group controlId="parkingDetails">
+                  <Form.Label>Parking Details</Form.Label>
+                  <Form.Control type="text" placeholder="Enter parking details" />
                 </Form.Group>
               </Col>
+              <Col md={4}>
+                <Form.Group controlId="foodDetails">
+                  <Form.Label>Food Details</Form.Label>
+                  <Form.Control type="text" placeholder="Enter food details" />
+                </Form.Group>
+              </Col>
+
+            </Row>
+
+            {/* Additional Information */}
+            <Row className="mb-3">
               <Col md={6}>
-                <Form.Group controlId="setSong">
-                  <Form.Label>Set Song</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter song"
-                    value={newSong}
-                    onChange={(e) => setNewSong(e.target.value)} // Atualiza o estado com a nova música
-                  />
+                <Form.Group controlId="isPublicEvent">
+                  <Form.Label>Is Public Event</Form.Label>
+                  <Form.Select>
+                    <option>Yes</option>
+                    <option>No</option>
+                  </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
-
-            {/* Add Song Button */}
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              className="mb-3"
-              onClick={handleAddSong}
-            >
-              Add Song
-            </Button>
-
-            {/* Song List Table */}
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Song</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {songs.map((song, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{song}</td>
-                    <td>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleRemoveSong(index)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <Form.Text className="mb-3"><strong>Logistics</strong></Form.Text>
-            <Row className="mb-3">
-              <Col md={4}>
-                <Form.Group controlId="parkingAvailability">
-                  <Form.Label>Parking Availability</Form.Label>
-                  <Form.Select>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </Form.Select>
+            <Row>
+            <Col md={6}>
+                <Form.Group controlId="eventDescription">
+                  <Form.Label>More Description</Form.Label>
+                  <Form.Control type="text" placeholder="Enter description" />
                 </Form.Group>
               </Col>
-              <Col md={4}>
-                <Form.Group controlId="foodDrinkAvailability">
-                  <Form.Label>Food and Drink Availability</Form.Label>
-                  <Form.Select>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="dressCode">
-                  <Form.Label>Dress Code</Form.Label>
-                  <Form.Control type="text" placeholder="Enter dress code" />
-
-                </Form.Group>
-            </Col>
-            <Col md={4}>
-                <Form.Group controlId="soundSystem">
-                  <Form.Label>Sound System</Form.Label>
-                  <Form.Select>
-                    <option>Band</option>
-                    <option>Venue</option>
-                  </Form.Select>
-                  
-                </Form.Group>
-            </Col>
-            
             </Row>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className='btn-cancel' variant="danger" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button className='btn-save' variant="dark" onClick={handleClose}>
             Save
           </Button>
         </Modal.Footer>
