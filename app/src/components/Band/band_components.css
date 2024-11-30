@@ -349,10 +349,29 @@
     .band-popup-modal .modal-dialog {
         max-width: 90%;
     }
+    .modal-responsive {
+        max-width: 700px;
+    }
+    .title-responsive {
+        font-size: 2rem;
+    }
+    .instructions-responsive {
+        font-size: 1rem;
+    }
+    .btn-responsive {
+        font-size: 1rem;
+    }
+    .edit-button{
+        font-size: 12px;
+        margin: 0;
+    }
 
 
 }
 
+.table-responsive {
+    overflow-x: auto;
+  }
 /* Botões de Adicionar e Salvar */
 .add-member-btn {
     background-color: #333;
@@ -420,17 +439,3 @@
     padding: 6px 12px;
 }
 
-@media (min-width: 768px) {
-    .modal-responsive {
-        max-width: 700px;
-    }
-    .title-responsive {
-        font-size: 2rem;
-    }
-    .instructions-responsive {
-        font-size: 1rem;
-    }
-    .btn-responsive {
-        font-size: 1rem;
-    }
-}

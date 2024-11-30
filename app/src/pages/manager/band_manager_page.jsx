@@ -12,7 +12,7 @@ function BandManagerPage() {
     const handleClosePopup = () => setShowPopup(false);
 
     return (
-        <div className="container-fluid pt-3 ms-3">
+        <div className="container-fluid pt-3 ms-3 mb-3" style={{ overflowX: "hidden" }}>
             <div className="row mb-2">
                 <div className="col-12 col-md-10">
                     <h1 className="title-page">My Bands</h1>

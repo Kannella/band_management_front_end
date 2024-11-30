@@ -55,19 +55,23 @@ function BandDetailsPage() {
         <div className="container-fluid pt-3 ms-3">
             <h1 className="title-page">{band.name}</h1>
 
-            <div className="content mb-4 mt-4 custom-header">
-                <h2 className="title3-page">Band Members</h2>
-                <button className="btn btn-outline-primary edit-button" onClick={toggleEditMode}>
-                    <FaEdit /> Edit Band
-                </button>
+            <div className="content mb-4 mt-4 d-flex justify-content-start">
+                <h2 className="title3-page me-5">Band Members</h2>
+                <div className="row">
+                    <div className="col-12 col-sm-auto">
+                        <button className="btn btn-outline-secondary edit-button" onClick={toggleEditMode}>
+                            Edit Band
+                        </button>
+                    </div>
+                </div>
             </div>
 
             {isEditing && (
                 <div className="row mb-4">
-                    <div className="col-12">
+                    <div className="col-12 col-md-6 col-lg-4">
                         <h3 className="sub-text">Add New Member</h3>
                         <div className="row g-2 align-items-center mx-0">
-                            <div className="col-4">
+                            <div className="col-12 col-sm-6">
                                 <input
                                     type="text"
                                     name="name"
@@ -77,7 +81,7 @@ function BandDetailsPage() {
                                     className="form-control"
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="col-12 col-sm-6">
                                 <input
                                     type="email"
                                     name="email"
@@ -87,7 +91,7 @@ function BandDetailsPage() {
                                     className="form-control"
                                 />
                             </div>
-                            <div className="col-3">
+                            <div className="col-12 col-sm-4">
                                 <button className="btn btn-dark w-100" onClick={handleSaveNewMember}>
                                     Add Member
                                 </button>
@@ -97,18 +101,22 @@ function BandDetailsPage() {
                 </div>
             )}
 
-            <BandMembersTable
-                members={members}
-                removedMembers={removedMembers}
-                isEditing={isEditing}
-                onRemoveMember={handleRemoveMember}
-                onAddMember={handleAddMember}
-            />
+            <div className="table-responsive">
+                <BandMembersTable
+                    members={members}
+                    removedMembers={removedMembers}
+                    isEditing={isEditing}
+                    onRemoveMember={handleRemoveMember}
+                    onAddMember={handleAddMember}
+                />
+            </div>
 
             <div className="content mb-4 mt-5">
                 <h2 className="title3-page">Band Upcoming Events</h2>
                 <p className="sub-text">Next bookings</p>
-                <BookingCard />
+            </div>
+
+            <div className="row">
                 <BookingCard />
             </div>
         </div>

@@ -1,10 +1,11 @@
 import React from "react";
 import { FaUserCircle, FaTrashAlt } from "react-icons/fa";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import './band_components.css';
 
 function BandMembersTable({ members, isEditing, onRemoveMember }) {
     return (
-        <TableContainer component={Paper}>
+        <TableContainer className= 'table-responsive' component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
