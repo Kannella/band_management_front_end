@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import useScreenSizeController from '../../hooks/useScreenSizeController';
 import axios from 'axios';
+import { useAuthStore } from '../../store/authStore';
 
 function BookingCreatePopup() {
   const [show, setShow] = useState(false);
@@ -26,10 +27,16 @@ function BookingCreatePopup() {
   const [foodDetails, setFoodDetails] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(true);
-  const [newVenue, setNewVenue] = useState(false);
-  const [venueName, setVenueName] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [bands, setBand] = useState([]);
+  const [bandList, setBandList] = useState([]);
+  const [venues, setVenues] = useState([]); 
+  const [agents, setAgents] = useState([]);
+  const [error, setError] = useState('');
+
 
   const { isMobile } = useScreenSizeController();
+  const userId = useAuthStore((state) => state.userId); 
 
   const handleTimeChange = (e, setterFunction) => {
     const time = e.target.value;
@@ -37,10 +44,53 @@ function BookingCreatePopup() {
     setterFunction(`${currentDate}T${time}:00`);
   };
 
-  useEffect(() =>{
-    const fetchBand
-  })
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Requisição para obter as bandas do usuário
+        const bandResponse = await axios.get(
+          `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBandsForUser?userId=${userId}`
+        );
+        const userBands = bandResponse.data || [];
 
+        // Requisição para obter todas as bandas
+        const allBandsResponse = await axios.get(
+          'https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band'
+        );
+        const allBands = allBandsResponse.data || [];
+
+        // Filtrar as bandas que possuem o mesmo nome das bandas que o usuário possui
+        const filteredBands = allBands.filter(band => 
+          userBands.some(userBand => userBand.name === band.name)
+        );
+
+        // Guardar nome e id das bandas filtradas
+        const bandInfo = filteredBands.map(band => ({
+          id: band.id,
+          name: band.name
+        }));
+
+        setBandList(bandInfo); // Atualizar estado com bandas filtradas
+        setBand(userBands); // Guardar as bandas do usuário
+
+        // Requisição para obter as localizações
+        const venueResponse = await axios.get(
+          'https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Venue'
+        );
+        setVenues(venueResponse.data || []);
+
+        // Requisição para obter os agentes
+        const agentResponse = await axios.get(
+          'https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Agent'
+        );
+        setAgents(agentResponse.data || []);
+        
+      } catch (error) {
+        setError("Erro ao carregar os dados");
+      }
+    };
+    fetchData();
+  }, [userId]);
 
 
   const handleSubmit = async (e) => {
@@ -123,8 +173,10 @@ function BookingCreatePopup() {
                 <Form.Group controlId="bookingBand">
                   <Form.Label>Band</Form.Label>
                   <Form.Select value={bandId} onChange={(e) => setBandId(e.target.value)}>
-                    <option value={"1"}>Band one</option>
-                    <option value={"2"}>Band two</option>
+                    {bandList.map((band) => (
+                      <option key = {band.id} value={band.id} >{band.name}</option>
+
+                    ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -194,8 +246,11 @@ function BookingCreatePopup() {
                   <Form.Label>Venue</Form.Label>
                   <Form.Select value={venueId} onChange={(e) => setVenueId(e.target.value)}>
                     <option value="">Select an existing venue</option>
-                    <option value="1">Venue 1</option>
-                    <option value="2">Venue 2</option>
+                    {venues.map((venue) => (
+                      <option key={venue.id} value={venue.id}>
+                        {venue.name}
+                      </option>
+                    ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -209,8 +264,11 @@ function BookingCreatePopup() {
                   <Form.Label>Agent</Form.Label>
                   <Form.Select value={agentId} onChange={(e) => setAgentId(e.target.value)}>
                     <option value="">Select an existing venue</option>
-                    <option value="1">Agent 1</option>
-                    <option value="2">Agent 2</option>
+                  {agents.map((agent) => (
+                      <option key={agent.id} value={agent.id}>
+                        {agent.name}
+                      </option>
+                    ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -218,12 +276,24 @@ function BookingCreatePopup() {
 
             {/* Event Schedule */}
             <Form.Text className="mb-3"><strong>Event Schedule</strong></Form.Text>
+            <Row className='mb-3'>
+              <Col md={3}>
+              <Form.Group controlId="eventDate">
+              <Form.Label>Event Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+              />
+              </Form.Group>
+              </Col>
+            </Row>
             <Row className="mb-3">
               <Col md={3}>
                 <Form.Group controlId="soundcheckTime">
                   <Form.Label>Soundcheck Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={soundcheckTime}
                     onChange={(e) => handleTimeChange(e, setSoundcheckTime)}
                   />
@@ -233,7 +303,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="bandArrivalTime">
                   <Form.Label>Band Arrival Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={bandArrivalTime}
                     onChange={(e) => handleTimeChange(e, setBandArrivalTime)}
                   />
@@ -243,7 +313,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="busDepartureTime">
                   <Form.Label>Tour Bus Leaves Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={busDepartureTime}
                     onChange={(e) => handleTimeChange(e, setBusDepartureTime)}
                   />
@@ -255,7 +325,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="mealTime">
                   <Form.Label>Lunch/Dinner Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={mealTime}
                     onChange={(e) => handleTimeChange(e, setMealTime)}
                   />
@@ -265,7 +335,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="changeoverTime">
                   <Form.Label>Changeover Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={changeoverTime}
                     onChange={(e) => handleTimeChange(e, setChangeoverTime)}
                   />
@@ -275,7 +345,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="showStartTime">
                   <Form.Label>Show Start Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={showStartTime}
                     onChange={(e) => handleTimeChange(e, setShowStartTime)}
                   />
@@ -285,7 +355,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="showEndTime">
                   <Form.Label>Show End Time</Form.Label>
                   <Form.Control
-                    type="datetime-local"
+                    type="time"
                     value={showEndTime}
                     onChange={(e) => handleTimeChange(e, setShowEndTime)}
                   />
