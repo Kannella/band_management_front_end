@@ -1,48 +1,92 @@
-import { useState } from 'react';
-import {Button, Modal, Form, Col,Row} from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { Button, Modal, Form, Col, Row } from 'react-bootstrap';
 import './booking_components.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import useScreenSizeController from '../../hooks/useScreenSizeController';
-
-import './booking_components.css';
+import axios from 'axios';
 
 function BookingCreatePopup() {
   const [show, setShow] = useState(false);
+  const [bandId, setBandId] = useState('');
+  const [bookingName, setBookingName] = useState('');
+  const [bookingNumber, setBookingNumber] = useState('');
+  const [stageOfBooking, setStageOfBooking] = useState('');
+  const [paymentDetails, setPaymentDetails] = useState('');
+  const [agentId, setAgentId] = useState('');
+  const [venueId, setVenueId] = useState('');
+  const [soundcheckTime, setSoundcheckTime] = useState('');
+  const [bandArrivalTime, setBandArrivalTime] = useState('');
+  const [busDepartureTime, setBusDepartureTime] = useState('');
+  const [mealTime, setMealTime] = useState('');
+  const [changeoverTime, setChangeoverTime] = useState('');
+  const [showStartTime, setShowStartTime] = useState('');
+  const [showEndTime, setShowEndTime] = useState('');
+  const [parkingDetails, setParkingDetails] = useState('');
+  const [foodDetails, setFoodDetails] = useState('');
+  const [description, setDescription] = useState('');
+  const [isPublic, setIsPublic] = useState(true);
   const [newVenue, setNewVenue] = useState(false);
-  const [venueName, setVenueName] = useState("");
-  const [venueContactName, setVenueContactName] = useState("");
-  const [venuePhone, setVenuePhone] = useState("");
-  const [venueEmail, setVenueEmail] = useState("");
-  const [venueAddress, setVenueAddress] = useState("");
-  const [newAgent, setNewAgent] = useState(false);
-  const [AgentName, setAgentName] = useState("");
-  const [AgentContactName, setAgentContactName] = useState("");
-  const [AgentPhone, setAgentPhone] = useState("");
-  const [AgentEmail, setAgentEmail] = useState("");
-
-  const handleVenueChange = (e) => {
-    const value = e.target.value;
-    if (value === "new") {
-      setNewVenue(true);
-    } else {
-      setNewVenue(false);
-      setVenueName(value);
-    }
-  };
-
-  const handleAgentChange = (e) => {
-    const value = e.target.value;
-    if (value === "new") {
-      setNewAgent(true);
-    } else {
-      setNewAgent(false);
-      setAgentName(value);
-    }
-  };
-
+  const [venueName, setVenueName] = useState('');
 
   const { isMobile } = useScreenSizeController();
+
+  const handleTimeChange = (e, setterFunction) => {
+    const time = e.target.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    setterFunction(`${currentDate}T${time}:00`);
+  };
+
+  useEffect(() =>{
+    const fetchBand
+  })
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const bookingData = {
+      name: bookingName,
+      description: description,
+      bandId: bandId,
+      agentId: agentId,
+      venueId: venueId,
+      status: stageOfBooking,
+      paymentDetails: paymentDetails,
+      bookingNumber: bookingNumber,
+      stageNumber: stageOfBooking,
+      foodDetails: foodDetails,
+      soundCheckTime: soundcheckTime,
+      arrivalTime: bandArrivalTime,
+      tourbusLeaveTime: busDepartureTime,
+      dinnerTime: mealTime,
+      changeOverTime: changeoverTime,
+      showStartTime: showStartTime,
+      showEndTime: showEndTime,
+      parkingDetails: parkingDetails,
+      bookingNotes: description,
+      isPublicEvent: isPublic,
+    };
+
+    try {
+      const response = await axios.post('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking', bookingData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        alert('Booking created successfully!');
+        setShow(false); 
+      } else {
+        throw new Error('Failed to create booking');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error creating booking');
+    }
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -76,15 +120,14 @@ function BookingCreatePopup() {
             <Form.Text className="mb-4">Select Band</Form.Text>
             <Row>
               <Col lg={6}>
-              <Form.Group controlId="bookingBand">
-                <Form.Label>Band</Form.Label>
-                <Form.Select>
-                  <option>Band one</option>
-                  <option>Band two</option>
-                </Form.Select>
-              </Form.Group>
+                <Form.Group controlId="bookingBand">
+                  <Form.Label>Band</Form.Label>
+                  <Form.Select value={bandId} onChange={(e) => setBandId(e.target.value)}>
+                    <option value={"1"}>Band one</option>
+                    <option value={"2"}>Band two</option>
+                  </Form.Select>
+                </Form.Group>
               </Col>
-
             </Row>
 
             {/* Booking Information */}
@@ -93,214 +136,85 @@ function BookingCreatePopup() {
               <Col md={4}>
                 <Form.Group controlId="bookingName">
                   <Form.Label>Booking Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter name" />
+                  <Form.Control
+                    type="text"
+                    value={bookingName}
+                    onChange={(e) => setBookingName(e.target.value)}
+                    placeholder="Enter name"
+                  />
                 </Form.Group>
               </Col>
               <Col md={4}>
                 <Form.Group controlId="bookingNumber">
                   <Form.Label>Booking Number</Form.Label>
-                  <Form.Control type="text" placeholder="Enter number" />
+                  <Form.Control
+                    type="text"
+                    value={bookingNumber}
+                    onChange={(e) => setBookingNumber(e.target.value)}
+                    placeholder="Enter number"
+                  />
                 </Form.Group>
               </Col>
               <Col md={4}>
                 <Form.Group controlId="bookingStage">
                   <Form.Label>Stage of Booking</Form.Label>
-                  <Form.Select>
+                  <Form.Select
+                    value={stageOfBooking}
+                    onChange={(e) => setStageOfBooking(e.target.value)}
+                  >
                     <option>Select</option>
-                    <option>Optional</option>
-                    <option>Final Booking</option>
-                    <option>Canceled</option>
+                    <option value="1">Final Booking</option>
+                    <option value="2">Optional</option>
+                    <option value="3">Canceled</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
+
+            {/* Payment Details */}
             <Row>
-            <Col md={4}>
-                <Form.Group  className="mb-3" controlId="paymentDetails">
-                  <Form.Label>Payment Details</Form.Label>
-                  <Form.Control type="text" placeholder="Enter payment details" />
-                </Form.Group>
-              </Col>
-            </Row>
-            {/* Venue Information */}
-            <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
-            <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="agentName">
-                  <Form.Label>Agent</Form.Label>
-                  <Form.Control type="text" placeholder="Enter name" />
+                <Form.Group className="mb-3" controlId="paymentDetails">
+                  <Form.Label>Payment Details</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={paymentDetails}
+                    onChange={(e) => setPaymentDetails(e.target.value)}
+                    placeholder="Enter payment details"
+                  />
                 </Form.Group>
               </Col>
             </Row>
 
-           {/* Venue Information */}
-           <Form.Text className="mb-3"><strong>Venue Information</strong></Form.Text>
+            {/* Venue Selection */}
+            <Form.Text className="mb-3"><strong>Venue Information</strong></Form.Text>
             <Row className="mb-3">
               <Col md={4}>
                 <Form.Group controlId="venueSelection">
                   <Form.Label>Venue</Form.Label>
-                  <Form.Select onChange={handleVenueChange}>
+                  <Form.Select value={venueId} onChange={(e) => setVenueId(e.target.value)}>
                     <option value="">Select an existing venue</option>
-                    <option value="venue1">Venue 1</option>
-                    <option value="venue2">Venue 2</option>
+                    <option value="1">Venue 1</option>
+                    <option value="2">Venue 2</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col md={4}>
-                {/* Add New Venue Button */}
-                <Button
-                  variant="outline-dark"
-                  size="sm"
-                  onClick={() => setNewVenue(true)}
-                >
-                  Add New Venue
-                </Button>
-              </Col>
             </Row>
 
-            {/* If adding a new venue, display these fields */}
-            {newVenue && (
-              <>
-                <Row className="mb-3">
-                  <Col md={4}>
-                    <Form.Group controlId="venueName">
-                      <Form.Label>Venue Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter venue name"
-                        value={venueName}
-                        onChange={(e) => setVenueName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="venueContactName">
-                      <Form.Label>Contact Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter contact name"
-                        value={venueContactName}
-                        onChange={(e) => setVenueContactName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="venuePhone">
-                      <Form.Label>Phone Number</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter phone number"
-                        value={venuePhone}
-                        onChange={(e) => setVenuePhone(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col md={4}>
-                    <Form.Group controlId="venueEmail">
-                      <Form.Label>Email Address</Form.Label>
-                      <Form.Control
-                        type="email"
-                        placeholder="Enter email address"
-                        value={venueEmail}
-                        onChange={(e) => setVenueEmail(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="venueAddress">
-                      <Form.Label>Address</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter address"
-                        value={venueAddress}
-                        onChange={(e) => setVenueAddress(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-              </>
-            )}
-
-            {/* Agent Information */}
-           <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
+                        {/* Agent Selection */}
+            <Form.Text className="mb-3"><strong>Agent Information</strong></Form.Text>
             <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="AgentSelection">
+                <Form.Group controlId="agentSelection">
                   <Form.Label>Agent</Form.Label>
-                  <Form.Select onChange={handleAgentChange}>
-                    <option value="">Select an existing Agent</option>
-                    <option value="Agent1">Agent 1</option>
-                    <option value="Agent2">Agent 2</option>
+                  <Form.Select value={agentId} onChange={(e) => setAgentId(e.target.value)}>
+                    <option value="">Select an existing venue</option>
+                    <option value="1">Agent 1</option>
+                    <option value="2">Agent 2</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col md={4}>
-                {/* Add New Agent Button */}
-                <Button
-                  variant="outline-dark"
-                  size="sm"
-                  onClick={() => setNewAgent(true)}
-                >
-                  Add New Agent
-                </Button>
-              </Col>
             </Row>
-
-            {/* If adding a new Agent, display these fields */}
-            {newAgent && (
-              <>
-                <Row className="mb-3">
-                  <Col md={4}>
-                    <Form.Group controlId="AgentName">
-                      <Form.Label>Agent Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Agent name"
-                        value={AgentName}
-                        onChange={(e) => setAgentName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="AgentContactName">
-                      <Form.Label>Contact Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter contact name"
-                        value={AgentContactName}
-                        onChange={(e) => setAgentContactName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group controlId="AgentPhone">
-                      <Form.Label>Phone Number</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter phone number"
-                        value={AgentPhone}
-                        onChange={(e) => setAgentPhone(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col md={4}>
-                    <Form.Group controlId="venueEmail">
-                      <Form.Label>Email Address</Form.Label>
-                      <Form.Control
-                        type="email"
-                        placeholder="Enter email address"
-                        value={venueEmail}
-                        onChange={(e) => setVenueEmail(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-              </>
-            )}
 
             {/* Event Schedule */}
             <Form.Text className="mb-3"><strong>Event Schedule</strong></Form.Text>
@@ -308,19 +222,31 @@ function BookingCreatePopup() {
               <Col md={3}>
                 <Form.Group controlId="soundcheckTime">
                   <Form.Label>Soundcheck Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={soundcheckTime}
+                    onChange={(e) => handleTimeChange(e, setSoundcheckTime)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="bandArrivalTime">
                   <Form.Label>Band Arrival Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={bandArrivalTime}
+                    onChange={(e) => handleTimeChange(e, setBandArrivalTime)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="busDepartureTime">
                   <Form.Label>Tour Bus Leaves Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={busDepartureTime}
+                    onChange={(e) => handleTimeChange(e, setBusDepartureTime)}
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -328,75 +254,65 @@ function BookingCreatePopup() {
               <Col md={3}>
                 <Form.Group controlId="mealTime">
                   <Form.Label>Lunch/Dinner Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={mealTime}
+                    onChange={(e) => handleTimeChange(e, setMealTime)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="changeoverTime">
                   <Form.Label>Changeover Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={changeoverTime}
+                    onChange={(e) => handleTimeChange(e, setChangeoverTime)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="showStartTime">
                   <Form.Label>Show Start Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={showStartTime}
+                    onChange={(e) => handleTimeChange(e, setShowStartTime)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 <Form.Group controlId="showEndTime">
                   <Form.Label>Show End Time</Form.Label>
-                  <Form.Control type="time" />
+                  <Form.Control
+                    type="datetime-local"
+                    value={showEndTime}
+                    onChange={(e) => handleTimeChange(e, setShowEndTime)}
+                  />
                 </Form.Group>
               </Col>
             </Row>
 
-            {/* Booking Logistics */}
-            <Form.Text className="mb-3"><strong>Booking Logistics</strong></Form.Text>
-            <Row className="mb-3">
-              <Col md={4}>
-                <Form.Group controlId="parkingDetails">
-                  <Form.Label>Parking Details</Form.Label>
-                  <Form.Control type="text" placeholder="Enter parking details" />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group controlId="foodDetails">
-                  <Form.Label>Food Details</Form.Label>
-                  <Form.Control type="text" placeholder="Enter food details" />
-                </Form.Group>
-              </Col>
-
-            </Row>
-
-            {/* Additional Information */}
+            {/* Public Event Toggle */}
             <Row className="mb-3">
               <Col md={6}>
-                <Form.Group controlId="isPublicEvent">
-                  <Form.Label>Is Public Event</Form.Label>
-                  <Form.Select>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-            <Col md={6}>
-                <Form.Group controlId="eventDescription">
-                  <Form.Label>More Description</Form.Label>
-                  <Form.Control type="text" placeholder="Enter description" />
+                <Form.Group controlId="publicEventCheckbox">
+                  <Form.Check
+                    type="checkbox"
+                    label="Public Event"
+                    checked={isPublic}
+                    onChange={(e) => setIsPublic(e.target.checked)}
+                  />
                 </Form.Group>
               </Col>
             </Row>
           </Form>
         </Modal.Body>
-
         <Modal.Footer>
           <Button className='btn-cancel' variant="danger" onClick={handleClose}>
             Cancel
           </Button>
-          <Button className='btn-save' variant="dark" onClick={handleClose}>
+          <Button className='btn-save' variant="dark" onClick={handleSubmit}>
             Save
           </Button>
         </Modal.Footer>

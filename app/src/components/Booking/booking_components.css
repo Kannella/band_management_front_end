@@ -45,6 +45,7 @@
     flex-direction: column; /* Makes the accordion content stack vertically */
 }
 
+
 .icon-spacing {
     display: flex;
     justify-content: flex-end; /* Aligns icons to the right */

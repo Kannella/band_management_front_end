@@ -6,11 +6,11 @@ import ContainerWrapper from './components/container-wrapper';
 import Layout from './components/Layout';
 
 // Manager's Pages
-import HomeManagerPage from './pages/HomePage'
-import BandManagerPage from './pages/BandPage';
-import BookingTableManagerPage from './pages/BookingTablePage';
-import BookingManagerPage from './pages/BookingPage';
-import CalendarManagerPage from './pages/CalendarPage';
+import HomePage from './pages/HomePage'
+import BandPage from './pages/BandPage';
+import BookingTablePage from './pages/BookingTablePage';
+import BookingPage from './pages/BookingPage';
+import CalendarPage from './pages/CalendarPage';
 import BandDetailsPage from "./components/Band/BandDetailsPage";
 import SignInPage from  './pages/SignInPage';
 import SignUpPage from  './pages/SignUpPage';
@@ -25,11 +25,11 @@ function App() {
         <Route path="/registration" element={<SignUpPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route element={<Layout />}>
-          <Route path="/" element={<HomeManagerPage />} />
-          <Route path="/bands" element={<BandManagerPage />} />
-          <Route path="/bookings" element={<BookingManagerPage />} />
-          <Route path="/bookings-table" element={<BookingTableManagerPage />} />
-          <Route path="/calendar" element={<CalendarManagerPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/bands" element={<BandPage />} />
+          <Route path="/bookings" element={<BookingPage />} />
+          <Route path="/bookings-table" element={<BookingTablePage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/band/:id" element={<BandDetailsPage />} />
         </Route>
       </Routes>

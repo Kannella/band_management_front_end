@@ -2,7 +2,7 @@ import React from 'react';
 import Calendar from '../components/Calendar/CalendarWidget';
 import '../components/Calendar/calendar_components.css';
 
-const CalendarManagerPage = () => {
+const CalendarPage = () => {
   return (
     <div className="container-fluid pt-3 ms-3 mb-3" style={{ overflowX: "hidden" }}>
       <div className="row mb-2">
@@ -29,4 +29,4 @@ const CalendarManagerPage = () => {
   );
 };
 
-export default CalendarManagerPage;
+export default CalendarPage;

@@ -5,8 +5,11 @@ import { bands } from "../../pages/data/bands";
 import BandMembersTable from "./BandMemberTable";
 import "./band_components.css";
 import BookingCard from "../Booking/BookingCard";
+import { useAuthStore } from "../../store/authStore";
 
 function BandDetailsPage() {
+    const userId = useAuthStore((state) => state.userId);
+
     const { id } = useParams();
     const band = bands.find((b) => b.id === Number(id));
 

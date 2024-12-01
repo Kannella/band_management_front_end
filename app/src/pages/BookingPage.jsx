@@ -3,7 +3,7 @@ import PopUpEditBooking from '../components/Booking/BookingEditPopup';
 import BookingDetails from '../components/Booking/BookingDetails';
 import { Container, Row, Col } from 'react-bootstrap';
 
-function BookingManagerPage() {
+function BookingPage() {
     return (
         <Container fluid className="pt-3 ms-3 mb-3 "
 
@@ -34,4 +34,4 @@ function BookingManagerPage() {
     );
 }
 
-export default BookingManagerPage;
+export default BookingPage;

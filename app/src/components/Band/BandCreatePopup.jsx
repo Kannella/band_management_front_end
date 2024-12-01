@@ -1,20 +1,71 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
-import BandMembersTable from "./BandMemberTable";
+import axios from "axios"; 
+import { useAuthStore } from '../../store/authStore'; 
 
 function BandCreatePopup({ show, handleClose }) {
-    const [members, setMembers] = useState([]);
-    const [newMember, setNewMember] = useState({ name: "", email: "" });
+    const [bandName, setBandName] = useState("");
+    const userId = useAuthStore((state) => state.userId);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewMember({ ...newMember, [name]: value });
+    const handleBandNameChange = (e) => {
+        setBandName(e.target.value);
     };
 
-    const handleSaveNewMember = () => {
-        if (newMember.name && newMember.email) {
-            setMembers([...members, newMember]);
-            setNewMember({ name: "", email: "" }); 
+    const handleSaveBand = async () => {
+        if (!bandName) {
+            alert("Please enter a band name.");
+            return;
+        }
+
+        try {
+            // 1. Create Band
+            await axios.post(
+                "https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band/CreateBand",
+                { name: bandName },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            // 2. Search band created
+            const bandsResponse = await axios.get(
+                "https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band/",
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            // Search bandId created
+            const bands = bandsResponse.data;
+            const createdBand = bands.find((band) => band.name === bandName);
+
+            if (!createdBand) {
+                throw new Error("Failed to find the newly created band.");
+            }
+
+            const bandId = createdBand.id;
+
+            // 3. Add Manager as bandMember to band
+            await axios.post(
+                `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/BandUser/AddUserToBand`,
+                { "bandId": bandId,
+                   "userId": userId }, 
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            alert("Band created successfully");
+            handleClose();
+        } catch (error) {
+            console.error("Error in the band creation process:", error);
+            alert("An error occurred while creating the band or adding the user.");
         }
     };
 
@@ -33,70 +84,33 @@ function BandCreatePopup({ show, handleClose }) {
                 <Form>
                     <Row className="mb-3">
                         <p className="instructions-responsive">
-                            Enter the band name, add members, and click "Save" to create the band.
+                            Enter the band name, and click "Save" to create the band.
                         </p>
                     </Row>
 
                     <Row className="mb-3">
                         <Col xs={12} md={6}>
                             <Form.Group controlId="formBandName">
-                                <Form.Label className="label-responsive"><strong>Band Name</strong></Form.Label>
+                                <Form.Label className="label-responsive">
+                                    <strong>Band Name</strong>
+                                </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Band name"
+                                    value={bandName}
+                                    onChange={handleBandNameChange}
+                                    placeholder="Enter band name"
                                     className="input-responsive"
                                 />
                             </Form.Group>
                         </Col>
                     </Row>
-
-                    <Form.Label className="label-responsive"><strong>Band Members</strong></Form.Label>
-
-                    <Row className="mb-3">
-                        <Col xs={12} md={6}>
-                            <Form.Group controlId="formMemberName">
-                                <Form.Label className="label-responsive">Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="name"
-                                    value={newMember.name}
-                                    onChange={handleInputChange}
-                                    placeholder="Enter name"
-                                    className="input-responsive"
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col xs={12} md={6}>
-                            <Form.Group controlId="formMemberEmail">
-                                <Form.Label className="label-responsive">Email</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    name="email"
-                                    value={newMember.email}
-                                    onChange={handleInputChange}
-                                    placeholder="Enter email"
-                                    className="input-responsive"
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col>
-                            <Button className="btn-responsive btn-dark" onClick={handleSaveNewMember}>
-                                Add Member
-                            </Button>
-                        </Col>
-                    </Row>
-
-                    <BandMembersTable members={members} />
                 </Form>
             </Modal.Body>
             <Modal.Footer>
                 <Button className="btn-responsive btn-cancel-band" variant="secondary" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button className="btn-responsive btn-save-band" onClick={handleClose}>
+                <Button className="btn-responsive btn-save-band" onClick={handleSaveBand}>
                     Save
                 </Button>
             </Modal.Footer>

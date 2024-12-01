@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Box, Accordion, AccordionSummary, AccordionDetails, Typography, MenuItem, Menu, FormControl, InputLabel, Select, TextField, Button } from '@mui/material';
+import {
+  Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Checkbox,Box,Accordion,AccordionSummary,AccordionDetails,
+  Typography,MenuItem,Menu,FormControl,Select,TextField,Button,
+} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCircle,faEllipsisVertical, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faEllipsisVertical, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import { ReactComponent as FilterIcon } from '../../assets/images/icon-filter.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/icon_trash.svg';
 
-import './booking_components.css';  // Importando o arquivo CSS
+import './booking_components.css';
 import useBookingTable from '../../hooks/useBookingTable';
 import PopUpCreateBooking from './BookingCreatePopup';
 
-const TableComponent = () => {
-  const initialRows = [
-    { id: 1, title: 'Booking Title 1', band: 'band one', date: new Date(2024, 10, 24), stages: 'final', venue: 'arena', agent: 'Martin' },
-    { id: 2, title: 'Booking Title 2', band: 'band two', date: new Date(2024, 10, 26), stages: 'optional', venue: 'stadium', agent: 'Sarah' },
-    { id: 3, title: 'Booking Title 3', band: 'band three', date: new Date(2024, 10, 27), stages: 'canceled', venue: 'arena', agent: 'Martin' },
-  ];
-
+const BookingTable = ({ bookings }) => {
   const {
     rows,
     selectedColumn,
@@ -25,11 +22,11 @@ const TableComponent = () => {
     handleSelect,
     isSelected,
     filteredRows,
-    getStageColor,
+    getStatusColor,
     textFilter,
     setTextFilter,
     setActiveFilter,
-  } = useBookingTable(initialRows);
+  } = useBookingTable(bookings);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,48 +46,41 @@ const TableComponent = () => {
     setAnchorEl(null);
   };
 
-  const handleNavigateToBookingPage = () => {
-    alert(`Navigating to Booking Page of ID: ${selectedBooking.id}`);
-    handleCloseMenu();
-  };
-
-  const handleEditBooking = () => {
-    alert(`Editing Booking: ${selectedBooking.id}`);
-    handleCloseMenu();
-  };
-
   const handleClose = () => setIsPopupOpen(false);
 
   return (
     <TableContainer component={Paper} className="table-container">
-      <Box className='box-actions' sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', gap:'20px' }}>
-      <Button  onClick={toggleFilter}>
-          <FilterIcon className="icon-filter" /><span className="filters-text">Filters</span>
+      {/* Actions */}
+      <Box
+        className="box-actions"
+        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', gap: '20px' }}
+      >
+        <Button onClick={toggleFilter}>
+          <FilterIcon className="icon-filter" />
+          <span className="filters-text">Filters</span>
         </Button>
-      <Button >
-        <TrashIcon className="icon-trash"></TrashIcon>
+        <Button>
+          <TrashIcon className="icon-trash" />
         </Button>
-
         <PopUpCreateBooking isOpen={isPopupOpen} onClose={handleClose} />
-
       </Box>
 
+      {/* Filters */}
       {isFilterOpen && (
         <Box className="filter-section">
-          <FormControl >
+          <FormControl>
             <Select
               value={selectedColumn}
               onChange={(e) => setSelectedColumn(e.target.value)}
             >
               <MenuItem value="">Select Column</MenuItem>
-              <MenuItem value="title">Title</MenuItem>
+              <MenuItem value="name">Name</MenuItem>
               <MenuItem value="band">Band</MenuItem>
               <MenuItem value="venue">Venue</MenuItem>
               <MenuItem value="agent">Agent</MenuItem>
-              <MenuItem value="stages">Stages</MenuItem>
+              <MenuItem value="status">Status</MenuItem>
             </Select>
           </FormControl>
-
           <TextField
             label={selectedColumn}
             variant="outlined"
@@ -98,92 +88,96 @@ const TableComponent = () => {
             onChange={(e) => setTextFilter(e.target.value)}
           />
           <Button onClick={() => setActiveFilter(textFilter)}>
-            <FontAwesomeIcon className='icon-search' icon={faSearch} onClick={() => setActiveFilter(textFilter)}  />
+            <FontAwesomeIcon className="icon-search" icon={faSearch} />
           </Button>
         </Box>
       )}
 
+      {/* Desktop Table */}
       <Table className="table" sx={{ display: { xs: 'none', sm: 'table' } }}>
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox"></TableCell>
-            <TableCell className="table-cell-header">Title</TableCell>
+            <TableCell className="table-cell-header">Name</TableCell>
             <TableCell className="table-cell-header">Band</TableCell>
             <TableCell className="table-cell-header">Date</TableCell>
-            <TableCell className="table-cell-header">Stages</TableCell>
+            <TableCell className="table-cell-header">Status</TableCell>
             <TableCell className="table-cell-header">Venue</TableCell>
             <TableCell className="table-cell-header">Agent</TableCell>
-            <TableCell padding="elipsis"></TableCell>
+            <TableCell padding="checkbox"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredRows.map((row) => (
-            <TableRow key={row.id} selected={isSelected(row.id)}>
-              <TableCell padding="checkbox">
-                <Checkbox checked={isSelected(row.id)} onChange={() => handleSelect(row.id)} />
-              </TableCell>
-              <TableCell>{row.title}</TableCell>
-              <TableCell>{row.band}</TableCell>
-              <TableCell>{format(row.date, 'dd/MM/yyyy')}</TableCell>
-              <TableCell style={{ color: getStageColor(row.stages) }}>
-                <FontAwesomeIcon icon={faCircle} /> {row.stages}
-              </TableCell>
-              <TableCell>{row.venue}</TableCell>
-              <TableCell>{row.agent}</TableCell>
-
-              <TableCell>
-                <FontAwesomeIcon
-                  className="ellipsis-icon"
-                  icon={faEllipsisVertical}
-                  onClick={(e) => handleMenuClick(e, row)}
-                />
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleCloseMenu}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  <MenuItem onClick={handleNavigateToBookingPage}>Go to Booking</MenuItem>
-                  <MenuItem onClick={handleEditBooking}>Edit Booking</MenuItem>
-                </Menu>
-              </TableCell>
-            </TableRow>
-          ))}
+          {filteredRows.map((booking) => {
+            const { id, name, status, bandName, showStartTime, venueName, agentName } = booking;
+            return (
+              <TableRow key={id} selected={isSelected(id)}>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={isSelected(id)}
+                    onChange={() => handleSelect(id)}
+                  />
+                </TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{bandName}</TableCell>
+                <TableCell>{format(new Date(showStartTime), 'dd/MM/yyyy')}</TableCell>
+                <TableCell style={{ color: getStatusColor(status) }}>
+                  <FontAwesomeIcon icon={faCircle} />
+                </TableCell>
+                <TableCell>{venueName}</TableCell>
+                <TableCell>{agentName}</TableCell>
+                <TableCell>
+                  <FontAwesomeIcon
+                    className="ellipsis-icon"
+                    icon={faEllipsisVertical}
+                    onClick={(e) => handleMenuClick(e, booking)}
+                  />
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleCloseMenu}
+                  >
+                    <MenuItem onClick={() => alert(`Navigating to Booking: ${id}`)}>
+                      Go to Booking
+                    </MenuItem>
+                  </Menu>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
 
+      {/* Mobile Accordion */}
       <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-        {filteredRows.map((row) => (
-          <Accordion key={row.id}>
-            <AccordionSummary>
-              <Typography className="accordion-text" style={{ marginRight: '20px' }}>
-                {row.title}
-              </Typography>
-              <Typography className="accordion-text">
-                <FontAwesomeIcon icon={faCircle} style={{ color: getStageColor(row.stages), marginLeft: '20px' }} /> {row.stages}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Band: {row.band}
-                <br />
-                Venue: {row.venue}
-                <br />
-                Date: {format(row.date, 'dd/MM/yyyy')}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
+        {filteredRows.map((booking) => {
+          const { id, name, status, bandName, showStartTime, venueName } = booking;
+          return (
+            <Accordion key={id}>
+              <AccordionSummary>
+                <Typography className="accordion-text">{name}</Typography>
+                <Typography
+                  className="accordion-text"
+                  style={{ color: getStatusColor(status), paddingLeft:'20px' }}
+                >
+                  <FontAwesomeIcon icon={faCircle} />
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  Band: {bandName}
+                  <br />
+                  Venue: {venueName}
+                  <br />
+                  Date: {format(new Date(showStartTime), 'dd/MM/yyyy')}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
       </Box>
     </TableContainer>
   );
 };
 
-export default TableComponent;
+export default BookingTable;

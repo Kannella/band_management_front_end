@@ -9,18 +9,22 @@ export const useAuthStore = create(
             role: null,
 
             login: (userId, role) => set({ isAuthenticated: true, userId, role }),
-            logout: () => set({ isAuthenticated: false, userId: null, role: null }),
+            logout: () => {
+                set({ isAuthenticated: false, userId: null, role: null });
+                localStorage.removeItem('auth-storage');
+            },
             isAdmin: () => get().role === 0,
             isManager: () => get().role === 1,
             isMusician: () => get().role === 2,
         }),
         {
-            name: 'auth-storage', // Nome da chave no localStorage
+            name: 'auth-storage',
             partialize: (state) => ({
                 isAuthenticated: state.isAuthenticated,
                 userId: state.userId,
                 role: state.role,
-            }), // Escolha quais partes do estado persistir
+            }), 
         }
     )
 );
+

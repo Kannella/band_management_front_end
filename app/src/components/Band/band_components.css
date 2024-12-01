@@ -23,6 +23,9 @@
     transition: transform 0.2s;
     overflow: hidden;
     position: relative;
+    display: flex; /* Adicionado para alinhar elementos */
+    flex-direction: column;
+    justify-content: center; /* Centraliza elementos verticalmente */
 }
 
 .card-img {
@@ -32,21 +35,21 @@
 }
 
 .card-body {
-    padding: 10px;
-    position: relative;
-    flex-grow: 1;
+    padding: 15px; /* Aumentado para melhor espaçamento */
     font-family: 'Nunito';
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    align-items: center; /* Centraliza elementos horizontalmente */
+    justify-content: space-between; /* Distribui elementos com espaçamento */
+    text-align: center;
 }
 
 .card-title {
-    text-align: center;
     font-size: 1.4rem;  
     font-weight: bold;
-    line-height: 1;
-    margin: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 1.2;
 }
 
 .card-text {
@@ -58,10 +61,15 @@
 
 .arrow-button {
     color: #FFF;
-    padding: 0;
     border: none;
     background: none;
-    margin-left: auto;
+    cursor: pointer;
+    position: absolute; /* Permite posicionamento relativo ao card */
+    bottom: 15px; /* Ajusta distância da base */
+    right: 15px; /* Ajusta distância lateral */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .arrow-button:hover {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-function useBookingTable(initialRows) {
+function useBookingTable(bookings) {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectedColumn, setSelectedColumn] = useState('');
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = useState(bookings);
   const [textFilter, setTextFilter] = useState(''); // Valor do input
   const [activeFilter, setActiveFilter] = useState(''); // Filtro aplicado ao apertar o botão
 
@@ -22,7 +22,7 @@ function useBookingTable(initialRows) {
 
   const isSelected = (id) => selectedRows.has(id);
 
-  const filteredRows = initialRows.filter((row) => {
+  const filteredRows = rows.filter((row) => {
     if (!activeFilter || !selectedColumn) return true; 
     const columnValue = row[selectedColumn]?.toString().toLowerCase();
     return columnValue?.includes(activeFilter.toLowerCase());
@@ -36,13 +36,13 @@ function useBookingTable(initialRows) {
     }
   };
 
-  const getStageColor = (stage) => {
+  const getStatusColor = (stage) => {
     switch (stage) {
-      case 'final':
+      case 1 :
         return '#037847'; 
-      case 'optional':
+      case 2:
         return '#364254';   
-      case 'canceled':
+      case 3:
         return '#780303';  
       default:
         return 'black';
@@ -59,7 +59,7 @@ function useBookingTable(initialRows) {
     isSelected,
     filteredRows,
     handleDelete,
-    getStageColor,
+    getStatusColor,
     textFilter,
     setTextFilter,
     activeFilter,

@@ -4,20 +4,16 @@ import { Container, Row, Col} from "react-bootstrap";
 import BookingCard from "../components/Booking/BookingCard";
 import { useAuthStore } from "../store/authStore";
 
-function HomeManagerPage() {
+function HomePage() {
     const [nameUser, setNameUser] = useState("");
 
     const userId = useAuthStore ((state) => state.userId)
-    const isHydrated = useAuthStore.persist.hasHydrated();
     
 
     useEffect(() => {
-
-        if (!isHydrated) return;
         if (!userId) return; 
 
         const source = axios.CancelToken.source(); 
-
         axios
             .get(
                 `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User/${userId}`,
@@ -25,7 +21,7 @@ function HomeManagerPage() {
             )
             .then((res) => {
                 if (res.data && res.data.name) {
-                    setNameUser(res.data.name); // Armazenar o nome retornado pela API
+                    setNameUser(res.data.name); 
                 } else {
                     console.error("Name not found in the response data", res.data);
                 }
@@ -39,7 +35,7 @@ function HomeManagerPage() {
             });
 
         return () => source.cancel("Request canceled due to component unmount");
-    }, [isHydrated,userId]);
+    }, [userId]);
 
     return (
         <Container fluid className="">
@@ -74,4 +70,4 @@ function HomeManagerPage() {
     );
 }
 
-export default HomeManagerPage;
+export default HomePage;
