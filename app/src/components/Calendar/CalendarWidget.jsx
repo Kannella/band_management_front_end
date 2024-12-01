@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import CalendarPopup from './calendarPopUp';
 import './calendar_components.css';
+import CalendarPopup from './PopupCalendar';
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());

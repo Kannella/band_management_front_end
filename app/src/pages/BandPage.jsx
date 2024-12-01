@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import BandPopup from "../../components/Band/popup_band_create";
-import CardWidget from "../../components/Band/cards_widget";
-import { bands } from '../data/bands';
+import BandPopup from "../components/Band/BandCreatePopup";
+import CardWidget from "../components/Band/BandCard";
+import { bands } from './data/bands';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus} from '@fortawesome/free-solid-svg-icons';
 

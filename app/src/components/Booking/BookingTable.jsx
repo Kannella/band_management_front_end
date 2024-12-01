@@ -8,7 +8,7 @@ import { ReactComponent as TrashIcon } from '../../assets/images/icon_trash.svg'
 
 import './booking_components.css';  // Importando o arquivo CSS
 import useBookingTable from '../../hooks/useBookingTable';
-import PopUpCreateBooking from './popup_create_bookings';
+import PopUpCreateBooking from './BookingCreatePopup';
 
 const TableComponent = () => {
   const initialRows = [

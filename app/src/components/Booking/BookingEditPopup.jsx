@@ -5,7 +5,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import useScreenSizeController from '../../hooks/useScreenSizeController';
 import './booking_components.css';
 
-function PopUpCreateBooking({ detailsBooking }) {
+function BookingEditPopup
+({ detailsBooking }) {
   const [show, setShow] = useState(false);
 
   const { isMobile } = useScreenSizeController();
@@ -296,4 +297,5 @@ function PopUpCreateBooking({ detailsBooking }) {
   );
 }
 
-export default PopUpCreateBooking;
+export default BookingEditPopup
+;

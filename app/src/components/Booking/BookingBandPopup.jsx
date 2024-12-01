@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";  // Corrected import
-import BookingDetails from "./details_booking";
+import { Modal, Button } from "react-bootstrap";
+import BookingDetails from "./BookingDetails";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import './booking_components.css'; 
 import useScreenSizeController from "../../hooks/useScreenSizeController";
 
 
-function PopupBookingBand() {
+function BookingBandPopup() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -50,4 +50,4 @@ function PopupBookingBand() {
   );
 }
 
-export default PopupBookingBand;
+export default BookingBandPopup;

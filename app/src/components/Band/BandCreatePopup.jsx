@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
-import BandMembersTable from "./band_member_table";
+import BandMembersTable from "./BandMemberTable";
 
-function BandPopup({ show, handleClose }) {
+function BandCreatePopup({ show, handleClose }) {
     const [members, setMembers] = useState([]);
     const [newMember, setNewMember] = useState({ name: "", email: "" });
 
@@ -104,4 +104,4 @@ function BandPopup({ show, handleClose }) {
     );
 }
 
-export default BandPopup;
+export default BandCreatePopup;

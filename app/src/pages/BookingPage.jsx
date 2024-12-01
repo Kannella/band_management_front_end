@@ -1,6 +1,6 @@
 import React from 'react';
-import PopUpEditBooking from '../../components/Booking/popup_edit_booking';
-import BookingDetails from '../../components/Booking/details_booking';
+import PopUpEditBooking from '../components/Booking/BookingEditPopup';
+import BookingDetails from '../components/Booking/BookingDetails';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function BookingManagerPage() {

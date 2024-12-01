@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaEdit, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { bands } from "../../pages/data/bands";
-import BandMembersTable from "./band_member_table";
+import BandMembersTable from "./BandMemberTable";
 import "./band_components.css";
-import BookingCard from "../Booking/card_booking";
+import BookingCard from "../Booking/BookingCard";
 
 function BandDetailsPage() {
     const { id } = useParams();

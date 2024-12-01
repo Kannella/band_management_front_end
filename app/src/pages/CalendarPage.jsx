@@ -1,6 +1,6 @@
 import React from 'react';
-import Calendar from '../../components/Calendar/calendar';
-import '../../components/Calendar/calendar_components.css';
+import Calendar from '../components/Calendar/CalendarWidget';
+import '../components/Calendar/calendar_components.css';
 
 const CalendarManagerPage = () => {
   return (

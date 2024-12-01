@@ -1,5 +1,5 @@
 import React from "react";
-import TableComponent from "../../components/Booking/booking_table";
+import TableComponent from "../components/Booking/BookingTable";
 import { Container, Row, Col } from "react-bootstrap";
 
 function BookingTableManagerPage() {

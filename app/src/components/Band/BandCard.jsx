@@ -5,7 +5,7 @@ import {FaArrowCircleRight, FaUserCircle} from 'react-icons/fa';
 import './band_components.css'; 
 
 
-function CardWidget({ band }) {
+function BandCard({ band }) {
     const navigate = useNavigate();
 
     const handleArrowClick = () => {
@@ -45,4 +45,4 @@ function CardWidget({ band }) {
     );
 }
 
-export default CardWidget;
+export default BandCard;

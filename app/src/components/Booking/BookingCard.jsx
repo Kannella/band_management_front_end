@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Stack } from "react-bootstrap";
-import PopupBookingBand from "./poup_booking_band";
+import PopupBookingBand from "./BookingBandPopup";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import './booking_components.css';

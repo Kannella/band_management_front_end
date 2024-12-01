@@ -7,7 +7,7 @@ import useScreenSizeController from '../../hooks/useScreenSizeController';
 
 import './booking_components.css';
 
-function PopUpCreateBooking() {
+function BookingCreatePopup() {
   const [show, setShow] = useState(false);
   const [newVenue, setNewVenue] = useState(false);
   const [venueName, setVenueName] = useState("");
@@ -405,4 +405,4 @@ function PopUpCreateBooking() {
   );
 }
 
-export default PopUpCreateBooking;
+export default BookingCreatePopup;
