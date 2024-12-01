@@ -1,36 +1,140 @@
 :root {
   --cor-principal: #730742;
   --cor-icones: #ffffff;
+  --cor-page-text: #101828;
   --font-Heading: 1.75rem; 
-  --font: "Nunito", sans-serif;
+  --font:'Nunito', sans-serif;
+
 }
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font) !important;
+  scroll-behavior: smooth;
+  cursor: default;
+}
+
+h1{
+  margin: 0;
+  padding: 0;
+}
+
+.container-wrapper{
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  }
+
 
 .logo-text{
   font-size: 1.2rem;
   color:#ffffff;
-
-
 }
-
 
 .title-page {
   font-size: 2rem;
   font-weight: 700;
   color: #101828;
-  font-family: var(--font);
+  text-align: start;
+}
+
+.title2-page {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #101828;
+}
+.bold-sub-text{
+  font-size: 1rem;
+  font-weight: 800;
+  color: #101828
+
+}
+.title3-page{
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #101828;
 }
 .sub-text{
   font-size: 1rem;
   color: #667085;
 }
+.sub-text2{
+  font-size: 1rem;
+  color:var(--cor-page-text);
+  font-weight: 600;
+  word-wrap: break-word;
+
+}
+
+.icon-button {
+  position: relative; /* Necessário para o posicionamento do label */
+}
+
+.label {
+  display: none; /* Esconde o label inicialmente */
+  position: absolute;
+  top: -30px; /* Ajuste a posição do label conforme necessário */
+  left: 50%;
+  transform: translateX(60%);
+  background-color: #73074264;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.icon-button:hover .label {
+  display: block; 
+  opacity: 1;
+}
 
 .nav-container {
   background-color: var(--cor-principal);
+  overflow: hidden;
+}
 
+.nav-container-mobile{
+  /* position:absolute;
+  background-color: var(--cor-principal);
+  padding-right: 20px;
+  padding-left: 20px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; */
+  position: fixed; /* Fixa a navbar no topo */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda a largura da tela */
+  height: var(--navbar-size); /* Altura dinâmica baseada na propriedade passada */
+  background-color: var(--cor-principal);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000; /* Garante que fique sobre outros elementos */
+  padding: 0 20px; 
+
+} 
+
+
+.icon-hamburguer{
+  color: var(--cor-icones);
+  font-size: 28px;
+  cursor:pointer
 }
 
 .icon-button{
   color: var(--cor-icones);
+  margin: 0;
+  padding: 8px;
 }
 
 .icon-button:hover{
@@ -43,4 +147,59 @@
 
 .icon-img:hover {
   filter: grayscale(0%) brightness(0.8) contrast(1.2)
+}
+
+.welcome-text{
+  color: var(--cor-principal);
+  font-size: 1.2rem;
+}
+
+.user-name-text{
+  color: var(--cor-page-text);
+  font-weight: 700;
+  font-size: var(--font-Heading);
+}
+
+.home-headding-text{
+  color: var(--cor-page-text);
+  font-weight: 700;
+  font-size: 1.2rem;
+  
+}
+
+.dropdown-menu{
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  z-index: 1000;
+}
+
+.dropdown-item{
+  color: #101828;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.dropdown-item:active,
+.dropdown-item:focus {
+  background-color: transparent;
+  outline: none;
+}
+@media (max-width: 576px) {
+  .title-page{
+    font-size: 1.2rem;
+  }
+  .title2-page{
+    font-size: 1rem;
+  }
+  .title3-page{
+    font-size: 1.2rem;
+  }
+  .sub-text{
+    font-size: 0.9rem;
+  }
+
 }

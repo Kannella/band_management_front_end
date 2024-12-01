@@ -2,8 +2,9 @@
 import React from "react";
 import { FaUserCircle, FaTrash } from "react-icons/fa";
 import '../../assets/styles/band_styles.css';
+import './band_components.css'; 
 
-function MemberCard({ member, email, onRemove }) {
+function BandMemberCard({ member, email, onRemove }) {
     return (
         <div className="card member-card mb-3">
             <div className="d-flex align-items-center p-3">
@@ -23,4 +24,4 @@ function MemberCard({ member, email, onRemove }) {
     );
 }
 
-export default MemberCard;
+export default BandMemberCard;
