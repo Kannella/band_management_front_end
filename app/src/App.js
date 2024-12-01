@@ -6,14 +6,14 @@ import ContainerWrapper from './components/container-wrapper';
 import Layout from './components/Layout';
 
 // Manager's Pages
-import HomeManagerPage from './pages/manager/home_manager_page';
-import BandManagerPage from './pages/manager/band_manager_page';
-import BookingTableManagerPage from './pages/manager/booking_table_manager_page';
-import BookingManagerPage from './pages/manager/booking_manager_page';
-import CalendarManagerPage from './pages/manager/calendar_manager_page';
-import BandDetailsPage from "./components/Band/band_details_page";
-import SignInPage from  './pages/sign_in_page';
-import SignUpPage from  './pages/sign_up_page';
+import HomeManagerPage from './pages/HomePage'
+import BandManagerPage from './pages/BandPage';
+import BookingTableManagerPage from './pages/BookingTablePage';
+import BookingManagerPage from './pages/BookingPage';
+import CalendarManagerPage from './pages/CalendarPage';
+import BandDetailsPage from "./components/Band/BandDetailsPage";
+import SignInPage from  './pages/SignInPage';
+import SignUpPage from  './pages/SignUpPage';
 
 
 function App() {
