@@ -19,30 +19,27 @@ function BookingCreatePopup() {
   const [soundcheckTime, setSoundcheckTime] = useState('');
   const [bandArrivalTime, setBandArrivalTime] = useState('');
   const [busDepartureTime, setBusDepartureTime] = useState('');
-  const [mealTime, setMealTime] = useState('');
+  const [dinnerTime, setDinnerTime] = useState('');
   const [changeoverTime, setChangeoverTime] = useState('');
   const [showStartTime, setShowStartTime] = useState('');
   const [showEndTime, setShowEndTime] = useState('');
   const [parkingDetails, setParkingDetails] = useState('');
   const [foodDetails, setFoodDetails] = useState('');
+  const [planning, setPlanning] = useState('');
+  const [bookingNotes, setBookingNotes] = useState('');
+  const [stageNumber, setStageNumber] = useState('');
   const [description, setDescription] = useState('');
+  const [arrivalTime, setArrivalTime] = useState('');
   const [isPublic, setIsPublic] = useState(true);
-  const [eventDate, setEventDate] = useState('');
   const [bands, setBand] = useState([]);
-  const [bandList, setBandList] = useState([]);
   const [venues, setVenues] = useState([]); 
   const [agents, setAgents] = useState([]);
   const [error, setError] = useState('');
+  const [eventTimestamp, setEventTimestamp] = useState(null);
 
 
   const { isMobile } = useScreenSizeController();
   const userId = useAuthStore((state) => state.userId); 
-
-  const handleTimeChange = (e, setterFunction) => {
-    const time = e.target.value;
-    const currentDate = new Date().toISOString().split('T')[0];
-    setterFunction(`${currentDate}T${time}:00`);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,27 +48,7 @@ function BookingCreatePopup() {
         const bandResponse = await axios.get(
           `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBandsForUser?userId=${userId}`
         );
-        const userBands = bandResponse.data || [];
-
-        // Requisição para obter todas as bandas
-        const allBandsResponse = await axios.get(
-          'https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band'
-        );
-        const allBands = allBandsResponse.data || [];
-
-        // Filtrar as bandas que possuem o mesmo nome das bandas que o usuário possui
-        const filteredBands = allBands.filter(band => 
-          userBands.some(userBand => userBand.name === band.name)
-        );
-
-        // Guardar nome e id das bandas filtradas
-        const bandInfo = filteredBands.map(band => ({
-          id: band.id,
-          name: band.name
-        }));
-
-        setBandList(bandInfo); // Atualizar estado com bandas filtradas
-        setBand(userBands); // Guardar as bandas do usuário
+        setBand(bandResponse.data || []);
 
         // Requisição para obter as localizações
         const venueResponse = await axios.get(
@@ -97,25 +74,26 @@ function BookingCreatePopup() {
     e.preventDefault();
 
     const bookingData = {
-      name: bookingName,
+      name:bookingName,
       description: description,
       bandId: bandId,
       agentId: agentId,
       venueId: venueId,
       status: stageOfBooking,
+      planning: planning,
       paymentDetails: paymentDetails,
       bookingNumber: bookingNumber,
-      stageNumber: stageOfBooking,
+      arrivalTime: arrivalTime,
+      bookingNotes: bookingNotes,
+      stageNumber: stageNumber,
       foodDetails: foodDetails,
       soundCheckTime: soundcheckTime,
-      arrivalTime: bandArrivalTime,
       tourbusLeaveTime: busDepartureTime,
-      dinnerTime: mealTime,
-      changeOverTime: changeoverTime,
       showStartTime: showStartTime,
+      dinnerTime: dinnerTime,
+      changeOverTime: changeoverTime,
       showEndTime: showEndTime,
       parkingDetails: parkingDetails,
-      bookingNotes: description,
       isPublicEvent: isPublic,
     };
 
@@ -137,6 +115,8 @@ function BookingCreatePopup() {
       alert('Error creating booking');
     }
   };
+
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -173,7 +153,7 @@ function BookingCreatePopup() {
                 <Form.Group controlId="bookingBand">
                   <Form.Label>Band</Form.Label>
                   <Form.Select value={bandId} onChange={(e) => setBandId(e.target.value)}>
-                    {bandList.map((band) => (
+                    {bands.map((band) => (
                       <option key = {band.id} value={band.id} >{band.name}</option>
 
                     ))}
@@ -219,6 +199,19 @@ function BookingCreatePopup() {
                     <option value="2">Optional</option>
                     <option value="3">Canceled</option>
                   </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="mb-3">
+              <Col md={6}>
+                <Form.Group controlId='description'>
+                  <Form.Label>Descrição</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter booking description"
+                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -276,26 +269,14 @@ function BookingCreatePopup() {
 
             {/* Event Schedule */}
             <Form.Text className="mb-3"><strong>Event Schedule</strong></Form.Text>
-            <Row className='mb-3'>
-              <Col md={3}>
-              <Form.Group controlId="eventDate">
-              <Form.Label>Event Date</Form.Label>
-              <Form.Control
-                type="date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-              />
-              </Form.Group>
-              </Col>
-            </Row>
             <Row className="mb-3">
               <Col md={3}>
                 <Form.Group controlId="soundcheckTime">
                   <Form.Label>Soundcheck Time</Form.Label>
                   <Form.Control
-                    type="time"
+                    type="datetime-local"
                     value={soundcheckTime}
-                    onChange={(e) => handleTimeChange(e, setSoundcheckTime)}
+                    onChange={(e) => setSoundcheckTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -303,9 +284,9 @@ function BookingCreatePopup() {
                 <Form.Group controlId="bandArrivalTime">
                   <Form.Label>Band Arrival Time</Form.Label>
                   <Form.Control
-                    type="time"
+                    type="datetime-local"
                     value={bandArrivalTime}
-                    onChange={(e) => handleTimeChange(e, setBandArrivalTime)}
+                    onChange={(e) => setBandArrivalTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -313,21 +294,21 @@ function BookingCreatePopup() {
                 <Form.Group controlId="busDepartureTime">
                   <Form.Label>Tour Bus Leaves Time</Form.Label>
                   <Form.Control
-                    type="time"
+                    type="datetime-local"
                     value={busDepartureTime}
-                    onChange={(e) => handleTimeChange(e, setBusDepartureTime)}
+                    onChange={(e) => setBusDepartureTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
             </Row>
             <Row className="mb-3">
               <Col md={3}>
-                <Form.Group controlId="mealTime">
+                <Form.Group controlId="dinnerTime">
                   <Form.Label>Lunch/Dinner Time</Form.Label>
                   <Form.Control
-                    type="time"
-                    value={mealTime}
-                    onChange={(e) => handleTimeChange(e, setMealTime)}
+                    type="datetime-local"
+                    value={dinnerTime}
+                    onChange={(e) => setDinnerTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -335,9 +316,9 @@ function BookingCreatePopup() {
                 <Form.Group controlId="changeoverTime">
                   <Form.Label>Changeover Time</Form.Label>
                   <Form.Control
-                    type="time"
+                    type="datetime-local"
                     value={changeoverTime}
-                    onChange={(e) => handleTimeChange(e, setChangeoverTime)}
+                    onChange={(e) => setChangeoverTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -345,9 +326,9 @@ function BookingCreatePopup() {
                 <Form.Group controlId="showStartTime">
                   <Form.Label>Show Start Time</Form.Label>
                   <Form.Control
-                    type="time"
+                    type="datetime-local"
                     value={showStartTime}
-                    onChange={(e) => handleTimeChange(e, setShowStartTime)}
+                    onChange={(e) => setShowStartTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
@@ -355,17 +336,61 @@ function BookingCreatePopup() {
                 <Form.Group controlId="showEndTime">
                   <Form.Label>Show End Time</Form.Label>
                   <Form.Control
-                    type="time"
+                    type="datetime-local"
                     value={showEndTime}
-                    onChange={(e) => handleTimeChange(e, setShowEndTime)}
+                    onChange={(e) => setShowEndTime(e.target.value)}
                   />
                 </Form.Group>
               </Col>
             </Row>
 
-            {/* Public Event Toggle */}
+             {/* Booking Logistics */}
+             <Form.Text className="mb-3"><strong>Booking Logistics</strong></Form.Text>
             <Row className="mb-3">
-              <Col md={6}>
+            <Col md={4}>
+                <Form.Group controlId="stageNumber">
+                  <Form.Label>Stage Number</Form.Label>
+                  <Form.Control type="text" 
+                  value={stageNumber}
+                  onChange={(e) => setStageNumber(e.target.value)}
+                  placeholder="Enter stage Number" />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+                <Form.Group controlId="planning">
+                  <Form.Label>Planning</Form.Label>
+                  <Form.Control type="text" 
+                  value={planning}
+                  onChange={(e) => setPlanning(e.target.value)}
+                  placeholder="Enter planning details" />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row  className="mb-3">
+              <Col md={4}>
+              <Form.Group controlId="foodDetails">
+                  <Form.Label>Food Details</Form.Label>
+                  <Form.Control type="text" 
+                  value={foodDetails}
+                  onChange={(e) => setFoodDetails(e.target.value)}
+                  placeholder="Enter Food Details" />
+                </Form.Group>
+              </Col>
+              <Col md={4}>
+              <Form.Group controlId="parkingDetails">
+                  <Form.Label>Parking Details</Form.Label>
+                  <Form.Control type="text" 
+                  value={parkingDetails}
+                  onChange={(e) => setParkingDetails(e.target.value)}
+                  placeholder="Enter Parking Details" />
+                </Form.Group>
+              </Col>
+
+            </Row>
+
+            {/* Additional Information */}
+            <Row className="mb-3">
+            <Col md={6}>
                 <Form.Group controlId="publicEventCheckbox">
                   <Form.Check
                     type="checkbox"
@@ -373,6 +398,17 @@ function BookingCreatePopup() {
                     checked={isPublic}
                     onChange={(e) => setIsPublic(e.target.checked)}
                   />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+            <Col md={6}>
+                <Form.Group controlId="bookingNotes">
+                  <Form.Label>Booking Notes</Form.Label>
+                  <Form.Control type="text"
+                  value={bookingNotes}
+                  onChange={(e) => setBookingNotes(e.target.value)}
+                   placeholder="Enter Notes" />
                 </Form.Group>
               </Col>
             </Row>
