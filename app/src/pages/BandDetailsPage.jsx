@@ -17,7 +17,7 @@ function BandDetailsPage() {
   const userId = useAuthStore((state) => state.userId);
   const [bandsUser, setBandsUser] = useState([]);
   const [allBandUsers, setAllBandUsers] = useState([]);
-
+  const [availability, setAvailability] = useState([]);
   const [band, setBand] = useState(null);
   const [bandMembers, setBandMembers] = useState(location.state?.bandMembers || []);
   const [allUsers, setAllUsers] = useState([]);
@@ -26,6 +26,7 @@ function BandDetailsPage() {
   const [error, setError] = useState(null);
   const [newUserEmail, setNewUserEmail] = useState("");
   const [bands, setBands] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   const enrichedBookings = bookings.map((booking) => ({
     ...booking,
@@ -42,13 +43,15 @@ function BandDetailsPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [bandResponse, usersResponse] = await Promise.all([
+        const [bandResponse, usersResponse, availabilityResponse] = await Promise.all([
           axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band/${bandId}`),
           axios.get('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User'),
+          axios.get('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/availability')
         ]);
 
         setBand(bandResponse.data);
         setAllUsers(usersResponse.data);
+        setAvailability(availabilityResponse.data);
 
         if (!location.state?.bandMembers) {
           const bandUsersResponse = await axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/BandUser?bandId=${bandId}`);
@@ -64,6 +67,22 @@ function BandDetailsPage() {
 
     fetchData();
   }, [bandId, location.state?.bandMembers]);
+
+    const getMemberAvailability = (memberId) => {
+        const memberAvailability = availability.filter(avail => avail.userId === memberId);
+        return memberAvailability.map(avail => avail.availabilityDate);
+    };
+
+    const handleMemberClick = (member) => {
+        setSelectedMember(member); // Definir o membro clicado para exibir no popup
+    };
+
+    const handleCloseModal = () => {
+        setSelectedMember(null); // Fechar a modal
+      };
+    
+
+
 
   const handleAddMember = async (e) => {
     e.preventDefault();
@@ -205,7 +224,6 @@ function BandDetailsPage() {
         <table className="table">
           <thead>
             <tr>
-              <th>User ID</th>
               <th>Name</th>
               <th>Email</th>
               {isEditing && <th>Actions</th>}
@@ -222,8 +240,7 @@ function BandDetailsPage() {
               bandMembers.map((member) => {
                 const user = allUsers.find(u => u.id === member.userId);
                 return (
-                  <tr key={member.id}>
-                    <td>{member.userId}</td>
+                  <tr key={member.id} onClick={() => handleMemberClick(member)}>
                     <td>{user ? user.name : 'Unknown'}</td>
                     <td>{user ? user.email : 'Unknown'}</td>
                     {isEditing && (
@@ -243,6 +260,32 @@ function BandDetailsPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal for displaying member availability */}
+      {selectedMember && (
+        <div className="modal fade show" style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.5)' }} tabIndex="-1" role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Availability for {allUsers.find(user => user.id === selectedMember.userId)?.name}</h5>
+              </div>
+              <div className="modal-body">
+                <ul>
+                  {getMemberAvailability(selectedMember.userId).map((date, index) => (
+                    <li key={index}>{new Date(date).toLocaleDateString()}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
 
       <div className="content mb-4 mt-5">
         <h2 className="title3-page">Band Upcoming Events</h2>
