@@ -3,52 +3,101 @@ import { Row, Col, Button, Container, Dropdown, DropdownButton } from 'react-boo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
-function BookingDetails() {
+function BookingDetails( {booking, venue, agent}) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    const getStatus = (stage) => {
+        switch (stage) {
+          case 1:
+            return 'Final Booking'; 
+          case 2:
+            return 'Optional';   
+          case 3:
+            return 'Canceled';  
+          default:
+            return 'No Status';
+        }
+      };
+
+      const getEvent = (event) => {
+        switch (event) {
+          case false:
+            return 'Private'; 
+          case true:
+            return 'Public';    
+          default:
+            return 'No event status'
+        }
+      };
+
+
+        
+    
+      
     // Mock Data
     const bookingInfo = {
-        number: '2001',
-        stage: 'Final Booking',
+        number: booking.bookingNumber,
+        stage: getStatus(booking.status),
+        description:booking.description,
+        planning:booking.planning,
+        isPublicEvent: getEvent(booking.isPublicEvent)
+
     };
 
     const agentInfo = {
-        name: 'James Doe',
-        email: 'exemplo.usuario@exemplo.com',
-        phone: '+31612345678',
+        name: agent.name,
+        email: agent.email,
+        phone: agent.phoneNumber,
     };
 
     const venueInfo = {
-        name: 'Arena Example',
-        email: 'exemplo.venue@exemplo.com',
-        phone: '+31698765432',
+        name: venue.name,
+        email: venue.contactEmail,
+        phone: venue.contactPhoneNumber,
     };
 
     const scheduleInfo = {
-        soundcheck: '7:30 AM',
-        arrival: '7:00 AM',
-        busLeaves: '8:00 AM',
-        dinner: '7:30 AM',
-        changeOver: '7:00 AM',
-        showStart: '09:00 AM',
-        showEnd: '11:00 AM',
+        soundcheck:booking.soundCheckTime,
+        arrival: booking.arrivalTime,
+        busLeaves: booking.tourbusLeaveTime,
+        dinner: booking.dinnerTime,
+        changeOver: booking.changeOverTime,
+        showStart: booking.showStartTime,
+        showEnd: booking.showEndTime,
     };
 
     const paymentInfo = {
-        amount: '$5000',
+        amount: booking.paymentDetails,
         method: 'Bank Transfer',
         status: 'Paid',
     };
 
     const logisticsInfo = {
-        parking: 'Yes we have',
-        food: 'Yes',
-        dressCode: 'Black Attire',
+        parking:booking.parkingDetails,
+        food: booking.foodDetails,
+        dressCode: booking.bookingNotes,
     };
+
+    const convertDateTime = (timestamp) => {
+        const date = new Date(timestamp);
+        const day = String(date.getDate()).padStart(2, '0'); 
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 since getMonth() is zero-based
+        const year = date.getFullYear(); 
+        
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return ` ${hours}:${minutes} - ${day}/${month}`;
+    };
+
+      const formattedScheduleInfo = Object.entries(scheduleInfo).reduce((acc, [key, value]) => {
+        acc[key] = convertDateTime(value);
+        return acc;
+    }, {});
 
     return (
         <Container fluid className="p-4">
@@ -114,13 +163,16 @@ function BookingDetails() {
                         </Col>
                     </Row>
                     <Row>
+                    <Col xs={12} md={4} className="text-start">
+                            <h6 className='bold-sub-text'>Booking Description: <span className='sub-text'>{bookingInfo.description}</span></h6>
+                        </Col>  
                         <Col xs={12} md={6} className="text-start">
-                            <h6 className='bold-sub-text'>Booking Planning: <span className='sub-text'>{bookingInfo.number}</span></h6>
+                            <h6 className='bold-sub-text'>Booking Planning: <span className='sub-text'>{bookingInfo.planning}</span></h6>
                         </Col>  
                     </Row>
                     <Row>
                     <Col xs={12} md={6} className="text-start">
-                            <h6 className='bold-sub-text'>Event is: <span className='sub-text'>{bookingInfo.number}</span></h6>
+                            <h6 className='bold-sub-text'>Event is: <span className='sub-text'>{bookingInfo.isPublicEvent}</span></h6>
                         </Col>
                     </Row>
                 </Col>
@@ -177,10 +229,12 @@ function BookingDetails() {
             <Row>
                 <Col id="schedule-info" className="mb-4">
                     <h5 className="mb-3 text-start">Event Schedule</h5>
-                    {Object.entries(scheduleInfo).map(([key, value]) => (
+                    {Object.entries(formattedScheduleInfo).map(([key, value]) => (
                         <Row className="mb-2" key={key}>
                             <Col className="text-start">
-                                <h6 className='bold-sub-text'>{key.replace(/([A-Z])/g, ' $1')}: <span className='sub-text'>{value}</span></h6>
+                                <h6 className='bold-sub-text'>
+                                    {key.replace(/([A-Z])/g, ' $1')}: <span className='sub-text'>{value}</span>
+                                </h6>
                             </Col>
                         </Row>
                     ))}

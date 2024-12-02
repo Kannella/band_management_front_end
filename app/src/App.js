@@ -27,7 +27,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/bands" element={<BandPage />} />
-          <Route path="/bookings" element={<BookingPage />} />
+          <Route path="/bookings/:id" element={<BookingPage />} />
           <Route path="/bookings-table" element={<BookingTablePage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/band/:id" element={<BandDetailsPage />} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './calendar_components.css';
 import CalendarPopup from './PopupCalendar';
 
-const Calendar = () => {
+const Calendar = ({ events }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [days, setDays] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -11,13 +11,6 @@ const Calendar = () => {
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen); // open or close the popup
   };
-
-
-  const items = [
-    { id: 1, date: '2024-11-27', name: 'Event 1' },
-    { id: 2, date: '2024-11-28', name: 'Event 2' },
-    { id: 3, date: '2024-12-01', name: 'Event 3' },
-  ];
 
   useEffect(() => {
     generateCalendar(currentDate);
@@ -67,84 +60,88 @@ const Calendar = () => {
   const handleDayClick = (day) => {
     if (!day) return;
     const clickedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-    //  if a day selected was already selected, the filter will end
+    // Se o dia clicado for o mesmo dia selecionado, desmarca a seleção
     if (selectedDate && clickedDate.getTime() === selectedDate.getTime()) {
       setSelectedDate(null);
     } else {
       setSelectedDate(clickedDate);
     }
   };
-  
-  const filteredItems = items.filter((item) => {
-    if (!selectedDate) return true; //no filter if a date is selected
-    return item.date === selectedDate.toISOString().split('T')[0];
+
+  // Filtrar eventos para o dia selecionado
+  const filteredEvents = events.filter((event) => {
+    if (!selectedDate) return true; // Se não houver dia selecionado, exibe todos os eventos
+    const eventDate = new Date(event.showStartTime); // Considerando que showStartTime é uma string de data
+    return (
+      eventDate.getDate() === selectedDate.getDate() &&
+      eventDate.getMonth() === selectedDate.getMonth() &&
+      eventDate.getFullYear() === selectedDate.getFullYear()
+    );
   });
 
-
   return (
-     <div className='row col'>
-        <div className='col-3 text-center'>
-          <button className="addAvailabilityButton" onClick={togglePopup}>
-            Add your Availability
-          </button>
-            {isPopupOpen && <CalendarPopup />}          
-          <br />
-          <br />
-          <div className="square-box">
-            <ul className="item-list">
-              {filteredItems.length > 0 ? (
-                <ul className="item-list">
-                  {filteredItems.map((item) => (
-                    <li className="list-item" key={item.id}>{item.name}</li>
-                  ))}
-                </ul>
-              ) : (
-                <li className="list-item">No events for this day</li>
-              )}
-            </ul>
-          </div>
+    <div className='row col'>
+      <div className='col-3 text-center'>
+        <button className="addAvailabilityButton" onClick={togglePopup}>
+          Add your Availability
+        </button>
+        {isPopupOpen && <CalendarPopup />}
+        <br />
+        <br />
+        <div className="square-box">
+          <ul className="item-list">
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event) => (
+                <li className="list-item" key={event.id}>{event.name}</li>
+              ))
+            ) : (
+              <li className="list-item">No events for this day</li>
+            )}
+          </ul>
         </div>
-        <div className='col-8'>
-          <div className="calendar-container">
-            <div className="calendar">
-              <div className="calendar-header">
-                <button onClick={handlePreviousMonth}>Previous</button>
-                <h2>
-                  {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
-                </h2>
-                <button onClick={handleNextMonth}>Next</button>
-              </div>
-              <div className="calendar-grid">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                  <div key={day} className="calendar-day-label">
-                    {day}
-                  </div>
-                ))}
-                {days.map((day, index) => {
-                  const isSelected =
-                    selectedDate &&
-                    day === selectedDate.getDate() &&
-                    currentDate.getMonth() === selectedDate.getMonth() &&
-                    currentDate.getFullYear() === selectedDate.getFullYear();
+      </div>
+      <div className='col-8'>
+        <div className="calendar-container">
+          <div className="calendar">
+            <div className="calendar-header">
+              <button onClick={handlePreviousMonth}>Previous</button>
+              <h2>
+                {/* Exibir o mês em inglês */}
+                {currentDate.toLocaleString('en-US', { month: 'long' })} {currentDate.getFullYear()}
+              </h2>
+              <button onClick={handleNextMonth}>Next</button>
+            </div>
+            <div className="calendar-grid">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                <div key={day} className="calendar-day-label">
+                  {day}
+                </div>
+              ))}
+              {days.map((day, index) => {
+                const isSelected =
+                  selectedDate &&
+                  day === selectedDate.getDate() &&
+                  currentDate.getMonth() === selectedDate.getMonth() &&
+                  currentDate.getFullYear() === selectedDate.getFullYear();
 
-                  return (
-                    <button
-                      key={index}
-                      className={`calendar-day ${day ? '' : 'empty'} 
-                        ${isToday(day) ? 'today' : ''} 
-                        ${isWeekend(day) ? 'weekend' : ''} 
-                        ${isSelected ? 'selected' : ''}`}
-                      onClick={() => handleDayClick(day)}
-                    >
-                      {day}
-                    </button>
-                  );
-                })}
-              </div>
+                return (
+                  <button
+                    key={index}
+                    className={`calendar-day ${day ? '' : 'empty'} 
+                      ${isToday(day) ? 'today' : ''} 
+                      ${isWeekend(day) ? 'weekend' : ''} 
+                      ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleDayClick(day)}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
-      </div>  
+      </div>
+    </div>
   );
 };
 

@@ -8,11 +8,11 @@ import { useAuthStore } from '../../store/authStore';
 import useScreenSizeController from '../../hooks/useScreenSizeController';
 import './booking_components.css';
 
-function EditBookingPopup() {
+function EditBookingPopup({bookingId}) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     bandId: '',
-    bookingName: '',
+    name: '',
     bookingNumber: '',
     stageOfBooking: '',
     paymentDetails: '',
@@ -98,7 +98,7 @@ function EditBookingPopup() {
     };
 
     try {
-      const response = await axios.post('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking', bookingData, {
+      const response = await axios.put(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/${bookingId}`, bookingData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -109,7 +109,7 @@ function EditBookingPopup() {
         setShow(false);
         setFormData({
           bandId: '',
-          bookingName: '',
+          name: '',
           bookingNumber: '',
           stageOfBooking: '',
           paymentDetails: '',
@@ -153,7 +153,7 @@ function EditBookingPopup() {
         onClick={handleShow}
       >
         <FontAwesomeIcon icon={faPlus} style={{ marginRight: isMobile ? 0 : 10 }} />
-        {!isMobile && 'Add New Booking'}
+        {!isMobile && 'Edit Booking'}
       </Button>
 
       <Modal
@@ -174,9 +174,8 @@ function EditBookingPopup() {
               <Form.Label>Band</Form.Label>
               <Form.Select 
                 name="bandId" 
-                value={formData.bandId} 
+                value={formData.bandId || ""} 
                 onChange={handleChange}
-                required
               >
                 <option value="">Select a band</option>
                 {bands.map((band) => (
@@ -187,17 +186,16 @@ function EditBookingPopup() {
 
             <Row className="mb-3">
               <Col md={4}>
-                <Form.Group controlId="bookingName">
-                  <Form.Label>Booking Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="bookingName"
-                    value={formData.bookingName}
-                    onChange={handleChange}
-                    placeholder="Enter name"
-                    required
-                  />
-                </Form.Group>
+              <Form.Group controlId="name">
+              <Form.Label>Booking Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={formData.name || ""}
+                onChange={handleChange}
+                placeholder="Enter booking name"
+              />
+            </Form.Group>
               </Col>
               <Col md={4}>
                 <Form.Group controlId="bookingNumber">
@@ -205,10 +203,10 @@ function EditBookingPopup() {
                   <Form.Control
                     type="text"
                     name="bookingNumber"
-                    value={formData.bookingNumber}
+                    value={formData.bookingNumber || ''}
                     onChange={handleChange}
                     placeholder="Enter number"
-                    required
+  
                   />
                 </Form.Group>
               </Col>
@@ -217,9 +215,9 @@ function EditBookingPopup() {
                   <Form.Label>Stage of Booking</Form.Label>
                   <Form.Select
                     name="stageOfBooking"
-                    value={formData.stageOfBooking}
+                    value={formData.stageOfBooking || ""}
                     onChange={handleChange}
-                    required
+  
                   >
                     <option value="">Select</option>
                     <option value="1">Final Booking</option>
@@ -236,7 +234,7 @@ function EditBookingPopup() {
                 as="textarea"
                 rows={3}
                 name="description"
-                value={formData.description}
+                value={formData.description || ""}
                 onChange={handleChange}
                 placeholder="Enter booking description"
               />
@@ -247,7 +245,7 @@ function EditBookingPopup() {
               <Form.Control
                 type="text"
                 name="paymentDetails"
-                value={formData.paymentDetails}
+                value={formData.paymentDetails || ""}
                 onChange={handleChange}
                 placeholder="Enter payment details"
               />
@@ -259,9 +257,9 @@ function EditBookingPopup() {
                   <Form.Label>Venue</Form.Label>
                   <Form.Select 
                     name="venueId" 
-                    value={formData.venueId} 
+                    value={formData.venueId || ""} 
                     onChange={handleChange}
-                    required
+  
                   >
                     <option value="">Select an existing venue</option>
                     {venues.map((venue) => (
@@ -277,9 +275,9 @@ function EditBookingPopup() {
                   <Form.Label>Agent</Form.Label>
                   <Form.Select 
                     name="agentId" 
-                    value={formData.agentId} 
+                    value={formData.agentId || ""} 
                     onChange={handleChange}
-                    required
+  
                   >
                     <option value="">Select an existing agent</option>
                     {agents.map((agent) => (
@@ -300,7 +298,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="soundcheckTime"
-                    value={formData.soundcheckTime}
+                    value={formData.soundcheckTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -311,7 +309,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="bandArrivalTime"
-                    value={formData.bandArrivalTime}
+                    value={formData.bandArrivalTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -322,7 +320,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="busDepartureTime"
-                    value={formData.busDepartureTime}
+                    value={formData.busDepartureTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -335,7 +333,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="dinnerTime"
-                    value={formData.dinnerTime}
+                    value={formData.dinnerTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -346,7 +344,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="changeoverTime"
-                    value={formData.changeoverTime}
+                    value={formData.changeoverTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -357,7 +355,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="showStartTime"
-                    value={formData.showStartTime}
+                    value={formData.showStartTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -368,7 +366,7 @@ function EditBookingPopup() {
                   <Form.Control
                     type="datetime-local"
                     name="showEndTime"
-                    value={formData.showEndTime}
+                    value={formData.showEndTime || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -383,7 +381,7 @@ function EditBookingPopup() {
                   <Form.Control 
                     type="text" 
                     name="stageNumber"
-                    value={formData.stageNumber}
+                    value={formData.stageNumber || ""}
                     onChange={handleChange}
                     placeholder="Enter stage Number" 
                   />
@@ -407,7 +405,7 @@ function EditBookingPopup() {
                   <Form.Control 
                     type="text" 
                     name="foodDetails"
-                    value={formData.foodDetails}
+                    value={formData.foodDetails || ""}
                     onChange={handleChange}
                     placeholder="Enter Food Details" 
                   />
@@ -421,7 +419,7 @@ function EditBookingPopup() {
                   <Form.Control 
                     type="text" 
                     name="parkingDetails"
-                    value={formData.parkingDetails}
+                    value={formData.parkingDetails || ""}
                     onChange={handleChange}
                     placeholder="Enter Parking Details" 
                   />
@@ -433,7 +431,7 @@ function EditBookingPopup() {
                     type="checkbox"
                     label="Public Event"
                     name="isPublic"
-                    checked={formData.isPublic}
+                    checked={formData.isPublic || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -446,18 +444,18 @@ function EditBookingPopup() {
                 as="textarea"
                 rows={3}
                 name="bookingNotes"
-                value={formData.bookingNotes}
+                value={formData.bookingNotes || ""}
                 onChange={handleChange}
                 placeholder="Enter Notes" 
               />
             </Form.Group>
 
             <div className="d-flex justify-content-end">
-              <Button variant="secondary" onClick={handleClose} className="me-2">
+              <Button variant="danger" onClick={handleClose} className="me-2">
                 Cancel
               </Button>
-              <Button variant="primary" type="submit" disabled={isLoading}>
-                {isLoading ? 'Creating...' : 'Create Booking'}
+              <Button variant="dark" type="submit" disabled={isLoading}>
+                {isLoading ? 'Edit.' : 'Edit Booking'}
               </Button>
             </div>
           </Form>

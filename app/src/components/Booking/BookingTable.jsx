@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Box, Accordion, AccordionSummary, AccordionDetails,
   Typography, MenuItem, Menu, FormControl, Select, TextField, Button,
@@ -49,6 +50,21 @@ const BookingTable = ({ bookings }) => {
   };
 
   const handleClose = () => setIsPopupOpen(false);
+  const navigate = useNavigate();
+
+  const handleGoTo = async (id) => {
+    if (!id) {
+      alert('Invalid booking ID.');
+      return;
+    }
+    try {
+      console.log('Navigating to booking with ID:', id);
+      navigate(`/bookings/${id}`);
+    } catch (error) {
+      console.error('Error navigating to booking:', error);
+      alert('Failed to navigate to booking. Please try again.');
+    }
+  }
 
   return (
     <TableContainer component={Paper} className="table-container">
@@ -137,7 +153,7 @@ const BookingTable = ({ bookings }) => {
                     open={Boolean(anchorEl)}
                     onClose={handleCloseMenu}
                   >
-                    <MenuItem onClick={() => alert(`Navigating to Booking: ${id}`)}>
+                   <MenuItem onClick={() => handleGoTo(booking.id)}>
                       Go to Booking
                     </MenuItem>
                     <MenuItem onClick={() => handleDelete(id)}>
@@ -181,6 +197,7 @@ const BookingTable = ({ bookings }) => {
                   Date: {format(new Date(showStartTime), 'dd/MM/yyyy')}
                 </Typography>
                 <Button onClick={() => handleDelete(id)}>Delete Booking</Button>
+                <Button onClick={() => handleGoTo(booking.id)}>Go To</Button>
               </AccordionDetails>
             </Accordion>
           );

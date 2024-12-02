@@ -4,11 +4,19 @@ import { FaEdit, FaUserPlus } from "react-icons/fa";
 import axios from "axios";
 import { useAuthStore } from "../store/authStore";
 import BookingCard from "../components/Booking/BookingCard";
+import { useNavigate } from "react-router-dom";
 
 function BandDetailsPage() {
   const { id: bandId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [bandMap, setBandMap] = useState({});
+  const [venueMap, setVenueMap] = useState({});
+  const [agentMap, setAgentMap] = useState({});
+  const [bookings, setBookings] = useState([]);
   const userId = useAuthStore((state) => state.userId);
+  const [bandsUser, setBandsUser] = useState([]);
+  const [allBandUsers, setAllBandUsers] = useState([]);
 
   const [band, setBand] = useState(null);
   const [bandMembers, setBandMembers] = useState(location.state?.bandMembers || []);
@@ -17,6 +25,18 @@ function BandDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newUserEmail, setNewUserEmail] = useState("");
+  const [bands, setBands] = useState([]);
+
+  const enrichedBookings = bookings.map((booking) => ({
+    ...booking,
+    bandName: bandMap[booking.bandId] || "Nome não disponível",
+    venueName: venueMap[booking.venueId] || "Nome não disponível",
+    agentName: agentMap[booking.agentId] || "Nome não disponível",
+  }));
+
+  const sortedBookings = enrichedBookings
+    .sort((a, b) => new Date(b.showStartTime) - new Date(a.showStartTime))  // Ordenando por showStartTime
+    .slice(0, 2);  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,6 +104,60 @@ function BandDetailsPage() {
       alert("Failed to remove user from band. Please try again.");
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (userId) {
+          const [bookingResponse, bandResponse, bandUsersResponse, venueResponse, agentResponse] = await Promise.all([
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBookingsForUser?userId=${userId}`),
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band`),
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User`), // Caso precise de outros dados de usuários da banda
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Venue`),
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Agent`)
+          ]);
+
+          // Carregar os dados das bandas
+          const bands = bandResponse.data || [];
+          const bandMap = bands.reduce((acc, band) => {
+            acc[band.id] = band.name;
+            return acc;
+          }, {});
+          setBandMap(bandMap);
+
+          // Carregar os dados dos venues
+          const venues = venueResponse.data || [];
+          const venueMap = venues.reduce((acc, venue) => {
+            acc[venue.id] = venue.name;
+            return acc;
+          }, {});
+          setVenueMap(venueMap);
+
+          // Carregar os dados dos agentes
+          const agents = agentResponse.data || [];
+          const agentMap = agents.reduce((acc, agent) => {
+            acc[agent.id] = agent.name;
+            return acc;
+          }, {});
+          setAgentMap(agentMap);
+
+          // Carregar os bookings
+          const bookings = bookingResponse.data || [];
+          setBookings(bookings);
+          setBands(bands);
+          setAllBandUsers(bandUsersResponse.data || []);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("Failed to load data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
@@ -176,7 +250,15 @@ function BandDetailsPage() {
       </div>
 
       <div className="row">
-        <BookingCard />
+      {sortedBookings.map((booking) => (
+          <BookingCard
+            key={booking.id}
+            booking={booking}
+            venue={booking.venueName}  // Passando o nome do venue
+            band={booking.bandName}    // Passando o nome da band
+            agent={booking.agentName}  // Passando o nome do agent
+          />
+        ))}
       </div>
     </div>
   );
