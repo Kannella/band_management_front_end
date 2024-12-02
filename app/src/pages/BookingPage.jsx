@@ -4,9 +4,12 @@ import axios from 'axios';
 import PopUpEditBooking from '../components/Booking/BookingEditPopup';
 import BookingDetails from '../components/Booking/BookingDetails';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useAuthStore } from '../store/authStore';
 
 function BookingPage() {
+    
     const { id: bookingId } = useParams();
+    const isManager = useAuthStore((state) => state.isManager);
     const [booking, setBooking] = useState(null);
     const [venue, setVenue] = useState(null);
     const [agent, setAgent] = useState(null);
@@ -62,9 +65,11 @@ function BookingPage() {
                 <Col xs={12} md="auto">
                     <div className="sub-text mt-1 mb-1">Event Details</div>
                 </Col>
+                {isManager() &&(
                 <Col xs={12} md="auto" className="ms-3">
                     <PopUpEditBooking bookingId = {booking.id}  />
                 </Col>
+                )}
             </Row>
 
             <hr />

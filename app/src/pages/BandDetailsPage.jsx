@@ -8,15 +8,17 @@ import { useNavigate } from "react-router-dom";
 
 function BandDetailsPage() {
   const { id: bandId } = useParams();
+  const isManager = useAuthStore((state) => state.isManager);
+  const userId = useAuthStore((state) => state.userId);
   const location = useLocation();
   const navigate = useNavigate();
   const [bandMap, setBandMap] = useState({});
   const [venueMap, setVenueMap] = useState({});
   const [agentMap, setAgentMap] = useState({});
   const [bookings, setBookings] = useState([]);
-  const userId = useAuthStore((state) => state.userId);
   const [bandsUser, setBandsUser] = useState([]);
   const [allBandUsers, setAllBandUsers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
   const [availability, setAvailability] = useState([]);
   const [band, setBand] = useState(null);
   const [bandMembers, setBandMembers] = useState(location.state?.bandMembers || []);
@@ -26,7 +28,6 @@ function BandDetailsPage() {
   const [error, setError] = useState(null);
   const [newUserEmail, setNewUserEmail] = useState("");
   const [bands, setBands] = useState([]);
-  const [selectedMember, setSelectedMember] = useState(null);
 
   const enrichedBookings = bookings.map((booking) => ({
     ...booking,
@@ -68,20 +69,18 @@ function BandDetailsPage() {
     fetchData();
   }, [bandId, location.state?.bandMembers]);
 
-    const getMemberAvailability = (memberId) => {
-        const memberAvailability = availability.filter(avail => avail.userId === memberId);
-        return memberAvailability.map(avail => avail.availabilityDate);
-    };
+  const getMemberAvailability = (memberId) => {
+    const memberAvailability = availability.filter(avail => avail.userId === memberId);
+    return memberAvailability.map(avail => avail.availabilityDate);
+  };
 
-    const handleMemberClick = (member) => {
-        setSelectedMember(member); // Definir o membro clicado para exibir no popup
-    };
+  const handleMemberClick = (member) => {
+      setSelectedMember(member);
+  };
 
-    const handleCloseModal = () => {
-        setSelectedMember(null); // Fechar a modal
-      };
-    
-
+  const handleCloseModal = () => {
+    setSelectedMember(null); 
+  };
 
 
   const handleAddMember = async (e) => {
@@ -94,18 +93,22 @@ function BandDetailsPage() {
         alert("User not found. Please check the email address.");
         return;
       }
-
+  
+      console.log("Adding user:", userToAdd); // Log para ver o usuário sendo adicionado
+  
       const isAlreadyMember = bandMembers.some(member => member.userId === userToAdd.id);
       if (isAlreadyMember) {
         alert("This user is already a member of the band.");
         return;
       }
-
+  
       const response = await axios.post('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/BandUser/AddUserToBand', {
         bandId: parseInt(bandId),
         userId: userToAdd.id
       });
-
+  
+      console.log('Response from adding user:', response.data); // Log de resposta
+  
       setBandMembers([...bandMembers, response.data]);
       setNewUserEmail("");
     } catch (error) {
@@ -113,23 +116,31 @@ function BandDetailsPage() {
       alert("Failed to add user to band. Please try again.");
     }
   };
+  
+const handleRemoveMember = async (memberToRemove) => {
+  try {
+    console.log("Removing member:", memberToRemove); // Log for verification
+    
+    // Send the DELETE request
+    const url = `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/BandUser/RemoveUserFromBand?bandId=${bandId}&userId=${memberToRemove.userId}`;
+    console.log("Request URL:", url); // Log the URL to verify correctness
 
-  const handleRemoveMember = async (memberToRemove) => {
-    try {
-      await axios.delete(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/BandUser/RemoveUserFromBand?bandId=${bandId}&userId=${memberToRemove.userId}`);
-      setBandMembers(bandMembers.filter(member => member.userId !== memberToRemove.userId));
-    } catch (error) {
-      console.error("Error removing user from band:", error);
-      alert("Failed to remove user from band. Please try again.");
-    }
-  };
+    await axios.delete(url);
+    
+    // Update the state with the new list of band members
+    setBandMembers(prevMembers => prevMembers.filter(member => member.userId !== memberToRemove.userId));
+  } catch (error) {
+    console.error("Error removing user from band:", error.response?.data || error.message);
+    alert("Failed to remove user from band. Please try again.");
+  }
+};
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         if (userId) {
-          const [bookingResponse, bandResponse, bandUsersResponse, venueResponse, agentResponse] = await Promise.all([
+          const [bookingResponse, bandResponse, bandUsersResponse, venueResponse, agentResponse, ] = await Promise.all([
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBookingsForUser?userId=${userId}`),
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band`),
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User`), // Caso precise de outros dados de usuários da banda
@@ -190,15 +201,17 @@ function BandDetailsPage() {
     <div className="container-fluid pt-3 ms-3">
       <h1 className="title-page">{band.name}</h1>
 
-      <div className="content mb-4 mt-4 d-flex justify-content-between align-items-center">
-        <h2 className="title3-page">Band Members</h2>
-        <button 
-          className="btn btn-secondary" 
-          onClick={toggleEditMode}
-        >
-          <FaEdit className="me-2" /> Edit Band
-        </button>
-      </div>
+        <div className="content mb-4 mt-4 d-flex justify-content-between align-items-center">
+            <h2 className="title3-page">Band Members</h2>
+            {isManager() && (
+                <button 
+                    className="btn btn-secondary" 
+                    onClick={toggleEditMode}
+                >
+                    <FaEdit className="me-2" /> Edit Band
+                </button>
+            )}
+        </div>
 
       {isEditing && (
         <div className="row mb-4">
@@ -224,6 +237,7 @@ function BandDetailsPage() {
         <table className="table">
           <thead>
             <tr>
+              <th>User ID</th>
               <th>Name</th>
               <th>Email</th>
               {isEditing && <th>Actions</th>}
@@ -240,7 +254,8 @@ function BandDetailsPage() {
               bandMembers.map((member) => {
                 const user = allUsers.find(u => u.id === member.userId);
                 return (
-                  <tr key={member.id} onClick={() => handleMemberClick(member)}>
+                  <tr key={member.id}>
+                    <td>{member.userId}</td>
                     <td>{user ? user.name : 'Unknown'}</td>
                     <td>{user ? user.email : 'Unknown'}</td>
                     {isEditing && (
@@ -250,6 +265,10 @@ function BandDetailsPage() {
                           onClick={() => handleRemoveMember(member)}
                         >
                           Remove
+                        </button>
+                        <button className="btn btn-secondary"
+                        onClick={() => handleMemberClick(member)}>
+                            View Availability
                         </button>
                       </td>
                     )}
@@ -261,13 +280,16 @@ function BandDetailsPage() {
         </table>
       </div>
 
-      {/* Modal for displaying member availability */}
       {selectedMember && (
         <div className="modal fade show" style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.5)' }} tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
+                {/* Exibir o nome do usuário encontrado */}
                 <h5 className="modal-title">Availability for {allUsers.find(user => user.id === selectedMember.userId)?.name}</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleCloseModal}>
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
               <div className="modal-body">
                 <ul>
@@ -285,7 +307,6 @@ function BandDetailsPage() {
           </div>
         </div>
       )}
-
 
       <div className="content mb-4 mt-5">
         <h2 className="title3-page">Band Upcoming Events</h2>

@@ -9,6 +9,7 @@ import { faCircle, faEllipsisVertical, faSearch } from '@fortawesome/free-solid-
 import { format } from 'date-fns';
 import { ReactComponent as FilterIcon } from '../../assets/images/icon-filter.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/icon_trash.svg';
+import { useAuthStore } from '../../store/authStore';
 
 import './booking_components.css';
 import useBookingTable from '../../hooks/useBookingTable';
@@ -31,6 +32,8 @@ const BookingTable = ({ bookings }) => {
     selectedRows,
   } = useBookingTable(bookings);
 
+  const isManager = useAuthStore((state) => state.isManager);
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -52,19 +55,29 @@ const BookingTable = ({ bookings }) => {
   const handleClose = () => setIsPopupOpen(false);
   const navigate = useNavigate();
 
-  const handleGoTo = async (id) => {
-    if (!id) {
+  const handleGoTo = async () => {
+    // Verifica se existe alguma linha selecionada
+    if (selectedRows.size === 0) {
+      alert('Please select a booking.');
+      return;
+    }
+  
+    // Pega o primeiro ID da linha selecionada (já que você só pode ter uma linha selecionada de cada vez)
+    const selectedId = Array.from(selectedRows)[0];  // seleciona o primeiro ID, caso haja mais de um
+  
+    if (!selectedId) {
       alert('Invalid booking ID.');
       return;
     }
+  
     try {
-      console.log('Navigating to booking with ID:', id);
-      navigate(`/bookings/${id}`);
+      console.log('Navigating to booking with ID:', selectedId);
+      navigate(`/bookings/${selectedId}`);  // Navega para a página com o ID da reserva
     } catch (error) {
       console.error('Error navigating to booking:', error);
       alert('Failed to navigate to booking. Please try again.');
     }
-  }
+  };
 
   return (
     <TableContainer component={Paper} className="table-container">
@@ -77,10 +90,15 @@ const BookingTable = ({ bookings }) => {
           <FilterIcon className="icon-filter" />
           <span className="filters-text">Filters</span>
         </Button>
+        { isManager() &&(
         <Button onClick={handleBulkDelete} disabled={selectedRows.size === 0}>
           <TrashIcon className="icon-trash" />
         </Button>
+        )}
+        { isManager() &&(
         <PopUpCreateBooking isOpen={isPopupOpen} onClose={handleClose} />
+        )}
+
       </Box>
 
       {/* Filters */}

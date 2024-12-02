@@ -170,13 +170,13 @@ function HomePage() {
           <BookingCard
             key={booking.id}
             booking={booking}
-            venue={booking.venueName}  // Passando o nome do venue
-            band={booking.bandName}    // Passando o nome da band
-            agent={booking.agentName}  // Passando o nome do agent
+            venue={booking.venueName} 
+            band={booking.bandName}    
+            agent={booking.agentName}  
           />
         ))}
       </Row>
-      <Row className="justify-content-center align-items-center ms-3 mt-2">
+      <Row className="justify-content-start align-items-center ms-3 mt-2">
         <div className="home-headding-text text-start">My Bands</div>
         {bandsUser.map((band) => (
           <div key={band.id} className="col-12 col-md-3 col-sm-12 mb-4 mt-4">

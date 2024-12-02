@@ -9,6 +9,7 @@ import BandPopup from "../components/Band/BandCreatePopup";
 
 function BandPage() {
     const userId = useAuthStore((state) => state.userId);
+    const isManager = useAuthStore((state) => state.isManager);
     const navigate = useNavigate();
     const [bands, setBands] = useState([]);
     const [allBandUsers, setAllBandUsers] = useState([]);
@@ -72,12 +73,15 @@ function BandPage() {
                 </div>
             </div>
 
+        { isManager() &&(
             <div className="col-12 col-md-auto ms-3">
-                <button className="createButton" onClick={handleShowPopup}>
-                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: 10 }} />
-                    {'Create new band'}
-                </button>
-            </div>
+            <button className="createButton" onClick={handleShowPopup}>
+                <FontAwesomeIcon icon={faPlus} style={{ marginRight: 10 }} />
+                {'Create new band'}
+            </button>
+        </div>
+
+        )}
 
             <BandPopup show={showPopup} handleClose={handleClosePopup} />
 
@@ -92,7 +96,7 @@ function BandPage() {
                 </div>
             </div>
 
-            <div className="row justify-content-center">
+            <div className="row justify-content-start">
                 {bands.map((band) => (
                     <div key={band.id} className="col-12 col-md-3 col-sm-12 mb-4">
                         <BandCard 
