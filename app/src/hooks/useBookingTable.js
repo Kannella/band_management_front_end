@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 function useBookingTable(bookings) {
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [selectedColumn, setSelectedColumn] = useState('');
   const [rows, setRows] = useState(bookings);
-  const [textFilter, setTextFilter] = useState(''); // Valor do input
-  const [activeFilter, setActiveFilter] = useState(''); // Filtro aplicado ao apertar o botão
-
+  const [textFilter, setTextFilter] = useState('');
+  const [activeFilter, setActiveFilter] = useState('');
 
   const handleSelect = (id) => {
     setSelectedRows((prevSelected) => {
@@ -28,17 +28,44 @@ function useBookingTable(bookings) {
     return columnValue?.includes(activeFilter.toLowerCase());
   });
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this booking?');
     if (confirmDelete) {
-      setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-      setSelectedRows(new Set());  // Clear selection after deletion
+      try {
+        await axios.delete(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/${id}`);
+        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+        setSelectedRows((prevSelected) => {
+          const updatedSelected = new Set(prevSelected);
+          updatedSelected.delete(id);
+          return updatedSelected;
+        });
+      } catch (error) {
+        console.error('Error deleting booking:', error);
+        alert('Failed to delete booking. Please try again.');
+      }
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete ${selectedRows.size} booking(s)?`);
+    if (confirmDelete) {
+      try {
+        const deletePromises = Array.from(selectedRows).map(id => 
+          axios.delete(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/${id}`)
+        );
+        await Promise.all(deletePromises);
+        setRows((prevRows) => prevRows.filter((row) => !selectedRows.has(row.id)));
+        setSelectedRows(new Set());
+      } catch (error) {
+        console.error('Error deleting bookings:', error);
+        alert('Failed to delete some or all bookings. Please try again.');
+      }
     }
   };
 
   const getStatusColor = (stage) => {
     switch (stage) {
-      case 1 :
+      case 1:
         return '#037847'; 
       case 2:
         return '#364254';   
@@ -59,6 +86,7 @@ function useBookingTable(bookings) {
     isSelected,
     filteredRows,
     handleDelete,
+    handleBulkDelete,
     getStatusColor,
     textFilter,
     setTextFilter,
@@ -68,3 +96,4 @@ function useBookingTable(bookings) {
 }
 
 export default useBookingTable;
+

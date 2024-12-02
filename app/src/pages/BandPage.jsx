@@ -1,68 +1,59 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BandPopup from "../components/Band/BandCreatePopup";
-import CardWidget from "../components/Band/BandCard";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus} from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAuthStore } from "../store/authStore";
+import BandCard from "../components/Band/BandCard";
+import BandPopup from "../components/Band/BandCreatePopup";
 
 function BandPage() {
-    const userId = useAuthStore((state) => state.userId); 
-    const [bands, setBands] = useState([]); // For storing the user's bands with full details
-    const [allBands, setAllBands] = useState([]); // For storing all available bands
+    const userId = useAuthStore((state) => state.userId);
+    const navigate = useNavigate();
+    const [bands, setBands] = useState([]);
+    const [allBandUsers, setAllBandUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const [showPopup, setShowPopup] = useState(false);
-    const handleShowPopup = () => setShowPopup(true);
-    const handleClosePopup = () => setShowPopup(false);
 
     useEffect(() => {
-        const fetchBands = async () => {
+        const fetchData = async () => {
             try {
-                setLoading(true); // Start loading
-
+                setLoading(true);
                 if (userId) {
-                    // 1. Fetch the user's bands (only name)
-                    const bandResponse = await axios.get(
-                        `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBandsForUser?userId=${userId}`
-                    );
-                    const userBands = bandResponse.data || [];
-                    
-                    // 2. Fetch all available bands (with id and name)
-                    const allBandsResponse = await axios.get(
-                        "https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band/"
-                    );
-                    const allBandsList = allBandsResponse.data || [];
+                    const [bandResponse, bandUsersResponse] = await Promise.all([
+                        axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBandsForUser?userId=${userId}`),
+                        axios.get('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/BandUser'),
+                    ]);
 
-                    setAllBands(allBandsList); // Store all bands
-
-                    // 3. Match the names and get the id of each band
-                    const updatedBands = userBands.map((userBand) => {
-                        const matchingBand = allBandsList.find(
-                            (band) => band.name === userBand.name
-                        );
-                        return matchingBand ? { ...userBand, id: matchingBand.id } : userBand;
-                    });
-
-                    setBands(updatedBands); // Update the user's bands with the id
+                    setBands(bandResponse.data || []);
+                    setAllBandUsers(bandUsersResponse.data || []);
                 }
             } catch (error) {
-                setError(error.message);
+                console.error("Error fetching data:", error);
+                setError("Failed to load data. Please try again later.");
             } finally {
-                setLoading(false); // Finish loading
+                setLoading(false);
             }
         };
 
-        fetchBands();
+        fetchData();
     }, [userId]);
 
+    const handleShowPopup = () => setShowPopup(true);
+    const handleClosePopup = () => setShowPopup(false);
+
+    const handleBandClick = (band) => {
+        const bandMembers = allBandUsers.filter(user => user.bandId === band.id);
+        navigate(`/band/${band.id}`, { state: { bandMembers } });
+    };
+
     if (loading) {
-        return <div>Loading...</div>; // Show loading message or spinner
+        return <div>Loading...</div>;
     }
 
     if (error) {
-        return <div>{`Error: ${error}`}</div>; // Show error message
+        return <div>{`Error: ${error}`}</div>;
     }
 
     return (
@@ -104,7 +95,10 @@ function BandPage() {
             <div className="row justify-content-center">
                 {bands.map((band) => (
                     <div key={band.id} className="col-12 col-md-3 col-sm-12 mb-4">
-                        <CardWidget band={band} />
+                        <BandCard 
+                            band={band} 
+                            onClick={() => handleBandClick(band)}
+                        />
                     </div>
                 ))}
             </div>
@@ -113,3 +107,4 @@ function BandPage() {
 }
 
 export default BandPage;
+

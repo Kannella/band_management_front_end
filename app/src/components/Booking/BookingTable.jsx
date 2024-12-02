@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Checkbox,Box,Accordion,AccordionSummary,AccordionDetails,
-  Typography,MenuItem,Menu,FormControl,Select,TextField,Button,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Box, Accordion, AccordionSummary, AccordionDetails,
+  Typography, MenuItem, Menu, FormControl, Select, TextField, Button,
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faEllipsisVertical, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +19,7 @@ const BookingTable = ({ bookings }) => {
     selectedColumn,
     setSelectedColumn,
     handleDelete,
+    handleBulkDelete,
     handleSelect,
     isSelected,
     filteredRows,
@@ -26,6 +27,7 @@ const BookingTable = ({ bookings }) => {
     textFilter,
     setTextFilter,
     setActiveFilter,
+    selectedRows,
   } = useBookingTable(bookings);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -59,7 +61,7 @@ const BookingTable = ({ bookings }) => {
           <FilterIcon className="icon-filter" />
           <span className="filters-text">Filters</span>
         </Button>
-        <Button>
+        <Button onClick={handleBulkDelete} disabled={selectedRows.size === 0}>
           <TrashIcon className="icon-trash" />
         </Button>
         <PopUpCreateBooking isOpen={isPopupOpen} onClose={handleClose} />
@@ -75,9 +77,7 @@ const BookingTable = ({ bookings }) => {
             >
               <MenuItem value="">Select Column</MenuItem>
               <MenuItem value="name">Name</MenuItem>
-              <MenuItem value="band">Band</MenuItem>
-              <MenuItem value="venue">Venue</MenuItem>
-              <MenuItem value="agent">Agent</MenuItem>
+              <MenuItem value="bandName">Band</MenuItem>
               <MenuItem value="status">Status</MenuItem>
             </Select>
           </FormControl>
@@ -114,7 +114,7 @@ const BookingTable = ({ bookings }) => {
               <TableRow key={id} selected={isSelected(id)}>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={isSelected(id)}
+                    checked={isSelected(id)} 
                     onChange={() => handleSelect(id)}
                   />
                 </TableCell>
@@ -140,6 +140,9 @@ const BookingTable = ({ bookings }) => {
                     <MenuItem onClick={() => alert(`Navigating to Booking: ${id}`)}>
                       Go to Booking
                     </MenuItem>
+                    <MenuItem onClick={() => handleDelete(id)}>
+                      Delete Booking
+                    </MenuItem>
                   </Menu>
                 </TableCell>
               </TableRow>
@@ -155,13 +158,19 @@ const BookingTable = ({ bookings }) => {
           return (
             <Accordion key={id}>
               <AccordionSummary>
-                <Typography className="accordion-text">{name}</Typography>
-                <Typography
-                  className="accordion-text"
-                  style={{ color: getStatusColor(status), paddingLeft:'20px' }}
-                >
-                  <FontAwesomeIcon icon={faCircle} />
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                  <Checkbox
+                    checked={isSelected(id)}
+                    onChange={() => handleSelect(id)}
+                  />
+                  <Typography className="accordion-text">{name}</Typography>
+                  <Typography
+                    className="accordion-text"
+                    style={{ color: getStatusColor(status), marginLeft: 'auto' }}
+                  >
+                    <FontAwesomeIcon icon={faCircle} />
+                  </Typography>
+                </Box>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography>
@@ -171,6 +180,7 @@ const BookingTable = ({ bookings }) => {
                   <br />
                   Date: {format(new Date(showStartTime), 'dd/MM/yyyy')}
                 </Typography>
+                <Button onClick={() => handleDelete(id)}>Delete Booking</Button>
               </AccordionDetails>
             </Accordion>
           );
@@ -181,3 +191,4 @@ const BookingTable = ({ bookings }) => {
 };
 
 export default BookingTable;
+

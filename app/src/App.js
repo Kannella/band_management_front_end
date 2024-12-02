@@ -11,7 +11,7 @@ import BandPage from './pages/BandPage';
 import BookingTablePage from './pages/BookingTablePage';
 import BookingPage from './pages/BookingPage';
 import CalendarPage from './pages/CalendarPage';
-import BandDetailsPage from "./components/Band/BandDetailsPage";
+import BandDetailsPage from './pages/BandDetailsPage';
 import SignInPage from  './pages/SignInPage';
 import SignUpPage from  './pages/SignUpPage';
 
