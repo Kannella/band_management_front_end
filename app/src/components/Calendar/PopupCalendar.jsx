@@ -49,20 +49,19 @@ const CalendarPopup = () => {
 
   const handleSubmit = async () => {
     try {
-      // Itera sobre as datas selecionadas e cria o corpo da requisição
+      
       for (const date of selectedDays) {
         const formattedDate = new Date(date);
-        const availabilityDate = formattedDate.toISOString(); // Formato ISO 8601
+        const availabilityDate = formattedDate.toISOString(); // Format ISO 8601
   
-        // Envia a requisição para cada data selecionada
         const response = await fetch('https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/availability/AddAvailability', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            availabilityDate, // Data formatada
-            userId, // userId
+            availabilityDate, 
+            userId, 
           }),
         });
   
@@ -73,10 +72,10 @@ const CalendarPopup = () => {
         }
       }
   
-      // Limpar a seleção após o envio
+    
       setSelectedDays([]);
       alert(`Availability submitted successfully.`);
-      window.location.reload(); // Recarregar a página se necessário
+      window.location.reload();
     } catch (error) {
       console.error('Error:', error);
       alert('There was an error submitting your availability.');

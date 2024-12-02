@@ -18,20 +18,19 @@ function BookingPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Requisição do booking
+                
                 const bookingResponse = await axios.get(
                     `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/${bookingId}`
                 );
                 const bookingData = bookingResponse.data;
                 setBooking(bookingData);
 
-                // Requisição do venue usando venueId do booking
+               
                 const venueResponse = await axios.get(
                     `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Venue/${bookingData.venueId}`
                 );
                 setVenue(venueResponse.data);
 
-                // Requisição do agent usando agentId do booking
                 const agentResponse = await axios.get(
                     `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Agent/${bookingData.agentId}`
                 );

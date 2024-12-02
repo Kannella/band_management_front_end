@@ -80,12 +80,11 @@ function HomePage() {
           const [bookingResponse, bandResponse, bandUsersResponse, venueResponse, agentResponse] = await Promise.all([
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBookingsForUser?userId=${userId}`),
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band`),
-            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User`), // Caso precise de outros dados de usuários da banda
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User`), 
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Venue`),
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Agent`)
           ]);
 
-          // Carregar os dados das bandas
           const bands = bandResponse.data || [];
           const bandMap = bands.reduce((acc, band) => {
             acc[band.id] = band.name;
@@ -93,7 +92,6 @@ function HomePage() {
           }, {});
           setBandMap(bandMap);
 
-          // Carregar os dados dos venues
           const venues = venueResponse.data || [];
           const venueMap = venues.reduce((acc, venue) => {
             acc[venue.id] = venue.name;
@@ -101,7 +99,6 @@ function HomePage() {
           }, {});
           setVenueMap(venueMap);
 
-          // Carregar os dados dos agentes
           const agents = agentResponse.data || [];
           const agentMap = agents.reduce((acc, agent) => {
             acc[agent.id] = agent.name;
@@ -109,7 +106,6 @@ function HomePage() {
           }, {});
           setAgentMap(agentMap);
 
-          // Carregar os bookings
           const bookings = bookingResponse.data || [];
           setBookings(bookings);
           setBands(bands);
@@ -140,8 +136,8 @@ function HomePage() {
   }));
 
   const sortedBookings = enrichedBookings
-    .sort((a, b) => new Date(b.showStartTime) - new Date(a.showStartTime))  // Ordenando por showStartTime
-    .slice(0, 2);  // Pegando apenas os 2 mais recentes
+    .sort((a, b) => new Date(b.showStartTime) - new Date(a.showStartTime)) 
+    .slice(0, 2);  
 
   return (
     <Container fluid className="">

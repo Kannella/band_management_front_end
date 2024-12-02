@@ -5,32 +5,30 @@ import '../components/Calendar/calendar_components.css';
 import { useAuthStore } from '../store/authStore';
 
 const CalendarPage = () => {
-  const { userId } = useAuthStore();  // Obtendo o userId do estado global
-  const [events, setEvents] = useState([]);  // Estado para armazenar eventos
-  const [loading, setLoading] = useState(true);  // Estado para controle de carregamento
-  const [error, setError] = useState(null);  // Estado para capturar erros
+  const { userId } = useAuthStore(); 
+  const [events, setEvents] = useState([]);  
+  const [loading, setLoading] = useState(true);  
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     if (userId) {
-      // Inicia a requisição para pegar os eventos do usuário
       axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBookingsForUser?userId=${userId}`)
         .then(response => {
-          setEvents(response.data);  // Atualiza os eventos com a resposta da API
-          setLoading(false);  // Finaliza o carregamento
+          setEvents(response.data);  
+          setLoading(false); 
         })
         .catch(error => {
-          setError(error.message);  // Captura e armazena o erro, caso ocorra
-          setLoading(false);  // Finaliza o carregamento
+          setError(error.message);  
+          setLoading(false); 
         });
     }
-  }, [userId]);  // Reexecuta sempre que o userId mudar
+  }, [userId]); 
 
-  // Exibe um carregamento enquanto a requisição está em andamento
+
   if (loading) {
     return <div>Loading events...</div>;
   }
 
-  // Exibe uma mensagem de erro caso a requisição falhe
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -54,7 +52,6 @@ const CalendarPage = () => {
 
       <div className="row justify-content-center">
         <div className="col-12 col-md-11 col-lg-10">
-          {/* Passando os dados para o componente Calendar */}
           <Calendar events={events} />
         </div>
       </div>

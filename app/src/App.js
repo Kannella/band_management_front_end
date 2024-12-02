@@ -14,6 +14,7 @@ import CalendarPage from './pages/CalendarPage';
 import BandDetailsPage from './pages/BandDetailsPage';
 import SignInPage from  './pages/SignInPage';
 import SignUpPage from  './pages/SignUpPage';
+import ProfilePage from './pages/ProfilePage';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/registration" element={<SignUpPage />} />
         <Route path="/login" element={<SignInPage />} />
+        <Route path="/me" element={<ProfilePage />} />
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/bands" element={<BandPage />} />

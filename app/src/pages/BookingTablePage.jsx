@@ -16,13 +16,11 @@ function BookingTablePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Carrega todas as bandas
                 const bandsResponse = await axios.get(
                     'https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band'
                 );
                 const bands = bandsResponse.data || [];
 
-                // Cria um mapa de bandId -> bandName
                 const bandMap = bands.reduce((acc, band) => {
                     acc[band.id] = band.name;
                     return acc;
@@ -51,7 +49,6 @@ function BookingTablePage() {
                 }, {});
                 setAgentMap(agentMap)
 
-                // Carrega os bookings do usuário
                 if (userId) {
                     const bookingsResponse = await axios.get(
                         `https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBookingsForUser?userId=${userId}`
@@ -71,7 +68,7 @@ function BookingTablePage() {
     if (loading) return <p>Carregando...</p>;
     if (error) return <p>{error}</p>;
 
-    // Enriquecer os bookings com os nomes das bandas
+    // Booking with bandName, venueName, agentName
     const enrichedBookings = bookings.map((booking) => ({
         ...booking,
         bandName: bandMap[booking.bandId] || "Nome não disponível",

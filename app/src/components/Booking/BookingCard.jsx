@@ -38,7 +38,7 @@ function BookingCard({ booking, venue, band, agent }) {
   }
 
   const handleGoToBooking = () => {
-    navigate(`/bookings/${booking.id}`); // Redireciona para a página de detalhes
+    navigate(`/bookings/${booking.id}`); 
   };
 
   return (

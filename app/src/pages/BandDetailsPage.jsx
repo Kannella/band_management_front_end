@@ -37,7 +37,7 @@ function BandDetailsPage() {
   }));
 
   const sortedBookings = enrichedBookings
-    .sort((a, b) => new Date(b.showStartTime) - new Date(a.showStartTime))  // Ordenando por showStartTime
+    .sort((a, b) => new Date(b.showStartTime) - new Date(a.showStartTime)) 
     .slice(0, 2);  
 
   useEffect(() => {
@@ -94,7 +94,7 @@ function BandDetailsPage() {
         return;
       }
   
-      console.log("Adding user:", userToAdd); // Log para ver o usuário sendo adicionado
+      console.log("Adding user:", userToAdd); 
   
       const isAlreadyMember = bandMembers.some(member => member.userId === userToAdd.id);
       if (isAlreadyMember) {
@@ -107,7 +107,7 @@ function BandDetailsPage() {
         userId: userToAdd.id
       });
   
-      console.log('Response from adding user:', response.data); // Log de resposta
+      console.log('Response from adding user:', response.data); 
   
       setBandMembers([...bandMembers, response.data]);
       setNewUserEmail("");
@@ -143,12 +143,12 @@ const handleRemoveMember = async (memberToRemove) => {
           const [bookingResponse, bandResponse, bandUsersResponse, venueResponse, agentResponse, ] = await Promise.all([
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Booking/GetBookingsForUser?userId=${userId}`),
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band`),
-            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User`), // Caso precise de outros dados de usuários da banda
+            axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/User`), 
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Venue`),
             axios.get(`https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Agent`)
           ]);
 
-          // Carregar os dados das bandas
+          // Load Band Data
           const bands = bandResponse.data || [];
           const bandMap = bands.reduce((acc, band) => {
             acc[band.id] = band.name;
@@ -156,7 +156,7 @@ const handleRemoveMember = async (memberToRemove) => {
           }, {});
           setBandMap(bandMap);
 
-          // Carregar os dados dos venues
+          // Load all Venues
           const venues = venueResponse.data || [];
           const venueMap = venues.reduce((acc, venue) => {
             acc[venue.id] = venue.name;
@@ -164,7 +164,7 @@ const handleRemoveMember = async (memberToRemove) => {
           }, {});
           setVenueMap(venueMap);
 
-          // Carregar os dados dos agentes
+          // Load all Venue
           const agents = agentResponse.data || [];
           const agentMap = agents.reduce((acc, agent) => {
             acc[agent.id] = agent.name;
@@ -172,7 +172,7 @@ const handleRemoveMember = async (memberToRemove) => {
           }, {});
           setAgentMap(agentMap);
 
-          // Carregar os bookings
+          // Load all Bookings
           const bookings = bookingResponse.data || [];
           setBookings(bookings);
           setBands(bands);
@@ -285,7 +285,7 @@ const handleRemoveMember = async (memberToRemove) => {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                {/* Exibir o nome do usuário encontrado */}
+   
                 <h5 className="modal-title">Availability for {allUsers.find(user => user.id === selectedMember.userId)?.name}</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleCloseModal}>
                   <span aria-hidden="true">&times;</span>
@@ -318,9 +318,9 @@ const handleRemoveMember = async (memberToRemove) => {
           <BookingCard
             key={booking.id}
             booking={booking}
-            venue={booking.venueName}  // Passando o nome do venue
-            band={booking.bandName}    // Passando o nome da band
-            agent={booking.agentName}  // Passando o nome do agent
+            venue={booking.venueName} //venue.name
+            band={booking.bandName}   // booking.name
+            agent={booking.agentName} // agent.name
           />
         ))}
       </div>

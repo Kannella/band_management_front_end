@@ -52,7 +52,7 @@ function NavBar({ logoSize, iconSize, iconSizeHome, navbarSize }) {
 
         <Row className="d-flex justify-content-center mt-5">
           <Col className="d-flex justify-content-center">
-            <Link to="/profile" className="icon-button">
+            <Link to="/me" className="icon-button">
               <FontAwesomeIcon icon={faCircleUser} style={{ fontSize: iconSize }} />
               <div className="label">Profile</div>
             </Link>

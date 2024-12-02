@@ -18,7 +18,6 @@ function BandCreatePopup({ show, handleClose }) {
         }
 
         try {
-            // 1. Create Band
             await axios.post(
                 "https://bandmanagerbackend-ephyhfb4d4fvayh2.brazilsouth-01.azurewebsites.net/api/Band/CreateBand",
                 { name: bandName },

@@ -56,14 +56,14 @@ const BookingTable = ({ bookings }) => {
   const navigate = useNavigate();
 
   const handleGoTo = async () => {
-    // Verifica se existe alguma linha selecionada
+    // Verify selected Row
     if (selectedRows.size === 0) {
       alert('Please select a booking.');
       return;
     }
   
-    // Pega o primeiro ID da linha selecionada (já que você só pode ter uma linha selecionada de cada vez)
-    const selectedId = Array.from(selectedRows)[0];  // seleciona o primeiro ID, caso haja mais de um
+    // Gets the seleceted Row Id
+    const selectedId = Array.from(selectedRows)[0];  
   
     if (!selectedId) {
       alert('Invalid booking ID.');
@@ -72,7 +72,7 @@ const BookingTable = ({ bookings }) => {
   
     try {
       console.log('Navigating to booking with ID:', selectedId);
-      navigate(`/bookings/${selectedId}`);  // Navega para a página com o ID da reserva
+      navigate(`/bookings/${selectedId}`); 
     } catch (error) {
       console.error('Error navigating to booking:', error);
       alert('Failed to navigate to booking. Please try again.');

@@ -42,7 +42,7 @@ function NavBarMobile({navbarSize, logoSize} ) {
         <Link to="/bands" className="dropdown-item" onClick={() => setIsOpen(false)}>Bands</Link>
         <Link to="/bookings-table" className="dropdown-item" onClick={() => setIsOpen(false)}>Bookings</Link>
         <Link to="/calendar" className="dropdown-item" onClick={() => setIsOpen(false)}>Calendar</Link>
-        <Link to="/profile" className="dropdown-item" onClick={() => setIsOpen(false)}>Profile</Link>
+        <Link to="/me" className="dropdown-item" onClick={() => setIsOpen(false)}>Profile</Link>
       </div>
       )}
     </div>

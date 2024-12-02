@@ -60,7 +60,7 @@ const Calendar = ({ events }) => {
   const handleDayClick = (day) => {
     if (!day) return;
     const clickedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-    // Se o dia clicado for o mesmo dia selecionado, desmarca a seleção
+
     if (selectedDate && clickedDate.getTime() === selectedDate.getTime()) {
       setSelectedDate(null);
     } else {
@@ -68,10 +68,10 @@ const Calendar = ({ events }) => {
     }
   };
 
-  // Filtrar eventos para o dia selecionado
+  // Events Filter - selected Events
   const filteredEvents = events.filter((event) => {
-    if (!selectedDate) return true; // Se não houver dia selecionado, exibe todos os eventos
-    const eventDate = new Date(event.showStartTime); // Considerando que showStartTime é uma string de data
+    if (!selectedDate) return true; 
+    const eventDate = new Date(event.showStartTime); 
     return (
       eventDate.getDate() === selectedDate.getDate() &&
       eventDate.getMonth() === selectedDate.getMonth() &&
@@ -106,7 +106,6 @@ const Calendar = ({ events }) => {
             <div className="calendar-header">
               <button onClick={handlePreviousMonth}>Previous</button>
               <h2>
-                {/* Exibir o mês em inglês */}
                 {currentDate.toLocaleString('en-US', { month: 'long' })} {currentDate.getFullYear()}
               </h2>
               <button onClick={handleNextMonth}>Next</button>
