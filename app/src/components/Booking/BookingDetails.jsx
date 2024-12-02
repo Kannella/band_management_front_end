@@ -58,6 +58,7 @@ function BookingDetails( {booking, venue, agent}) {
         name: venue.name,
         email: venue.contactEmail,
         phone: venue.contactPhoneNumber,
+        address:venue.address
     };
 
     const scheduleInfo = {
@@ -98,6 +99,12 @@ function BookingDetails( {booking, venue, agent}) {
         acc[key] = convertDateTime(value);
         return acc;
     }, {});
+
+    const openRoute = () => {
+        const encodedAddress = encodeURIComponent(venueInfo.address);
+        const googleMapsUrl = `https://www.google.com/maps?q=${encodedAddress}`;
+        window.open(googleMapsUrl, '_blank');
+      };
 
     return (
         <Container fluid className="p-4">
@@ -201,7 +208,9 @@ function BookingDetails( {booking, venue, agent}) {
                     <h5 className="mb-3 text-start">Venue</h5>
                     <Row className='mb-4'>
                         <Col xs={12} md={8} className="text-start">
-                            <Button variant="primary" style={{ borderRadius: '20px', padding: '0.5rem 1rem' }}>
+                            <Button variant="primary"
+                             onClick={openRoute}
+                             style={{ borderRadius: '20px', padding: '0.5rem 1rem' }}>
                                 <FontAwesomeIcon icon={faLocationDot} size="lg" style={{ marginRight: '8px' }} />
                                 Open Route
                             </Button>
@@ -220,7 +229,7 @@ function BookingDetails( {booking, venue, agent}) {
                             <h6 className='bold-sub-text'>Phone: <span className='sub-text'>{venueInfo.phone}</span></h6>
                         </Col>
                         <Col xs={12} md={6} className="text-start">
-                            <h6 className='bold-sub-text'>Adress: <span className='sub-text'>{venueInfo.phone}</span></h6>
+                            <h6 className='bold-sub-text'>Address: <span className='sub-text'>{venueInfo.address}</span></h6>
                         </Col>
                     </Row>
                 </Col>
